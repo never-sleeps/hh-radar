@@ -2,3 +2,7 @@ telegram:
     bot:
         name: hhRadarBot
         token: 1359139787:AAFeVic5hsxhW7vuXAw0b4-jTBy4ER3gCZs
+
+client:
+    hh:
+        url: https://api.hh.ru/
