@@ -1,14 +1,12 @@
 package ru.hh.radar.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +16,7 @@ import javax.persistence.Table;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -26,4 +25,17 @@ public class User {
 
     @Column(name = "username")
     private String username;
+
+    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private ClientAccessToken clientAccessToken;
+
+    public ClientAccessToken getClientAccessToken() {
+        return clientAccessToken;
+    }
+
+    public void setClientAccessToken(ClientAccessToken clientAccessToken) {
+        this.clientAccessToken = clientAccessToken;
+    }
 }
