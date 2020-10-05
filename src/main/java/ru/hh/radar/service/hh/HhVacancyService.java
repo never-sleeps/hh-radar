@@ -1,4 +1,4 @@
-package ru.hh.radar.service;
+package ru.hh.radar.service.hh;
 
 import ru.hh.radar.dto.SearchParameter;
 import ru.hh.radar.dto.VacanciesSearchResultsDTO;

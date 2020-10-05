@@ -30,12 +30,4 @@ public class User {
     @JoinColumn(name = "id")
     @JsonIgnore
     private ClientAccessToken clientAccessToken;
-
-    public ClientAccessToken getClientAccessToken() {
-        return clientAccessToken;
-    }
-
-    public void setClientAccessToken(ClientAccessToken clientAccessToken) {
-        this.clientAccessToken = clientAccessToken;
-    }
 }

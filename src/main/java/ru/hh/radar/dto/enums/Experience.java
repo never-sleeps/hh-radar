@@ -13,12 +13,4 @@ public enum Experience {
         this.id = id;
         this.name = name;
     }
-
-    @Override
-    public String toString() {
-        return "Experience{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

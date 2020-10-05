@@ -1,7 +1,5 @@
-package ru.hh.radar.service.impl;
+package ru.hh.radar.service.hh.impl;
 
-import com.github.scribejava.apis.HHApi;
-import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -9,11 +7,10 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.model.User;
-import ru.hh.radar.service.HhOauthService;
+import ru.hh.radar.service.hh.HhOauthService;
 
 @Data
 @Service

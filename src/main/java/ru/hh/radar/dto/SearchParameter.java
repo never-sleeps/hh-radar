@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * ПАРАМЕРЫ ПОИСКА
+ * ПАРАМЕТРЫ ПОИСКА
  *
  *  Некоторые параметры принимают множественные значения: key=value&key=value.
  *
@@ -41,21 +41,8 @@ import lombok.Data;
  *  13) no_magic – Если значение true – отключить автоматическое преобразование вакансий. По-умолчанию – false. При включённом автоматическом преобразовании, будет предпринята попытка изменить текстовый запрос пользователя на набор параметров. Например, запрос text=москва бухгалтер 100500 будет преобразован в text=бухгалтер&only_with_salary=true&area=1&salary=100500.
  */
 @Data
-//@AllArgsConstructor
+@AllArgsConstructor
 public class SearchParameter {
     private String key;
     private String value;
-
-    public SearchParameter(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }
