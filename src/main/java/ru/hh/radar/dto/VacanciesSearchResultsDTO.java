@@ -6,13 +6,11 @@ import lombok.Data;
 import java.util.List;
 
 /**
- *
+ * Результат поиска вакансий
  *
  * {
  *     "items": [
- *         {
- *             ...
- *         }
+ *         { ... }
  *     ],
  *     "found": 254603,
  *     "pages": 100,
@@ -33,10 +31,6 @@ public class VacanciesSearchResultsDTO {
 
     @JsonProperty(value = "alternate_url")
     private String alternateUrl;
-
-    public List<VacancyDTO> getItems() {
-        return items;
-    }
 
     @Override
     public String toString() {

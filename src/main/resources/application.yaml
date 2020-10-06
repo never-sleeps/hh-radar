@@ -9,3 +9,10 @@ telegram:
 headhunter:
     api:
         url: https://api.hh.ru/
+
+logging:
+    pattern:
+        rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd_HH-mm}.%i.gz"
+        console: "%d %-5level %logger : %msg%n"
+        file:
+            name: "logs/application.log"
