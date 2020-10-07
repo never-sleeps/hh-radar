@@ -22,7 +22,7 @@ public class BotApiMethodContainer {
     public void addBotController(String command, BotApiMethodController controller) {
         if (controllerMap.containsKey(command)) return;
 
-        log.info("Add telegram bot controller for command: {}", command);
+        log.info("Add telegram bot controller for command: " + command);
         this.controllerMap.put(command, controller);
     }
 

@@ -50,9 +50,9 @@ public class HhOauthServiceImpl implements HhOauthService {
 
     @Override
     public boolean accessTokenIsValid(User user) {
-        OAuth2AccessToken accessToken = new OAuth2AccessToken(user.getClientAccessToken().getAccessToken());
+//        OAuth2AccessToken accessToken = new OAuth2AccessToken(user.getClientAccessToken().getAccessToken());
         OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
-        service.signRequest(accessToken, request);
+//        service.signRequest(accessToken, request);
         Response response = request.send();
         return response.getCode() == 200;
     }

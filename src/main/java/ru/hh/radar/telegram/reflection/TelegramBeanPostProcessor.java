@@ -60,8 +60,6 @@ public class TelegramBeanPostProcessor implements BeanPostProcessor, Ordered {
             case CALLBACK_QUERY:
                 controller = createApiMethodControllerForCallbackQuery(bean, method);
                 break;
-            default:
-                break;
         }
         container.addBotController(command, controller);
     }

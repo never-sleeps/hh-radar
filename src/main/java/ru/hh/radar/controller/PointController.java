@@ -3,10 +3,10 @@ package ru.hh.radar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.service.telegram.PointService;
-
 
 @BotController
 public class PointController {
@@ -18,14 +18,14 @@ public class PointController {
         this.pointService = pointService;
     }
 
-    @BotRequestMapping("/point")
-    public SendMessage testPoint(Update update) {
-        return pointService.testPoint(update);
+    @BotRequestMapping("/text")
+    public SendMessage showText(Update update) throws TelegramApiException {
+        return pointService.showText(update);
     }
 
 
-    @BotRequestMapping( "/test")
-    public SendMessage test(Update update) {
-        return pointService.test(update);
+    @BotRequestMapping( "/btn")
+    public SendMessage showButton(Update update) throws TelegramApiException {
+        return pointService.showButton(update);
     }
 }
