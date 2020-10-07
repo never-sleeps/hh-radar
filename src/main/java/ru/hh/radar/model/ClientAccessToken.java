@@ -43,7 +43,7 @@ public class ClientAccessToken {
     @Column(name = "rawResponse", nullable = false)
     private String rawResponse;
 
-    @JoinColumn(name = "user")
-    @OneToOne
-    private User user;
+//    @JoinColumn(name = "user")
+//    @OneToOne
+//    private User user;
 }
