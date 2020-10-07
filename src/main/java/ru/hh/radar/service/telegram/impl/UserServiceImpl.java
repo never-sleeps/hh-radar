@@ -20,25 +20,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(Update update) throws TelegramApiException {
-        User user = new User(
-                telegramService.getMessage(update).getChatId(),
-                telegramService.getMessage(update).getFrom().getUserName()
+        User savedUser = userRepository.save(
+                new User(
+                        telegramService.getMessage(update).getChatId(),
+                        telegramService.getMessage(update).getFrom().getUserName()
+                )
         );
-        log.info("Creating user: " + user);
-        return userRepository.save(user);
+        log.info("User created: " + savedUser);
+        return savedUser;
     }
 
     @Override
     public User updateUser(User user) {
-        log.info("Updating user: " + user);
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+        log.info("User updated: " + updatedUser);
+        return updatedUser;
     }
 
     @Override
     public User findUser(Update update) throws TelegramApiException {
         String userName = telegramService.getMessage(update).getChat().getUserName();
         User user = userRepository.findByUsername(userName);
-        log.info(String.format("search username: %s, found user: %s", userName, user));
+        log.info("search username: " + userName);
         if (user == null) {
             log.error("User not found: " + userName);
         }
