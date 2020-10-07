@@ -1,12 +1,11 @@
-package ru.hh.radar.telegram.handler;
+package ru.hh.radar.baseVersionTelegram.handler;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.telegram.TelegramBot;
 
-import java.util.Map;
-
+@Deprecated
 public interface RequestHandler {
 
-    void handle(String text, Update update, Map<Long, String> searchMap, TelegramBot bot) throws TelegramApiException;
+    void handle(String text, Update update, TelegramBot bot) throws TelegramApiException;
 }

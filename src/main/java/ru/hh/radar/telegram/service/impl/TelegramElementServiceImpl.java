@@ -1,10 +1,10 @@
-package ru.hh.radar.service.telegram.impl;
+package ru.hh.radar.telegram.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import ru.hh.radar.service.telegram.TelegramElementService;
+import ru.hh.radar.telegram.service.TelegramElementService;
 
 import java.util.ArrayList;
 import java.util.Collections;
