@@ -8,9 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.hh.radar.telegram.service.TelegramElementService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +32,13 @@ public class TelegramElementServiceImpl implements TelegramElementService {
     public InlineKeyboardMarkup createInlineKeyboardMarkup(List<List<InlineKeyboardButton>> rowsInline) {
         return new InlineKeyboardMarkup()
                 .setKeyboard(rowsInline);
+    }
+
+    @Override
+    public List<List<InlineKeyboardButton>> createInlineKeyboardRows(List<InlineKeyboardButton>... list) {
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        Collections.addAll(rowsInline, list);
+        return rowsInline;
     }
 
     @Override

@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(Update update) throws TelegramApiException {
+        User existingUser = userRepository.findByUsername(telegramService.getMessage(update).getFrom().getUserName());
+        if (existingUser != null) return existingUser;
+
         User savedUser = userRepository.save(
                 new User(
                         telegramService.getMessage(update).getChatId(),

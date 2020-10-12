@@ -30,4 +30,17 @@ public class SalaryDTO {
     /** Идентификатор валюты оклада (справочник currency). */
     @JsonProperty(value = "gross")
     private Boolean gross;
+
+    public String getGross() {
+        return (gross) ? "gross": "";
+    }
+
+    @Override
+    public String toString() {
+        if (from == null && to == null) return null;
+
+        String from = (this.from != null) ? this.from.toString() : "...";
+        String to = (this.to != null) ? this.to.toString() : "...";
+        return from + " - " + to + " " + getCurrency() + " " + getGross();
+    }
 }

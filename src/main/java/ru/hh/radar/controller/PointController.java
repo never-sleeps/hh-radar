@@ -33,4 +33,9 @@ public class PointController {
     public SendMessage showMenu(Update update) throws TelegramApiException {
         return pointService.showMenu(update);
     }
+
+    @BotRequestMapping("/hh")
+    public SendMessage showHh(Update update) throws TelegramApiException {
+        return pointService.showHh(update);
+    }
 }

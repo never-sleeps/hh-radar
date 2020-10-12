@@ -1,8 +1,9 @@
 package ru.hh.radar.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jsoup.Jsoup;
+import lombok.Data;
 import ru.hh.radar.dto.vacancy.*;
+import ru.hh.radar.service.Utils;
 
 import java.util.List;
 
@@ -79,6 +80,7 @@ import java.util.List;
  *     ]
  * }
  */
+@Data
 public class VacancyDTO {
     /** Идентификатор вакансии */
     @JsonProperty(value = "id")
@@ -154,25 +156,14 @@ public class VacancyDTO {
 
     @Override
     public String toString() {
-        return "VacancyDTO{" +
-                "id='" + id + '\'' +
-                ", description='" + Jsoup.parse(description).text() + '\'' + "\n" +
-                ", skills=" + skills +
-                ", schedule=" + schedule +
-                ", experience=" + experience +
-                ", address=" + address +
-                ", alternateUrl='" + alternateUrl + '\'' +
-                ", applyAlternateUrl='" + applyAlternateUrl + '\'' +
-                ", employment=" + employment +
-                ", salary=" + salary +
-                ", archived=" + archived +
-                ", name='" + name + '\'' +
-                ", publishedAt='" + publishedAt + '\'' +
-                ", employer=" + employer +
-                ", responseLetterRequired=" + responseLetterRequired +
-                ", type=" + type +
-                ", hasTest=" + hasTest +
-                ", specializations=" + specializations +
-                '}';
+        return name + " ("+employer.getName()+")" + "\n"
+                + publishedAt + " ("+type.getName()+")" + "\n" + "\n"
+
+                + "Требуемый опыт: " + experience.getName() + ", " + schedule.getName() + ", " + employment.getName() + "\n"
+                + ((salary != null) ? salary.toString() + "\n": "")
+                + ((address != null) ? "Адрес: " + address.toString() + "\n" : "")
+                + "Описание вакансии: " + Utils.htmlToText(description) + "\n"
+                ;
+
     }
 }
