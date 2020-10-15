@@ -1,7 +1,6 @@
 package ru.hh.radar.telegram.reflection;
 
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +25,8 @@ public class BotApiMethodContainer {
         this.controllerMap.put(command, controller);
     }
 
-    public BotApiMethodController getBotApiMethodController(String command) throws TelegramApiException {
-        BotApiMethodController controller = this.controllerMap.get(command);
-        if (controller == null){
-            throw new TelegramApiException("Controller not found for command: " + command);
-        }
-        return controller;
+    public BotApiMethodController getBotApiMethodController(String command) {
+        return this.controllerMap.get(command);
     }
 
     private static class Holder {

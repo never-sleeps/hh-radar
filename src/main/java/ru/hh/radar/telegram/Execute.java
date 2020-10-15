@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.telegram.reflection.BotApiMethodContainer;
 import ru.hh.radar.telegram.reflection.BotApiMethodController;
 
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class Execute {
@@ -23,11 +23,13 @@ public class Execute {
         String command = "undefined";
         if (update.hasMessage() && update.getMessage().hasText()) {
             command = update.getMessage().getText().trim();
-            return CONTAINER.getBotApiMethodController(command);
         } else if (update.hasCallbackQuery()) {
             command = update.getCallbackQuery().getData().trim();
-            return CONTAINER.getBotApiMethodController(command);
         }
-        throw new TelegramApiException("BotApiMethodController not found for command: " + command);
+        BotApiMethodController controller = CONTAINER.getBotApiMethodController(command);
+        if (controller == null){
+            throw new TelegramApiException("Controller not found for command: " + command);
+        }
+        return controller;
     }
 }

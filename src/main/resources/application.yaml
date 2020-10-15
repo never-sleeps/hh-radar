@@ -1,3 +1,8 @@
+application:
+    languages:
+        ru_RU: Русский
+        en_US: English
+
 server:
     port: 8081
 

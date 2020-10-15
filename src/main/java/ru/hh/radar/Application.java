@@ -2,14 +2,17 @@ package ru.hh.radar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.telegram.telegrambots.ApiContextInitializer;
+import ru.hh.radar.config.LocaleConfig;
 
 /**
  * Created by iakonyakina
  * iakonyakina@gmail.com
  */
 @SpringBootApplication
+@EnableConfigurationProperties(LocaleConfig.class)
 public class Application {
 
 	public static void main(String[] args) {
