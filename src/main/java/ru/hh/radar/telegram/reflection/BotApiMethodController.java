@@ -26,7 +26,6 @@ public abstract class BotApiMethodController {
     public abstract boolean successUpdatePredicate(Update update);
 
     public List<BotApiMethod> process(Update update) throws TelegramApiException {
-        // if (successUpdatePredicate(update)) throw new TelegramApiException();
         try {
             return this.processUpdate.accept(update);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -38,6 +37,11 @@ public abstract class BotApiMethodController {
         return List.class.equals(this.method.getReturnType());
     }
 
+
+    private interface Process {
+        List<BotApiMethod> accept(Update update) throws InvocationTargetException, IllegalAccessException;
+    }
+
     private List<BotApiMethod> processSingle(Update update) throws InvocationTargetException, IllegalAccessException {
         BotApiMethod botApiMethod = (BotApiMethod) method.invoke(bean, update);
         return (botApiMethod != null) ? Collections.singletonList(botApiMethod) : Collections.emptyList();
@@ -47,10 +51,5 @@ public abstract class BotApiMethodController {
         List<BotApiMethod> botApiMethods = (List<BotApiMethod>) method.invoke(bean, update);
         return (botApiMethods != null) ? botApiMethods : Collections.emptyList();
     }
-
-    private interface Process {
-        List<BotApiMethod> accept(Update update) throws InvocationTargetException, IllegalAccessException;
-    }
-
 }
 

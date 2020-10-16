@@ -36,6 +36,11 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     }
 
     @Override
+    public SendMessage createButtonMessage(Long chatId, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        return createButtonMessage(chatId, "️✏️", inlineKeyboardMarkup);
+    }
+
+    @Override
     public SendMessage createMenuMessage(Long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
         return new SendMessage()
                 .setChatId(chatId)

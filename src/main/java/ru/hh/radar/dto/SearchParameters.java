@@ -1,8 +1,9 @@
 package ru.hh.radar.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,38 +45,36 @@ import java.util.Map;
  *  13) no_magic – Если значение true – отключить автоматическое преобразование вакансий. По-умолчанию – false. При включённом автоматическом преобразовании, будет предпринята попытка изменить текстовый запрос пользователя на набор параметров. Например, запрос text=москва бухгалтер 100500 будет преобразован в text=бухгалтер&only_with_salary=true&area=1&salary=100500.
  */
 @Data
-@AllArgsConstructor
 public class SearchParameters {
 
     private Map<SearchParam, String> searchParameter;
 
     public SearchParameters() {
         searchParameter = new HashMap<>();
-        searchParameter.put(SearchParam.TEXT, null);
-        searchParameter.put(SearchParam.EXPERIENCE, null);
-        searchParameter.put(SearchParam.EMPLOYMENT, null);
-        searchParameter.put(SearchParam.SCHEDULE, null);
-        searchParameter.put(SearchParam.AREA, null);
-        searchParameter.put(SearchParam.SPECIALIZATION, null);
-        searchParameter.put(SearchParam.SALARY, null);
     }
 
     public void put(SearchParam searchParam, String value) {
-        if(!searchParameter.containsKey(searchParam)) return;
         searchParameter.put(searchParam, value);
     }
 
+    public Map<SearchParam, String> get() {
+        return Collections.unmodifiableMap(searchParameter);
+    }
+
+    @Getter
     public enum SearchParam {
-        TEXT,
-        EXPERIENCE,
-        EMPLOYMENT,
-        SCHEDULE,
-        AREA,
-        SPECIALIZATION,
-        EMPLOYER_ID,
-        SALARY,
-        PERIOD,
-        ORDER_BY,
-        DESCRIBE_ARGUMENTS
+        TEXT("search.text"),
+        EXPERIENCE("search.experience"),
+        EMPLOYMENT("search.employment"),
+        SCHEDULE("search.schedule"),
+        AREA("search.area"),
+        SPECIALIZATION("search.specialization"),
+        EMPLOYER_ID("search.employer_id"),
+        SALARY("search.salary");
+
+        String param;
+        SearchParam(String param) {
+          this.param = param;
+        }
     }
 }

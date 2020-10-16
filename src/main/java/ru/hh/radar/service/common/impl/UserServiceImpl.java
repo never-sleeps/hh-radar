@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
     public User findUser(Update update) throws TelegramApiException {
         String userName = telegramService.getMessage(update).getChat().getUserName();
         User user = userRepository.findByUsername(userName);
-        log.info("search username: " + userName);
         if (user == null) {
             log.error("User not found: " + userName);
         }

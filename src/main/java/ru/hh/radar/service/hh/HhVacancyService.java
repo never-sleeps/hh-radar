@@ -18,6 +18,8 @@ public interface HhVacancyService {
     /**
      * Поиск по вакансиям
      * https://github.com/hhru/api/blob/master/docs/vacancies.md#search
+     * @param searchParameters набор параметров поиска
+     * @return список вакансий
      */
-    VacanciesSearchResultsDTO getVacancies(List<SearchParameters> searchParameters);
+    VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters);
 }

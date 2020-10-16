@@ -15,5 +15,7 @@ public interface TelegramMessageService {
 
     SendMessage createButtonMessage(Long chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup);
 
+    SendMessage createButtonMessage(Long chatId, InlineKeyboardMarkup inlineKeyboardMarkup);
+
     SendMessage createMenuMessage(Long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup);
 }
