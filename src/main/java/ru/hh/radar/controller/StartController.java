@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.model.User;
 import ru.hh.radar.service.telegram.StartService;
-import ru.hh.radar.service.telegram.UserService;
+import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 

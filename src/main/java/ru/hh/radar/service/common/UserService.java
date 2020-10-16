@@ -1,4 +1,4 @@
-package ru.hh.radar.service.telegram;
+package ru.hh.radar.service.common;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -11,4 +11,6 @@ public interface UserService {
     User updateUser(User user);
 
     User findUser(Update update) throws TelegramApiException;
+
+    String getLocaleForAnswerToUser(Update update) throws TelegramApiException;
 }

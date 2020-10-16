@@ -3,6 +3,9 @@ package ru.hh.radar.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * ПАРАМЕТРЫ ПОИСКА
  *
@@ -42,7 +45,37 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class SearchParameter {
-    private String key;
-    private String value;
+public class SearchParameters {
+
+    private Map<SearchParam, String> searchParameter;
+
+    public SearchParameters() {
+        searchParameter = new HashMap<>();
+        searchParameter.put(SearchParam.TEXT, null);
+        searchParameter.put(SearchParam.EXPERIENCE, null);
+        searchParameter.put(SearchParam.EMPLOYMENT, null);
+        searchParameter.put(SearchParam.SCHEDULE, null);
+        searchParameter.put(SearchParam.AREA, null);
+        searchParameter.put(SearchParam.SPECIALIZATION, null);
+        searchParameter.put(SearchParam.SALARY, null);
+    }
+
+    public void put(SearchParam searchParam, String value) {
+        if(!searchParameter.containsKey(searchParam)) return;
+        searchParameter.put(searchParam, value);
+    }
+
+    public enum SearchParam {
+        TEXT,
+        EXPERIENCE,
+        EMPLOYMENT,
+        SCHEDULE,
+        AREA,
+        SPECIALIZATION,
+        EMPLOYER_ID,
+        SALARY,
+        PERIOD,
+        ORDER_BY,
+        DESCRIBE_ARGUMENTS
+    }
 }

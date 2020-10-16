@@ -27,6 +27,8 @@ public interface TelegramElementService {
      */
     InlineKeyboardButton createCallbackButton(String text, String callbackData);
 
+    InlineKeyboardButton createCallbackButton(String text);
+
     /**
      *
      * @param rowsInline - Массив строк, каждая из которых является массивом объектов InlineKeyboardButton.

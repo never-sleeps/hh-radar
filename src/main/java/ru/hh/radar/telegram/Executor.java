@@ -10,7 +10,7 @@ import ru.hh.radar.telegram.reflection.BotApiMethodController;
 import java.util.*;
 
 @Slf4j
-public class Execute {
+public class Executor {
 
     private static final BotApiMethodContainer CONTAINER = BotApiMethodContainer.getInstance();
 

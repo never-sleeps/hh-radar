@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.model.User;
 import ru.hh.radar.service.telegram.StartService;
-import ru.hh.radar.service.telegram.UserService;
+import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
@@ -27,19 +27,20 @@ public class StartServiceImpl implements StartService {
 
     @Override
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
-
         User user = userService.findUser(update);
-        String languageCode = update.getMessage().getFrom().getLanguageCode();
+        String languageCode = userService.getLocaleForAnswerToUser(update);
 
-        List<KeyboardRow> list = telegramElementService.createKeyboardRow(
-                telegramElementService.createKeyboardRow(messageService.getMessage("start.search", languageCode))
-        );
-
-        ReplyKeyboardMarkup replyKeyboardMarkup = telegramElementService.createReplyKeyboardMarkup(list);
         return telegramMessageService.createMenuMessage(
                 user.getChatId(),
                 messageService.getMessage("welcome", languageCode),
-                replyKeyboardMarkup
+                getStartMenu(languageCode)
         );
+    }
+
+    private ReplyKeyboardMarkup getStartMenu(String languageCode) {
+        List<KeyboardRow> list = telegramElementService.createKeyboardRow(
+                telegramElementService.createKeyboardRow(messageService.getMessage("start.search", languageCode))
+        );
+        return telegramElementService.createReplyKeyboardMarkup(list);
     }
 }
