@@ -9,6 +9,8 @@ import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 
+import java.util.List;
+
 @BotController
 @RequiredArgsConstructor
 public class SearchController {
@@ -91,7 +93,7 @@ public class SearchController {
     }
 
     @BotRequestMapping("search.run")
-    public SendMessage runSearch(Update update) throws TelegramApiException {
+    public List<SendMessage> runSearch(Update update) throws TelegramApiException {
         return searchService.runSearch(update);
     }
 }

@@ -5,6 +5,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.SearchParameters;
 
+import java.util.List;
+
 public interface SearchService {
 
     SendMessage showSearchMenu(Update update) throws TelegramApiException;
@@ -21,5 +23,5 @@ public interface SearchService {
 
     SendMessage setSearchParameters(SearchParameters.SearchParam searchParam, Update update) throws TelegramApiException;
 
-    SendMessage runSearch(Update update) throws TelegramApiException;
+    List<SendMessage> runSearch(Update update) throws TelegramApiException;
 }

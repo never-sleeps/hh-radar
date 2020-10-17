@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.SearchParameters;
+import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.service.hh.HhVacancyService;
 import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.service.common.UserService;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
@@ -101,11 +103,14 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public SendMessage runSearch(Update update) throws TelegramApiException {
+    public List<SendMessage> runSearch(Update update) throws TelegramApiException {
+        List<VacancyDTO> vacancies = hhVacancyService.getVacancies(searchParameters).getItems();
 
-        hhVacancyService.getVacancies(searchParameters).getItems();
-
-        return null;
+        return tgmMessageService.createVacancyMessages(
+                userService.findUser(update).getChatId(),
+                msg.getMessage("browser.open", userService.getLocaleForAnswerToUser(update)),
+                vacancies
+        );
     }
 
     private ReplyKeyboardMarkup getMainSearchMenu(String language) {

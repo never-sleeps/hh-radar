@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ru.hh.radar.dto.SearchParameters.SearchParam.AREA;
+
 /**
  * ПАРАМЕТРЫ ПОИСКА
  *
@@ -51,6 +53,7 @@ public class SearchParameters {
 
     public SearchParameters() {
         searchParameter = new HashMap<>();
+        searchParameter.put(AREA, "1");
     }
 
     public void put(SearchParam searchParam, String value) {

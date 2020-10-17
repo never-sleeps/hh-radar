@@ -157,13 +157,16 @@ public class VacancyDTO {
     @Override
     public String toString() {
         return name + " ("+employer.getName()+")" + "\n"
-                + publishedAt + " ("+type.getName()+")" + "\n" + "\n"
+                + publishedAt + ((type != null) ? " ("+type.getName()+")" : "") + "\n"
+                + "\n"
+                + ((experience != null) ? "Требуемый опыт: " + experience.getName() + " " : "")
+                + ((schedule != null) ? schedule.getName() + " " : "")
+                + ((employment != null) ? employment.getName()  : "")
+                + "\n"
 
-                + "Требуемый опыт: " + experience.getName() + ", " + schedule.getName() + ", " + employment.getName() + "\n"
-                + ((salary != null) ? salary.toString() + "\n": "")
+                + ((salary != null && salary.toString() != null) ? salary.toString() + "\n": "")
                 + ((address != null) ? "Адрес: " + address.toString() + "\n" : "")
-                + "Описание вакансии: " + Utils.htmlToText(description) + "\n"
+                + ((description != null) ? "Описание вакансии: " + Utils.htmlToText(description) + "\n" : "")
                 ;
-
     }
 }

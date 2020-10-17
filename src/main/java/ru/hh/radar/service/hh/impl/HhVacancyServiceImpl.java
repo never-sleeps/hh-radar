@@ -63,7 +63,7 @@ public class HhVacancyServiceImpl implements HhVacancyService {
         for(Map.Entry<SearchParameters.SearchParam, String> param : searchParameters.get().entrySet()) {
             uriComponentsBuilder = uriComponentsBuilder
                     .queryParam(
-                            param.getKey().getParam(),
+                            param.getKey().name(),
                             param.getValue()
                     );
         }

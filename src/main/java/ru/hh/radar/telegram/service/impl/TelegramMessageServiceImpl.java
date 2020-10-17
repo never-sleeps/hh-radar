@@ -5,11 +5,20 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.hh.radar.dto.VacancyDTO;
+import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
 
-@RequiredArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("unchecked")
 @Service
+@RequiredArgsConstructor
 public class TelegramMessageServiceImpl implements TelegramMessageService {
+
+    private final TelegramElementService tgmElementService;
 
     @Override
     public SendMessage createMessage(Long chatId, String text) {
@@ -46,5 +55,22 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                 .setChatId(chatId)
                 .setText(text)
                 .setReplyMarkup(replyKeyboardMarkup);
+    }
+
+    @Override
+    public List<SendMessage> createVacancyMessages(Long chatId, String linkText, List<VacancyDTO> vacancies) {
+        List<SendMessage> vacancyMessages = new ArrayList<>();
+        for (VacancyDTO vacancy: vacancies) {
+            InlineKeyboardButton linkButton = tgmElementService.createUrlButton(linkText, vacancy.getAlternateUrl());
+            InlineKeyboardMarkup inlineKeyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
+                    tgmElementService.createInlineKeyboardRows(
+                            tgmElementService.createInlineKeyboardRow(linkButton)
+                    )
+            );
+            vacancyMessages.add(
+                    createButtonMessage(chatId, vacancy.toString(), inlineKeyboardMarkup)
+            );
+        }
+        return vacancyMessages;
     }
 }
