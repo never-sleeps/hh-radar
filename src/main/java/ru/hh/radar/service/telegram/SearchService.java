@@ -3,7 +3,7 @@ package ru.hh.radar.service.telegram;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.dto.SearchParameters;
+import ru.hh.radar.dto.SearchParameters.SearchParam;
 
 import java.util.List;
 
@@ -21,7 +21,9 @@ public interface SearchService {
 
     SendMessage showSpecializationMenu(Update update) throws TelegramApiException;
 
-    SendMessage setSearchParameters(SearchParameters.SearchParam searchParam, Update update) throws TelegramApiException;
+    SendMessage setSearchParameters(SearchParam searchParam, Update update, boolean isShort) throws TelegramApiException;
+
+    SendMessage showSearchParameters(Update update) throws TelegramApiException;
 
     List<SendMessage> runSearch(Update update) throws TelegramApiException;
 }

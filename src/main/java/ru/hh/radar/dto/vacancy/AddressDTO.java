@@ -49,7 +49,8 @@ public class AddressDTO {
         for (MetroStation m : metroStations) {
             str.append(m.toString());
         }
-        return (metroStations.toString().equals("[]")) ? "" : metroStations.toString();
+        String rezult = str.toString().trim();
+        return (rezult.length() < 3 ) ? "" : rezult;
     }
 
     private static class MetroStation{
@@ -63,16 +64,16 @@ public class AddressDTO {
 
         @Override
         public String toString() {
-            return ((stationName != null) ? stationName + " " : "")
-                    + ((lineName != null) ? "(" + lineName + ")" : "");
+            return ((stationName != null) ? "метро " + stationName : "")
+                    + ((lineName != null) ? " (линия " + lineName + ")" : "");
         }
     }
 
     @Override
     public String toString() {
         return ((city != null) ? city + ", " : "")
-                + ((street != null) ? street + ", " : "")
-                + ((buiding != null) ? buiding + ", " : "")
+                + ((street != null) ? street + " " : "")
+                + ((buiding != null) ? buiding + " " : "")
                 + getMetroStations();
     }
 }

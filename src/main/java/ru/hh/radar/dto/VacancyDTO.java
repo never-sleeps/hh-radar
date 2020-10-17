@@ -59,6 +59,10 @@ import java.util.List;
  *         "url": "https://api.hh.ru/employers/1455",
  *         "alternate_url": "https://hh.ru/employer/1455"
  *     },
+ *     "snippet": {
+ *          "requirement": "Образование не ниже среднего - специального. Пользователь ПК. Готовность к обучению. Желание работать и зарабатывать достойно. Коммуникабельность, ответственность, активная жизненная позиция...",
+ *          "responsibility": "Ведение переговоров. Заключение договоров. Организация сделок. Проведение операций по продаже, покупке: Вторичной недвижимости. Загородной недвижимости. Первичной недвижимости. Коммерческой недвижимости. "
+ *     },
  *     "response_letter_required": true,
  *     "type": {
  *         "name": "Открытая"
@@ -138,6 +142,10 @@ public class VacancyDTO {
     @JsonProperty(value = "employer")
     private EmployerDTO employer;
 
+    /** Требования и обязанности */
+    @JsonProperty(value = "snippet")
+    private SnippetDTO snippet;
+
     /** Обязательно ли заполнять сообщение при отклике на вакансию */
     @JsonProperty(value = "response_letter_required")
     private boolean responseLetterRequired;
@@ -154,19 +162,26 @@ public class VacancyDTO {
     @JsonProperty(value = "specializations")
     private List<SpecializationDTO> specializations;
 
+    public String getDescription() {
+        if(description == null || description.length() <= 400) {
+            return description;
+        }
+        return description.substring(0, 400) + "...";
+    }
+
     @Override
     public String toString() {
-        return name + " ("+employer.getName()+")" + "\n"
-                + publishedAt + ((type != null) ? " ("+type.getName()+")" : "") + "\n"
+        return "\uD83D\uDCCC" + name + " ("+employer.getName()+")" + "\n"
+                + "\uD83D\uDD58Дата публикации: " + Utils.getFormattingData(publishedAt) + "\n"
                 + "\n"
-                + ((experience != null) ? "Требуемый опыт: " + experience.getName() + " " : "")
-                + ((schedule != null) ? schedule.getName() + " " : "")
-                + ((employment != null) ? employment.getName()  : "")
+                + ((experience != null) ? "\uD83D\uDC69\u200D\uD83C\uDFEBТребуемый опыт: " + experience.getName() + "\n" : "")
+                + ((schedule != null) ? "⏰ " + schedule.getName() + "\n" : "")
+                + ((employment != null) ? "\uD83D\uDDD3" + employment.getName() + "\n"  : "")
                 + "\n"
-
-                + ((salary != null && salary.toString() != null) ? salary.toString() + "\n": "")
-                + ((address != null) ? "Адрес: " + address.toString() + "\n" : "")
-                + ((description != null) ? "Описание вакансии: " + Utils.htmlToText(description) + "\n" : "")
+                + ((salary != null && salary.toString() != null) ? "\uD83D\uDCB0" + salary.toString() + "\n": "")
+                + ((address != null) ? "\uD83D\uDCCDАдрес: " + address.toString() + "\n\n" : "")
+                + ((snippet != null) ? snippet.toString() + "\n" : "")
+                + ((getDescription() != null) ? "✍️Описание вакансии: " + Utils.htmlToText(getDescription()) + "\n" : "")
                 ;
     }
 }

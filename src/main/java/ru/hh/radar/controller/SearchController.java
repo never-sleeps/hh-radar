@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.dto.SearchParameters;
+import ru.hh.radar.dto.SearchParameters.SearchParam;
 import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
@@ -32,7 +32,7 @@ public class SearchController {
             "/search.experience.between3And6", "/search.experience.moreThan6"
     })
     public SendMessage setExperienceMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParameters.SearchParam.EXPERIENCE, update);
+        return searchService.setSearchParameters(SearchParam.EXPERIENCE, update, true);
     }
 
     @BotRequestMapping("search.employment")
@@ -45,7 +45,7 @@ public class SearchController {
             "/search.employment.volunteer", "/search.employment.probation"
     })
     public SendMessage setEmploymentMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParameters.SearchParam.EMPLOYMENT, update);
+        return searchService.setSearchParameters(SearchParam.EMPLOYMENT, update, true);
     }
 
 
@@ -59,7 +59,7 @@ public class SearchController {
             "/search.schedule.remote", "/search.schedule.flyInFlyOut"
     })
     public SendMessage setScheduleMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParameters.SearchParam.SCHEDULE, update);
+        return searchService.setSearchParameters(SearchParam.SCHEDULE, update, true);
     }
 
     @BotRequestMapping("search.area")
@@ -71,7 +71,7 @@ public class SearchController {
             "/search.area.1", "/search.area.113", "/search.area.1438", "/search.area.88", "/search.area.1202"
     })
     public SendMessage setAreaMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParameters.SearchParam.AREA, update);
+        return searchService.setSearchParameters(SearchParam.AREA, update, true);
     }
 
     @BotRequestMapping("search.specialization")
@@ -86,10 +86,26 @@ public class SearchController {
             "/search.specialization.13", "/search.specialization.14", "/search.specialization.15", "/search.specialization.16",
             "/search.specialization.17", "/search.specialization.18", "/search.specialization.19", "/search.specialization.20",
             "/search.specialization.21", "/search.specialization.22", "/search.specialization.23", "/search.specialization.24",
-            "/search.specialization.25", "/search.specialization.26", "/search.specialization.27", "/search.specialization.29"
+            "/search.specialization.25", "/search.specialization.27", "/search.specialization.29"
     })
     public SendMessage setSpecializationMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParameters.SearchParam.SPECIALIZATION, update);
+        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, update, true);
+    }
+
+    @BotRequestMapping(value = {
+            "/search.specialization.1.3", "/search.specialization.1.9", "/search.specialization.1.25", "/search.specialization.1.82",
+            "/search.specialization.1.110", "/search.specialization.1.113", "/search.specialization.1.117", "/search.specialization.1.137",
+            "/search.specialization.1.172", "/search.specialization.1.211", "/search.specialization.1.221", "/search.specialization.1.270",
+            "/search.specialization.1.273", "/search.specialization.1.296", "/search.specialization.1.327", "/search.specialization.1.400",
+            "/search.specialization.1.420", "/search.specialization.1.474", "/search.specialization.1.475"
+    })
+    public SendMessage setItSpecializationMenu(Update update) throws TelegramApiException {
+        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, update, false);
+    }
+
+    @BotRequestMapping("/search.other")
+    public SendMessage show(Update update) throws TelegramApiException {
+        return searchService.showSearchParameters(update);
     }
 
     @BotRequestMapping("search.run")

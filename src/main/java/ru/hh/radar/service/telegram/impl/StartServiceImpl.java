@@ -28,18 +28,18 @@ public class StartServiceImpl implements StartService {
     @Override
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
-        String languageCode = userService.getLocaleForAnswerToUser(update);
+        String lang = userService.getLocaleForAnswerToUser(update);
 
         return telegramMessageService.createMenuMessage(
                 user.getChatId(),
-                messageService.getMessage("welcome", languageCode),
-                getStartMenu(languageCode)
+                messageService.getMessage("welcome", lang),
+                getStartMenu(lang)
         );
     }
 
-    private ReplyKeyboardMarkup getStartMenu(String languageCode) {
+    private ReplyKeyboardMarkup getStartMenu(String lang) {
         List<KeyboardRow> list = telegramElementService.createKeyboardRow(
-                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", languageCode))
+                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", lang))
         );
         return telegramElementService.createReplyKeyboardMarkup(list);
     }

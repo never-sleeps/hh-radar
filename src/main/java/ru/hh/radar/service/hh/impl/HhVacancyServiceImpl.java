@@ -41,7 +41,10 @@ public class HhVacancyServiceImpl implements HhVacancyService {
 
     @Override
     public VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters) {
-        URI uri = generateURI("/vacancies", searchParameters);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url).path("/vacancies");
+        uriComponentsBuilder = applySearchParameters(uriComponentsBuilder, searchParameters);
+
+        URI uri = uriComponentsBuilder.build().toUri();
         log.info("search vacancies URI: " + uri);
 
         RequestEntity requestEntity = new RequestEntity(HttpMethod.GET, uri);
@@ -57,16 +60,18 @@ public class HhVacancyServiceImpl implements HhVacancyService {
                 .toUri();
     }
 
-    private URI generateURI(String path, SearchParameters searchParameters) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url).path(path);
-
+    private UriComponentsBuilder applySearchParameters(
+            UriComponentsBuilder uriComponentsBuilder,
+            SearchParameters searchParameters
+    ) {
         for(Map.Entry<SearchParameters.SearchParam, String> param : searchParameters.get().entrySet()) {
             uriComponentsBuilder = uriComponentsBuilder
                     .queryParam(
-                            param.getKey().name(),
+                            param.getKey().name().toLowerCase(),
                             param.getValue()
                     );
         }
-        return uriComponentsBuilder.build().toUri();
+        return uriComponentsBuilder
+                .queryParam("order_by", "publication_time");
     }
 }

@@ -13,7 +13,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageSource messageSource;
 
     @Override
-    public String getMessage(String text, String languageCode) {
-        return messageSource.getMessage(text, null, Locale.forLanguageTag(languageCode));
+    public String getMessage(String text, String lang) {
+        return messageSource.getMessage(text, null, Locale.forLanguageTag(lang));
     }
 }
