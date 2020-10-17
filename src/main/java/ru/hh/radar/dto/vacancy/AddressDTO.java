@@ -44,6 +44,13 @@ public class AddressDTO {
     @JsonProperty(value = "metro_stations")
     private List<MetroStation> metroStations;
 
+    public String getMetroStations() {
+        StringBuilder str = new StringBuilder();
+        for (MetroStation m : metroStations) {
+            str.append(m.toString());
+        }
+        return (metroStations.toString().equals("[]")) ? "" : metroStations.toString();
+    }
 
     private static class MetroStation{
         /** Название станции метро */
@@ -53,5 +60,19 @@ public class AddressDTO {
         /** Название линии метро, на которой находится станция */
         @JsonProperty(value = "line_name")
         private String lineName;
+
+        @Override
+        public String toString() {
+            return ((stationName != null) ? stationName + " " : "")
+                    + ((lineName != null) ? "(" + lineName + ")" : "");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ((city != null) ? city + ", " : "")
+                + ((street != null) ? street + ", " : "")
+                + ((buiding != null) ? buiding + ", " : "")
+                + getMetroStations();
     }
 }

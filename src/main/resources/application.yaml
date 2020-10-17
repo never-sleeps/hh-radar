@@ -1,3 +1,8 @@
+application:
+    languages:
+        ru_RU: Русский
+        en_US: English
+
 server:
     port: 8081
 
@@ -13,6 +18,5 @@ headhunter:
 logging:
     pattern:
         rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd_HH-mm}.%i.gz"
-        console: "%d %-5level %logger : %msg%n"
         file:
             name: "logs/application.log"

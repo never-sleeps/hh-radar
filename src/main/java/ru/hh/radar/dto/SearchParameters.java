@@ -1,7 +1,13 @@
 package ru.hh.radar.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static ru.hh.radar.dto.SearchParameters.SearchParam.AREA;
 
 /**
  * ПАРАМЕТРЫ ПОИСКА
@@ -41,8 +47,37 @@ import lombok.Data;
  *  13) no_magic – Если значение true – отключить автоматическое преобразование вакансий. По-умолчанию – false. При включённом автоматическом преобразовании, будет предпринята попытка изменить текстовый запрос пользователя на набор параметров. Например, запрос text=москва бухгалтер 100500 будет преобразован в text=бухгалтер&only_with_salary=true&area=1&salary=100500.
  */
 @Data
-@AllArgsConstructor
-public class SearchParameter {
-    private String key;
-    private String value;
+public class SearchParameters {
+
+    private Map<SearchParam, String> searchParameter;
+
+    public SearchParameters() {
+        searchParameter = new HashMap<>();
+        searchParameter.put(AREA, "1");
+    }
+
+    public void put(SearchParam searchParam, String value) {
+        searchParameter.put(searchParam, value);
+    }
+
+    public Map<SearchParam, String> get() {
+        return Collections.unmodifiableMap(searchParameter);
+    }
+
+    @Getter
+    public enum SearchParam {
+        TEXT("search.text"),
+        EXPERIENCE("search.experience"),
+        EMPLOYMENT("search.employment"),
+        SCHEDULE("search.schedule"),
+        AREA("search.area"),
+        SPECIALIZATION("search.specialization"),
+        EMPLOYER_ID("search.employer_id"),
+        SALARY("search.salary");
+
+        String param;
+        SearchParam(String param) {
+          this.param = param;
+        }
+    }
 }

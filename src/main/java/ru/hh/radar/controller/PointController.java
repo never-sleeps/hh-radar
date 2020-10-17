@@ -24,8 +24,18 @@ public class PointController {
     }
 
 
-    @BotRequestMapping( "/btn")
+    @BotRequestMapping("/btn")
     public SendMessage showButton(Update update) throws TelegramApiException {
         return pointService.showButton(update);
+    }
+
+    @BotRequestMapping("/menu")
+    public SendMessage showMenu(Update update) throws TelegramApiException {
+        return pointService.showMenu(update);
+    }
+
+    @BotRequestMapping("/hh")
+    public SendMessage showHh(Update update) throws TelegramApiException {
+        return pointService.showHh(update);
     }
 }
