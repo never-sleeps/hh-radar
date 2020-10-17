@@ -5,7 +5,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 public interface TelegramLocaleElementService {
 
-    InlineKeyboardButton createAutoCallbackButton(String command, String languageCode);
+    InlineKeyboardButton createAutoCallbackButton(String command, String lang);
 
-    String getValueFromCallbackQueryData (Update update);
+    String getValueFromCallbackQuery(Update update);
+
+    String getLongValueFromCallbackQuery(Update update);
 }

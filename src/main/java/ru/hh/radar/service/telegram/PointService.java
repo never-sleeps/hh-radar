@@ -72,7 +72,7 @@ public class PointService {
 
     public SendMessage showHh(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
-        VacancyDTO vacancy = hhVacancyService.getVacancy(11704791L);
+        VacancyDTO vacancy = hhVacancyService.getVacancy(4694457L);
 
         List<List<InlineKeyboardButton>> rowsInline = telegramElementService.createInlineKeyboardRows(
                 telegramElementService.createInlineKeyboardRow(

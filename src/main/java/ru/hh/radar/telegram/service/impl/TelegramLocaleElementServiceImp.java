@@ -17,14 +17,24 @@ public class TelegramLocaleElementServiceImp implements TelegramLocaleElementSer
 
 
     @Override
-    public InlineKeyboardButton createAutoCallbackButton(String command, String languageCode) {
+    public InlineKeyboardButton createAutoCallbackButton(String command, String lang) {
         return tgmElementService.createCallbackButton(
-                msg.getMessage(command, languageCode), "/" + command);
+                msg.getMessage(command, lang), "/" + command);
     }
 
     @Override
-    public String getValueFromCallbackQueryData(Update update) {
+    public String getValueFromCallbackQuery(Update update) {
         String callbackQueryData = update.getCallbackQuery().getData();
         return callbackQueryData.substring(callbackQueryData.lastIndexOf(".") + 1);
+    }
+
+    @Override
+    public String getLongValueFromCallbackQuery(Update update) {
+        String callbackQueryData = update.getCallbackQuery().getData();
+        int indexOfPostfix = callbackQueryData.lastIndexOf(".");
+        String indexOfPoint = callbackQueryData.substring(0, indexOfPostfix);
+        int indexOfPrefix = indexOfPoint.lastIndexOf(".");
+
+        return callbackQueryData.substring(indexOfPrefix + 1);
     }
 }
