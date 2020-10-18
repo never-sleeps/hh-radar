@@ -39,7 +39,8 @@ public class StartServiceImpl implements StartService {
 
     private ReplyKeyboardMarkup getStartMenu(String lang) {
         List<KeyboardRow> list = telegramElementService.createKeyboardRow(
-                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", lang))
+                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
+                telegramElementService.createKeyboardRow(messageService.getMessage("authorize.client", lang))
         );
         return telegramElementService.createReplyKeyboardMarkup(list);
     }

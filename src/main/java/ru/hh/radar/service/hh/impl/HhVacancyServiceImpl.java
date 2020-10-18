@@ -41,10 +41,12 @@ public class HhVacancyServiceImpl implements HhVacancyService {
 
     @Override
     public VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url).path("/vacancies");
-        uriComponentsBuilder = applySearchParameters(uriComponentsBuilder, searchParameters);
-
-        URI uri = uriComponentsBuilder.build().toUri();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/vacancies");
+        URI uri = applySearchParameters(uriComponentsBuilder, searchParameters)
+                .build()
+                .toUri();
         log.info("search vacancies URI: " + uri);
 
         RequestEntity requestEntity = new RequestEntity(HttpMethod.GET, uri);
