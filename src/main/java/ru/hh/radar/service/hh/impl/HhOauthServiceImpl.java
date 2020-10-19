@@ -24,6 +24,9 @@ public class HhOauthServiceImpl implements HhOauthService {
     @Value("${oauth.clientSecret}")
     private String oauthClientSecret;
 
+    @Value("${oauth.redirectUri}")
+    private String redirectUri;
+
     private RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -43,6 +46,7 @@ public class HhOauthServiceImpl implements HhOauthService {
                 .path("oauth/authorize")
                 .queryParam("response_type", "code")
                 .queryParam("client_id", oauthClientId)
+                .queryParam("redirect_uri", redirectUri)
                 .build()
                 .toUri();
     }

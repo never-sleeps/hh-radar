@@ -38,4 +38,8 @@ public class PointController {
     public SendMessage showHh(Update update) throws TelegramApiException {
         return pointService.showHh(update);
     }
+    @BotRequestMapping("/showCommand")
+    public SendMessage showCommandText(Update update) throws TelegramApiException {
+        return pointService.showCommandText(update);
+    }
 }

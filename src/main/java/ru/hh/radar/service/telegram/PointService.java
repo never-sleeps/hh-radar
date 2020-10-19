@@ -11,10 +11,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.model.User;
+import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhVacancyService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
+import ru.hh.radar.telegram.service.TelegramService;
 
 import java.util.*;
 
@@ -25,6 +27,7 @@ public class PointService {
 
     private final TelegramElementService telegramElementService;
     private final TelegramMessageService telegramMessageService;
+    private final TelegramService telegramService;
     private final UserService userService;
     private final HhVacancyService hhVacancyService;
 
@@ -34,8 +37,6 @@ public class PointService {
                 .setChatId(user.getChatId())
                 .setText("helllllo");
     }
-
-
 
     public SendMessage showButton(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
@@ -85,5 +86,13 @@ public class PointService {
                 vacancy.toString(),
                 telegramElementService.createInlineKeyboardMarkup(rowsInline)
         );
+    }
+
+    public SendMessage showCommandText(Update update) throws TelegramApiException {
+        String commandValue = Utils.getCommandValue(telegramService.getCommand(update));
+        User user = userService.findUser(update);
+        return new SendMessage()
+                .setChatId(user.getChatId())
+                .setText(commandValue);
     }
 }
