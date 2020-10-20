@@ -3,7 +3,7 @@ package ru.hh.radar.service.telegram;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.dto.SearchParameters.SearchParam;
+import ru.hh.radar.model.SearchParameters.SearchParam;
 
 import java.util.List;
 

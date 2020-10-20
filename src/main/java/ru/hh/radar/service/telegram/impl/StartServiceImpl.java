@@ -8,13 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.model.User;
+import ru.hh.radar.dto.HhUserDTO;
+import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.hh.HhUserService;
 import ru.hh.radar.service.telegram.StartService;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
-import ru.hh.radar.telegram.service.TelegramService;
 
 import java.util.List;
 
@@ -27,23 +28,20 @@ public class StartServiceImpl implements StartService {
     private final TelegramElementService telegramElementService;
     private final TelegramMessageService telegramMessageService;
     private final MessageService messageService;
-    private final TelegramService telegramService;
 
-
+    private final HhUserService hhUserService;
 
     @Override
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
         String lang = userService.getLocaleForAnswerToUser(update);
 
-
-        log.info(telegramService.getCommand(update));
-
-        return telegramMessageService.createMenuMessage(
-                user.getChatId(),
-                messageService.getMessage("welcome", lang),
-                getStartMenu(lang)
-        );
+        String text = messageService.getMessage("welcome", lang);
+        if (user.isAuthorized()) {
+            HhUserDTO hhUserDTO = hhUserService.getHhUserInfo(user);
+            text = hhUserDTO.toString().concat(" ").concat(text);
+        }
+        return telegramMessageService.createMenuMessage(user.getChatId(), text, getStartMenu(lang));
     }
 
     private ReplyKeyboardMarkup getStartMenu(String lang) {

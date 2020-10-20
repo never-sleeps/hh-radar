@@ -1,4 +1,4 @@
-package ru.hh.radar.service.telegram;
+package ru.hh.radar.forTesting;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.VacancyDTO;
-import ru.hh.radar.model.User;
+import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhVacancyService;

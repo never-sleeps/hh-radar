@@ -1,4 +1,4 @@
-package ru.hh.radar.controller;
+package ru.hh.radar.forTesting;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
-import ru.hh.radar.service.telegram.PointService;
+import ru.hh.radar.forTesting.PointService;
 
 @BotController
 public class PointController {

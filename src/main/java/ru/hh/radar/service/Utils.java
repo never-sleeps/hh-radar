@@ -33,8 +33,12 @@ public class Utils {
 
     public static String getCommandValue(String command) {
         if (command == null) return null;
+
         String commandKey = getCommandKey(command);
-        return (commandKey == null) ? null : command.replaceFirst(commandKey, "");
+        if (commandKey == null) return null;
+
+        String commandValue = command.replaceFirst(commandKey, "");
+        return (commandValue.length() > 0) ? commandValue : null;
     }
 
     public static boolean isClickableCommand(String command){

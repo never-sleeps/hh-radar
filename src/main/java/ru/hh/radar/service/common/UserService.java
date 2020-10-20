@@ -2,13 +2,13 @@ package ru.hh.radar.service.common;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.model.User;
+import ru.hh.radar.model.entity.User;
 
 public interface UserService {
 
-    User createUser(Update update) throws TelegramApiException;
+    User save(Update update) throws TelegramApiException;
 
-    User updateUser(User user);
+    User save(User user) throws TelegramApiException;
 
     User findUser(Update update) throws TelegramApiException;
 

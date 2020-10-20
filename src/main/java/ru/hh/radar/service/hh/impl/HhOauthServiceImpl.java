@@ -2,21 +2,33 @@ package ru.hh.radar.service.hh.impl;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.dto.AccessTokenDTO;
+import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhOauthService;
+import ru.hh.radar.telegram.service.TelegramService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.net.URI;
 
+@Slf4j
 @Data
 @Service
 @RequiredArgsConstructor
 public class HhOauthServiceImpl implements HhOauthService {
 
     @Value("${headhunter.api.baseUrl}")
-    private String url;
+    private String baseUrl;
 
     @Value("${oauth.clientId}")
     private String oauthClientId;
@@ -27,7 +39,9 @@ public class HhOauthServiceImpl implements HhOauthService {
     @Value("${oauth.redirectUri}")
     private String redirectUri;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final UserService userService;
+    private final TelegramService telegramService;
 
     /**
      *     https://hh.ru/oauth/authorize?
@@ -42,7 +56,7 @@ public class HhOauthServiceImpl implements HhOauthService {
      */
     @Override
     public URI getUserAuthorizeURI() {
-        return UriComponentsBuilder.fromHttpUrl(url)
+        return UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .path("oauth/authorize")
                 .queryParam("response_type", "code")
                 .queryParam("client_id", oauthClientId)
@@ -51,7 +65,35 @@ public class HhOauthServiceImpl implements HhOauthService {
                 .toUri();
     }
 
+    @Override
+    public User authorizeUser(Update update) throws TelegramApiException {
+        User user = userService.save(update);
+        if(user.getAuthorizationCode() != null) {
+            AccessTokenDTO token = getAccessTokenForUser(user);
+            user.setClientAccessToken(token.toObject());
+            user = userService.save(user);
+        }
+        log.info("User connected: " + user.toString());
+        return user;
+    }
 
+    private AccessTokenDTO getAccessTokenForUser(User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("grant_type", "authorization_code");
+        map.add("client_id", oauthClientId);
+        map.add("client_secret", oauthClientSecret);
+        map.add("redirect_uri", redirectUri);
+        map.add("code", user.getAuthorizationCode());
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("oauth/token").build().toUri();
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        ResponseEntity<AccessTokenDTO> response = restTemplate.postForEntity(uri, request, AccessTokenDTO.class);
+        log.info("Get access_token for user " + user.getUsername());
+        return response.getBody();
+    }
 
 
 //    /**

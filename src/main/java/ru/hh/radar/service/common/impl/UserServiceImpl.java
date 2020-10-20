@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.model.User;
+import ru.hh.radar.model.entity.User;
 import ru.hh.radar.repository.UserRepository;
+import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.service.TelegramService;
 
@@ -19,25 +20,27 @@ public class UserServiceImpl implements UserService {
     private final TelegramService telegramService;
 
     @Override
-    public User createUser(Update update) throws TelegramApiException {
-        User existingUser = userRepository.findByUsername(telegramService.getMessage(update).getFrom().getUserName());
-        if (existingUser != null) return existingUser;
+    public User save(Update update) throws TelegramApiException {
+        String userName = telegramService.getMessage(update).getFrom().getUserName();
 
-        User savedUser = userRepository.save(
-                new User(
-                        telegramService.getMessage(update).getChatId(),
-                        telegramService.getMessage(update).getFrom().getUserName()
-                )
+        User user = userRepository.findByUsername(userName);
+        if (user == null) {
+            user = User.builder().username(userName).build();
+        }
+
+        user.setChatId(telegramService.getMessage(update).getChatId());
+        user.setAuthorizationCode(
+                Utils.getCommandValue(telegramService.getCommand(update))
         );
-        log.info("User created: " + savedUser);
-        return savedUser;
+        log.info("User saved: " + user);
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(User user) {
-        User updatedUser = userRepository.save(user);
-        log.info("User updated: " + updatedUser);
-        return updatedUser;
+    public User save(User user) {
+        User savedUser = userRepository.save(user);
+        log.info("User saved: " + savedUser);
+        return savedUser;
     }
 
     @Override
