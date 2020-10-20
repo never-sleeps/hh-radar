@@ -9,4 +9,6 @@ public interface TelegramService {
     Message getMessage(Update update) throws TelegramApiException;
 
     User getFrom(Update update) throws TelegramApiException;
+
+    String getCommand(Update update) throws TelegramApiException;
 }

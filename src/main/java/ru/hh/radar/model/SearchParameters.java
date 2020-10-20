@@ -1,4 +1,4 @@
-package ru.hh.radar.dto;
+package ru.hh.radar.model;
 
 import lombok.Data;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ru.hh.radar.dto.SearchParameters.SearchParam.AREA;
+import static ru.hh.radar.model.SearchParameters.SearchParam.AREA;
 
 /**
  * ПАРАМЕТРЫ ПОИСКА

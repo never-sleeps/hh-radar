@@ -29,6 +29,7 @@ public abstract class BotApiMethodController {
         try {
             return this.processUpdate.accept(update);
         } catch (IllegalAccessException | InvocationTargetException e) {
+            log.error(e.toString());
             throw new TelegramApiException(e.getCause());
         }
     }

@@ -9,6 +9,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.telegram.service.ExecutorService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,6 +22,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Value("${telegram.bot.token}")
     private String botToken;
+
+    private final ExecutorService executor;
 
     @Override
     public String getBotUsername() {
@@ -35,7 +38,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            for (BotApiMethod botApiMethod: Executor.getExecutors(update)) {
+            for (BotApiMethod botApiMethod: executor.getExecutors(update)) {
                 execute(botApiMethod);
             }
         } catch (TelegramApiException e) {

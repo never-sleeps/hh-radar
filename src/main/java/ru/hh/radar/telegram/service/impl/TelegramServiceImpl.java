@@ -26,4 +26,14 @@ public class TelegramServiceImpl implements TelegramService {
             return update.getCallbackQuery().getFrom();
         throw new TelegramApiException("Error determining From");
     }
+
+    @Override
+    public String getCommand(Update update) throws TelegramApiException {
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            return update.getMessage().getText().trim();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getData().trim();
+        }
+        throw new TelegramApiException("Error determining command");
+    }
 }

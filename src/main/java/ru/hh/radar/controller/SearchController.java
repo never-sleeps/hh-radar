@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.dto.SearchParameters.SearchParam;
+import ru.hh.radar.model.SearchParameters.SearchParam;
 import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;

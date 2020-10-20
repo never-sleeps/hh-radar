@@ -1,5 +1,6 @@
 package ru.hh.radar.service.hh.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.hh.radar.dto.SearchParameters;
+import ru.hh.radar.model.SearchParameters;
 import ru.hh.radar.dto.VacanciesSearchResultsDTO;
 import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.service.hh.HhVacancyService;
@@ -19,45 +20,41 @@ import java.net.URI;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class HhVacancyServiceImpl implements HhVacancyService {
 
     @Value("${headhunter.api.url}")
     private String url;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Cacheable("vacancy")
     @Override
     public VacancyDTO getVacancy(Long id) {
-        URI uri = generateURI("/vacancies/{id}", id);
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .path("/vacancies/{id}")
+                .buildAndExpand(id)
+                .toUri();
         log.info("search vacancy URI: " + uri);
 
-        RequestEntity requestEntity = new RequestEntity(HttpMethod.GET, uri);
-        ResponseEntity<VacancyDTO> responseEntity =
-                restTemplate.exchange(requestEntity, new ParameterizedTypeReference<>() {});
-        return responseEntity.getBody();
+        RequestEntity<?> request = new RequestEntity<>(HttpMethod.GET, uri);
+        ResponseEntity<VacancyDTO> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        return response.getBody();
     }
 
     @Override
     public VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url).path("/vacancies");
-        uriComponentsBuilder = applySearchParameters(uriComponentsBuilder, searchParameters);
-
-        URI uri = uriComponentsBuilder.build().toUri();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
+                .path("/vacancies");
+        URI uri = applySearchParameters(uriComponentsBuilder, searchParameters)
+                .build()
+                .toUri();
         log.info("search vacancies URI: " + uri);
 
-        RequestEntity requestEntity = new RequestEntity(HttpMethod.GET, uri);
-        ResponseEntity<VacanciesSearchResultsDTO> responseEntity =
-                restTemplate.exchange(requestEntity, new ParameterizedTypeReference<>() {});
-        return responseEntity.getBody();
-    }
-
-    private URI generateURI(String path, Long id) {
-        return UriComponentsBuilder.fromHttpUrl(url)
-                .path(path)
-                .buildAndExpand(id)
-                .toUri();
+        RequestEntity<?> request = new RequestEntity<>(HttpMethod.GET, uri);
+        ResponseEntity<VacanciesSearchResultsDTO> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        return response.getBody();
     }
 
     private UriComponentsBuilder applySearchParameters(

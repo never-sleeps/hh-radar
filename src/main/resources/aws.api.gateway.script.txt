@@ -1,0 +1,38 @@
+---
+swagger: "2.0"
+info:
+  version: "2017-02-25T14:22:32Z"
+  title: "hhRadarBot"
+schemes:
+- "https"
+paths:
+  /:
+    x-amazon-apigateway-any-method:
+      produces:
+      - "text/html"
+      parameters:
+      - name: "code"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        type: "http"
+        httpMethod: "GET"
+        passthroughBehavior: "when_no_match"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          # This is where we map `code` query parameter to `start`
+          integration.request.querystring.start: "method.request.querystring.code"
+        # Don't forget to change your bot's username:
+        uri: "https://t.me/hhRadarBot"
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"

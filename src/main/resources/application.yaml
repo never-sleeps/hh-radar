@@ -14,6 +14,12 @@ telegram:
 headhunter:
     api:
         url: https://api.hh.ru/
+        baseUrl: https://hh.ru/
+
+oauth:
+    clientId:
+    clientSecret:
+    redirectUri:
 
 logging:
     pattern:
