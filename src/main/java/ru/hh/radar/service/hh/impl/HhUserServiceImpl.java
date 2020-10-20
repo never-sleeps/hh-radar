@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.hh.radar.dto.HhUserDTO;
 import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.hh.HhUserService;
 
 import java.net.URI;
@@ -26,7 +27,7 @@ public class HhUserServiceImpl implements HhUserService {
     @Override
     public HhUserDTO getHhUserInfo(User user) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + user.getClientAccessToken().getAccessToken());
+        headers.set("Authorization", "Bearer " + Utils.decode(user.getClientAccessToken().getAccessToken()));
 
         URI uri = UriComponentsBuilder.fromHttpUrl(url).path("/me").build().toUri();
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);

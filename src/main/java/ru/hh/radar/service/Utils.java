@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.Locale;
 
 @Slf4j
@@ -43,5 +44,13 @@ public class Utils {
 
     public static boolean isClickableCommand(String command){
         return command.startsWith("/");
+    }
+
+    public static String encode(String originalInput) {
+        return Base64.getEncoder().encodeToString(originalInput.getBytes());
+    }
+
+    public static String decode(String encodedString) {
+        return new String(Base64.getDecoder().decode(encodedString));
     }
 }

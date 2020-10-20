@@ -32,8 +32,9 @@ public class UserServiceImpl implements UserService {
         user.setAuthorizationCode(
                 Utils.getCommandValue(telegramService.getCommand(update))
         );
+        user = userRepository.save(user);
         log.info("User saved: " + user);
-        return userRepository.save(user);
+        return user;
     }
 
     @Override
