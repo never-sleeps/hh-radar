@@ -3,6 +3,7 @@ package ru.hh.radar.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import ru.hh.radar.model.entity.ClientAccessToken;
+import ru.hh.radar.service.Utils;
 
 @Data
 public class AccessTokenDTO {
@@ -21,9 +22,9 @@ public class AccessTokenDTO {
 
     public ClientAccessToken toObject() {
         return ClientAccessToken.builder()
-                .accessToken(this.getAccessToken())
+                .accessToken(Utils.encode(this.getAccessToken()))
                 .tokenType(this.getTokenType())
-                .refreshToken(this.getRefreshToken())
+                .refreshToken(Utils.encode(this.getRefreshToken()))
                 .expiresIn(this.getExpiresIn())
 //                .time(ZonedDateTime.now())
                 .build();

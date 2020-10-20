@@ -1,11 +1,7 @@
 package ru.hh.radar.model.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.hh.radar.model.entity.ClientAccessToken;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -28,18 +24,17 @@ public class User {
     @Column(name = "username", unique = true)
     private String username;
 
+    @ToString.Exclude
     @Column(name = "authorization_code")
     private String authorizationCode;
 
-    // Задает поле, по которому происходит объединение с таблицей для хранения связанной сущности
+    @ToString.Exclude
     @OneToOne(targetEntity = ClientAccessToken.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "token_id")
     private ClientAccessToken clientAccessToken;
 
-    public User(Long chatId, String username, String authorizationCode) {
-        this.chatId = chatId;
+    public User(String username) {
         this.username = username;
-        this.authorizationCode = authorizationCode;
     }
 
     public boolean isAuthorized() {

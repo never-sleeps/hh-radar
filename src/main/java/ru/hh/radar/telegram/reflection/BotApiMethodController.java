@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 @Slf4j
 public abstract class BotApiMethodController {
 
@@ -25,11 +26,10 @@ public abstract class BotApiMethodController {
 
     public abstract boolean successUpdatePredicate(Update update);
 
-    public List<BotApiMethod> process(Update update) throws TelegramApiException {
+    public List<BotApiMethod<?>> process(Update update) throws TelegramApiException {
         try {
             return this.processUpdate.accept(update);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            log.error(e.toString());
             throw new TelegramApiException(e.getCause());
         }
     }
@@ -40,16 +40,16 @@ public abstract class BotApiMethodController {
 
 
     private interface Process {
-        List<BotApiMethod> accept(Update update) throws InvocationTargetException, IllegalAccessException;
+        List<BotApiMethod<?>> accept(Update update) throws InvocationTargetException, IllegalAccessException;
     }
 
-    private List<BotApiMethod> processSingle(Update update) throws InvocationTargetException, IllegalAccessException {
-        BotApiMethod botApiMethod = (BotApiMethod) method.invoke(bean, update);
+    private List<BotApiMethod<?>> processSingle(Update update) throws InvocationTargetException, IllegalAccessException {
+        BotApiMethod<?> botApiMethod = (BotApiMethod<?>) method.invoke(bean, update);
         return (botApiMethod != null) ? Collections.singletonList(botApiMethod) : Collections.emptyList();
     }
 
-    private List<BotApiMethod> processList(Update update) throws InvocationTargetException, IllegalAccessException {
-        List<BotApiMethod> botApiMethods = (List<BotApiMethod>) method.invoke(bean, update);
+    private List<BotApiMethod<?>> processList(Update update) throws InvocationTargetException, IllegalAccessException {
+        List<BotApiMethod<?>> botApiMethods = (List<BotApiMethod<?>>) method.invoke(bean, update);
         return (botApiMethods != null) ? botApiMethods : Collections.emptyList();
     }
 }

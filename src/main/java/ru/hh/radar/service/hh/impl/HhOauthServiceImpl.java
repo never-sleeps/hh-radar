@@ -91,7 +91,7 @@ public class HhOauthServiceImpl implements HhOauthService {
         URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("oauth/token").build().toUri();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         ResponseEntity<AccessTokenDTO> response = restTemplate.postForEntity(uri, request, AccessTokenDTO.class);
-        log.info("Get access_token for user " + user.getUsername());
+        log.info("Getting access_token for user " + user.getUsername());
         return response.getBody();
     }
 
