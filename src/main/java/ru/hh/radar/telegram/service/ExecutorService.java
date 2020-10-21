@@ -22,14 +22,13 @@ public class ExecutorService {
 
     private final BotApiMethodContainer CONTAINER = BotApiMethodContainer.getInstance();
 
-    public List<BotApiMethod> getExecutors(Update update) throws TelegramApiException {
+    public List<BotApiMethod<?>> getExecutors(Update update) throws TelegramApiException {
         BotApiMethodController controller = getHandle(update);
         return controller.process(update);
     }
 
     private BotApiMethodController getHandle(Update update) throws TelegramApiException {
         String command = telegramService.getCommand(update);
-//        String commandKey = (Utils.isClickableCommand(command)) ? command : Utils.getCommandKey(command);
         String commandKey = Utils.getCommandKey(command);
         if (commandKey == null){
             log.error("Command not found for " + command);
