@@ -26,8 +26,7 @@ public class HhUserServiceImpl implements HhUserService {
 
     @Override
     public HhUserDTO getHhUserInfo(User user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + Utils.decode(user.getClientAccessToken().getAccessToken()));
+        HttpHeaders headers = Utils.getAuthorizationHttpHeader(user);
 
         URI uri = UriComponentsBuilder.fromHttpUrl(url).path("/me").build().toUri();
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);

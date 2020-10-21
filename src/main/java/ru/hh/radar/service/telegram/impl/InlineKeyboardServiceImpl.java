@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.service.telegram.InlineKeyboardService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
@@ -218,6 +219,26 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                         tgmLocaleElementService.createAutoCallbackButton("search.other", lang)
                 )
         );
+        return tgmElementService.createInlineKeyboardMarkup(rowsInline);
+    }
+
+    @Override
+    public InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList) {
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        String linkText = msg.getMessage("browser.open", lang);
+
+        for (ResumeDTO resume : resumeList) {
+            rowsInline.add(
+                    tgmElementService.createInlineKeyboardRow(
+                            tgmElementService.createCallbackUrlButton(
+                                    "\uD83C\uDF10 " + resume.toString(),
+                                    resume.getAlternateUrl(),
+                                    "/" + "command"
+                            )
+                    )
+            );
+        }
+
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
     }
 }

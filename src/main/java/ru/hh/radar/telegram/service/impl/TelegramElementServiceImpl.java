@@ -29,8 +29,11 @@ public class TelegramElementServiceImpl implements TelegramElementService {
     }
 
     @Override
-    public InlineKeyboardButton createCallbackButton(String text) {
-        return createCallbackButton(text, "/" + text);
+    public InlineKeyboardButton createCallbackUrlButton(String text, String url, String callbackData) {
+        return new InlineKeyboardButton()
+                .setText(text)
+                .setUrl(url)
+                .setCallbackData(callbackData);
     }
 
     @Override

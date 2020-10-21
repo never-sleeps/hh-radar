@@ -98,13 +98,27 @@ public class VacancyDTO {
     @JsonProperty(value = "key_skills")
     private List<SkillDTO> skills;
 
-    /** График работы. Элемент справочника schedule */
+    /**
+     * График работы. Элемент справочника schedule
+     *
+     *     "schedule": {
+     *         "id": "fullDay",
+     *         "name": "Полный день"
+     *     },
+     */
     @JsonProperty(value = "schedule")
-    private ScheduleDTO schedule;
+    private TypeDTO schedule;
 
-    /** Требуемый опыт работы. Элемент справочника experience */
+    /**
+     * Требуемый опыт работы. Элемент справочника experience
+     *
+     *     "experience": {
+     *         "id": "between1And3",
+     *         "name": "От 1 года до 3 лет"
+     *     },
+     */
     @JsonProperty(value = "experience")
-    private ExperienceDTO experience;
+    private TypeDTO experience;
 
     /** Адрес вакансии */
     @JsonProperty(value = "address")
@@ -118,9 +132,16 @@ public class VacancyDTO {
     @JsonProperty(value = "apply_alternate_url")
     private String applyAlternateUrl;
 
-    /** Тип занятости. Элемент справочника employment. */
+    /**
+     * Тип занятости. Элемент справочника employment.
+     *
+     *     "employment": {
+     *         "id": "full",
+     *         "name": "Полная занятость"
+     *     },
+     */
     @JsonProperty(value = "employment")
-    private EmploymentDTO employment;
+    private TypeDTO employment;
 
     /** Оклад */
     @JsonProperty(value = "salary")

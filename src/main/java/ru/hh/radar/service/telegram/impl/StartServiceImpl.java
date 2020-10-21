@@ -25,8 +25,8 @@ import java.util.List;
 public class StartServiceImpl implements StartService {
 
     private final UserService userService;
-    private final TelegramElementService telegramElementService;
-    private final TelegramMessageService telegramMessageService;
+    private final TelegramElementService tgmElementService;
+    private final TelegramMessageService tgmMessageService;
     private final MessageService messageService;
 
     private final HhUserService hhUserService;
@@ -41,14 +41,18 @@ public class StartServiceImpl implements StartService {
             HhUserDTO hhUserDTO = hhUserService.getHhUserInfo(user);
             text = hhUserDTO.toString().concat(" ").concat(text);
         }
-        return telegramMessageService.createMenuMessage(user.getChatId(), text, getStartMenu(lang));
+        return tgmMessageService.createMenuMessage(user.getChatId(), text, getStartMenu(lang, user.isAuthorized()));
     }
 
-    private ReplyKeyboardMarkup getStartMenu(String lang) {
-        List<KeyboardRow> list = telegramElementService.createKeyboardRow(
-                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
-                telegramElementService.createKeyboardRow(messageService.getMessage("authorize.user", lang))
+    private ReplyKeyboardMarkup getStartMenu(String lang, boolean isAuthorized) {
+
+        List<KeyboardRow> list = tgmElementService.createKeyboardRow(
+                tgmElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
+                tgmElementService.createKeyboardRow(
+                        ((isAuthorized) ? "✅ " : "") + messageService.getMessage("authorize.user", lang)
+                ),
+                tgmElementService.createKeyboardRow(messageService.getMessage("all.resume", lang))
         );
-        return telegramElementService.createReplyKeyboardMarkup(list);
+        return tgmElementService.createReplyKeyboardMarkup(list);
     }
 }

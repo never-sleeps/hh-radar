@@ -1,19 +1,25 @@
-package ru.hh.radar.dto.vacancy;
+package ru.hh.radar.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * Тип вакансии. Элемент справочника vacancy_type.
+ * Тип
  *
  *     "type": {
  *         "id": "open",
  *         "name": "Открытая"
  *     },
+ *      "type": {
+ *          "id": "no_one",
+ *          "name": "не видно никому"
+ *      }
  */
 @Data
 public class TypeDTO {
-    /** Название типа вакансии (Открытая/Закрытая)*/
+    @JsonProperty(value = "id")
+    private String id;
+
     @JsonProperty(value = "name")
     private String name;
 }
