@@ -38,7 +38,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            for (BotApiMethod botApiMethod: executor.getExecutors(update)) {
+            for (BotApiMethod<?> botApiMethod: executor.getExecutors(update)) {
                 execute(botApiMethod);
             }
         } catch (TelegramApiException e) {
