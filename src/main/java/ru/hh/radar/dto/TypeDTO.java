@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * Тип
+ * Тип. используется для объектов с полями id и name
  *
  *     "type": {
  *         "id": "open",

@@ -18,14 +18,22 @@ public class Utils {
 
     /**
      * Форматирование даты
-     * @param sourceData string data. example = 2020-10-16T18:04:59+0300
+     * @param sourceData LocalDateTime
      * @return string data. example = "2020-10-16 18:04"
      */
-    public static String getFormattingData(String sourceData) {
-        DateTimeFormatter sourceFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
+    public static String getFormattingData(LocalDateTime sourceData) {
         DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(sourceData, sourceFormatter);
-        return newFormatter.format(date);
+        return newFormatter.format(sourceData);
+    }
+
+    /**
+     * Форматирование даты
+     * @param sourceData string data. example = 2020-10-16T18:04:59+0300
+     * @return LocalDateTime
+     */
+    public static LocalDateTime getLocalDateTime(String sourceData) {
+        DateTimeFormatter sourceFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
+        return LocalDateTime.parse(sourceData, sourceFormatter);
     }
 
     /**
@@ -51,7 +59,7 @@ public class Utils {
         if (commandKey == null) return null;
 
         String commandValue = command.replaceFirst(commandKey, "");
-        return (commandValue.length() > 0) ? commandValue : null;
+        return (commandValue.length() > 0) ? commandValue.trim() : null;
     }
 
     /**

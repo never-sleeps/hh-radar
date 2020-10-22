@@ -10,9 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.HhUserDTO;
 import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhUserService;
 import ru.hh.radar.service.telegram.StartService;
-import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
@@ -34,7 +34,7 @@ public class StartServiceImpl implements StartService {
     @Override
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
-        String lang = userService.getLocaleForAnswerToUser(update);
+        String lang = userService.getLanguageCode(update);
 
         String text = messageService.getMessage("welcome", lang);
         if (user.isAuthorized()) {
@@ -51,7 +51,8 @@ public class StartServiceImpl implements StartService {
                 tgmElementService.createKeyboardRow(
                         ((isAuthorized) ? "✅ " : "") + messageService.getMessage("authorize.user", lang)
                 ),
-                tgmElementService.createKeyboardRow(messageService.getMessage("all.resume", lang))
+                tgmElementService.createKeyboardRow(messageService.getMessage("resume.all", lang)),
+                tgmElementService.createKeyboardRow(messageService.getMessage("resume.publish", lang))
         );
         return tgmElementService.createReplyKeyboardMarkup(list);
     }

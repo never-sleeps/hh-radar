@@ -17,7 +17,7 @@ import java.util.List;
  * }
  */
 @Data
-public class ResumeResultsDTO {
+public class ResumesResultsDTO {
     @JsonProperty(value = "items")
     private List<ResumeDTO> items;
 

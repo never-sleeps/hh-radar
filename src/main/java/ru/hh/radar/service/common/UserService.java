@@ -12,5 +12,5 @@ public interface UserService {
 
     User findUser(Update update) throws TelegramApiException;
 
-    String getLocaleForAnswerToUser(Update update) throws TelegramApiException;
+    String getLanguageCode(Update update) throws TelegramApiException;
 }

@@ -3,7 +3,10 @@ package ru.hh.radar.service.hh.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,7 +36,7 @@ public class HhUserServiceImpl implements HhUserService {
 
         ResponseEntity<HhUserDTO> res = restTemplate.exchange(uri, HttpMethod.GET, entity, HhUserDTO.class);
         HhUserDTO authorizedUser = res.getBody();
-        log.info("Authorized user: " + authorizedUser);
+        log.info(String.format("%s: Authorized user: %s", user.getUsername(), authorizedUser));
         return authorizedUser;
     }
 }

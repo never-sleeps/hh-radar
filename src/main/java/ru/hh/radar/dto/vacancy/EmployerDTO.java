@@ -18,7 +18,7 @@ import lombok.Data;
  *         "id": "1455",
  *         "trusted": true,
  *         "blacklisted": false
- *     },
+ *     }
  */
 @Data
 public class EmployerDTO {

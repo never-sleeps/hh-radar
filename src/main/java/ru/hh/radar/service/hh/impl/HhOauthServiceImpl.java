@@ -4,8 +4,13 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -15,9 +20,6 @@ import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhOauthService;
 import ru.hh.radar.telegram.service.TelegramService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.net.URI;
 
@@ -73,7 +75,7 @@ public class HhOauthServiceImpl implements HhOauthService {
             user.setClientAccessToken(token.toObject());
             user = userService.save(user);
         }
-        log.info("User connected: " + user.toString());
+        log.info(String.format("%s: user connected: %s", user.getUsername(), user));
         return user;
     }
 
@@ -91,7 +93,7 @@ public class HhOauthServiceImpl implements HhOauthService {
         URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("oauth/token").build().toUri();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         ResponseEntity<AccessTokenDTO> response = restTemplate.postForEntity(uri, request, AccessTokenDTO.class);
-        log.info("Getting access_token for user " + user.getUsername());
+        log.info(String.format("%s: got access_token", user.getUsername()));
         return response.getBody();
     }
 

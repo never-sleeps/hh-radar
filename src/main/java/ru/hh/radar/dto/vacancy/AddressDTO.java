@@ -8,24 +8,17 @@ import java.util.List;
 /**
  * Адрес вакансии
  *
- *     "address": {
- *         "city": "Москва",
- *         "street": "улица Годовикова",
- *         "building": "9с10",
- *         "description": "на проходной потребуется паспорт",
- *         "lat": 55.807794,
- *         "lng": 37.638699,
- *         "metro_stations": [
- *             {
- *                 "station_id": "6.8",
- *                 "station_name": "Алексеевская",
- *                 "line_id": "6",
- *                 "line_name": "Калужско-Рижская",
- *                 "lat": 55.807794,
- *                 "lng": 37.638699
- *             }
- *         ]
- *     },
+ *  "address": {
+ *      "city": "Москва",
+ *      "street": "улица Годовикова",
+ *      "building": "9с10",
+ *      "metro_stations": [
+ *          {
+ *              "station_name": "Алексеевская",
+ *              "line_name": "Калужско-Рижская",
+ *          }
+ *      ]
+ *  }
  */
 @Data
 public class AddressDTO {

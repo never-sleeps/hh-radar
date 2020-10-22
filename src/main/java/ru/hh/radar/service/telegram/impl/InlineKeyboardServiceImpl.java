@@ -1,6 +1,7 @@
 package ru.hh.radar.service.telegram.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -22,6 +23,9 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
     private final TelegramElementService tgmElementService;
     private final TelegramLocaleElementService tgmLocaleElementService;
     private final MessageService msg;
+
+    @Value("${headhunter.timeBetweenPublishing.hours}")
+    private int timeBetweenPublishingInHours;
 
     @Override
     public ReplyKeyboardMarkup getMainSearchMenu(String lang) {
@@ -225,20 +229,16 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
     @Override
     public InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList) {
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        String linkText = msg.getMessage("browser.open", lang);
 
         for (ResumeDTO resume : resumeList) {
-            rowsInline.add(
-                    tgmElementService.createInlineKeyboardRow(
-                            tgmElementService.createCallbackUrlButton(
-                                    "\uD83C\uDF10 " + resume.toString(),
-                                    resume.getAlternateUrl(),
-                                    "/" + "command"
-                            )
-                    )
+            String status = (resume.isPublished())
+                    ? (resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours) ? "⏰" : "✅") : "❌";
+            InlineKeyboardButton button = tgmElementService.createCallbackButton(
+                    status + " " + resume.toShortString(),
+                    "/publish " + resume.getId()
             );
+            rowsInline.add(tgmElementService.createInlineKeyboardRow(button));
         }
-
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
     }
 }

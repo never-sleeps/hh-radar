@@ -22,7 +22,7 @@ import java.util.List;
  * }
  */
 @Data
-public class VacanciesSearchResultsDTO {
+public class VacanciesResultsDTO {
     @JsonProperty(value = "items")
     private List<VacancyDTO> items;
 

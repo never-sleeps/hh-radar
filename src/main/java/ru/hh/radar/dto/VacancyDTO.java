@@ -5,6 +5,7 @@ import lombok.Data;
 import ru.hh.radar.dto.vacancy.*;
 import ru.hh.radar.service.Utils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -157,7 +158,7 @@ public class VacancyDTO {
 
     /** Дата и время публикации вакансии */
     @JsonProperty(value = "published_at")
-    private String publishedAt;
+    private LocalDateTime publishedAt;
 
     /** Короткое представление работодателя. Описание полей смотрите в информации о работодателе. */
     @JsonProperty(value = "employer")
@@ -190,9 +191,13 @@ public class VacancyDTO {
         return description.substring(0, 400) + "...";
     }
 
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = Utils.getLocalDateTime(publishedAt);
+    }
+
     @Override
     public String toString() {
-        return "\uD83D\uDCCC" + name + " ("+employer.getName()+")" + "\n"
+        return "\uD83D\uDCCC " + name + " ("+employer.getName()+")" + "\n"
                 + "\uD83D\uDD58Дата публикации: " + Utils.getFormattingData(publishedAt) + "\n"
                 + "\n"
                 + ((experience != null) ? "\uD83D\uDC69\u200D\uD83C\uDFEBТребуемый опыт: " + experience.getName() + "\n" : "")

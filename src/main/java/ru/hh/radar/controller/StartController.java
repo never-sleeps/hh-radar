@@ -6,13 +6,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.service.hh.HhOauthService;
-import ru.hh.radar.service.hh.HhUserService;
 import ru.hh.radar.service.telegram.AuthorizeService;
 import ru.hh.radar.service.telegram.StartService;
-import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
-import ru.hh.radar.telegram.service.TelegramService;
 
 @Slf4j
 @BotController
