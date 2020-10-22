@@ -6,12 +6,12 @@ import lombok.Data;
 /**
  * Специализации. Элементы справочника specializations
  *
- *         {
- *             "profarea_id": "4",
- *             "profarea_name": "Административный персонал",
- *             "id": "4.264",
- *             "name": "Секретарь"
- *         }
+ *    {
+ *        "profarea_id": "4",
+ *        "profarea_name": "Административный персонал",
+ *        "id": "4.264",
+ *        "name": "Секретарь"
+ *    }
  */
 @Data
 public class SpecializationDTO {

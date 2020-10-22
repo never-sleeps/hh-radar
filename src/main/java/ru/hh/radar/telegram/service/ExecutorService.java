@@ -9,9 +9,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.service.Utils;
 import ru.hh.radar.telegram.reflection.BotApiMethodContainer;
 import ru.hh.radar.telegram.reflection.BotApiMethodController;
-import ru.hh.radar.telegram.service.TelegramService;
 
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @Service

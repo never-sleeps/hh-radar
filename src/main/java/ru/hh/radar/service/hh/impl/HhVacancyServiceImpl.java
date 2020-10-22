@@ -11,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.hh.radar.model.SearchParameters;
-import ru.hh.radar.dto.VacanciesSearchResultsDTO;
+import ru.hh.radar.dto.VacanciesResultsDTO;
 import ru.hh.radar.dto.VacancyDTO;
+import ru.hh.radar.model.SearchParameters;
 import ru.hh.radar.service.hh.HhVacancyService;
 
 import java.net.URI;
@@ -44,7 +44,7 @@ public class HhVacancyServiceImpl implements HhVacancyService {
     }
 
     @Override
-    public VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters) {
+    public VacanciesResultsDTO getVacancies(SearchParameters searchParameters) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .path("/vacancies");
         URI uri = applySearchParameters(uriComponentsBuilder, searchParameters)
@@ -53,7 +53,7 @@ public class HhVacancyServiceImpl implements HhVacancyService {
         log.info("search vacancies URI: " + uri);
 
         RequestEntity<?> request = new RequestEntity<>(HttpMethod.GET, uri);
-        ResponseEntity<VacanciesSearchResultsDTO> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        ResponseEntity<VacanciesResultsDTO> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 

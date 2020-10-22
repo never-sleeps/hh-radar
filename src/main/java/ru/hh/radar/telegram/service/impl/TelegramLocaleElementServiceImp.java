@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.hh.radar.telegram.service.MessageService;
-import ru.hh.radar.telegram.service.TelegramLocaleElementService;
 import ru.hh.radar.telegram.service.TelegramElementService;
+import ru.hh.radar.telegram.service.TelegramLocaleElementService;
 
 @Service
 @RequiredArgsConstructor

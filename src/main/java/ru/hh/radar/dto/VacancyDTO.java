@@ -5,6 +5,7 @@ import lombok.Data;
 import ru.hh.radar.dto.vacancy.*;
 import ru.hh.radar.service.Utils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -98,13 +99,27 @@ public class VacancyDTO {
     @JsonProperty(value = "key_skills")
     private List<SkillDTO> skills;
 
-    /** График работы. Элемент справочника schedule */
+    /**
+     * График работы. Элемент справочника schedule
+     *
+     *     "schedule": {
+     *         "id": "fullDay",
+     *         "name": "Полный день"
+     *     },
+     */
     @JsonProperty(value = "schedule")
-    private ScheduleDTO schedule;
+    private TypeDTO schedule;
 
-    /** Требуемый опыт работы. Элемент справочника experience */
+    /**
+     * Требуемый опыт работы. Элемент справочника experience
+     *
+     *     "experience": {
+     *         "id": "between1And3",
+     *         "name": "От 1 года до 3 лет"
+     *     },
+     */
     @JsonProperty(value = "experience")
-    private ExperienceDTO experience;
+    private TypeDTO experience;
 
     /** Адрес вакансии */
     @JsonProperty(value = "address")
@@ -118,9 +133,16 @@ public class VacancyDTO {
     @JsonProperty(value = "apply_alternate_url")
     private String applyAlternateUrl;
 
-    /** Тип занятости. Элемент справочника employment. */
+    /**
+     * Тип занятости. Элемент справочника employment.
+     *
+     *     "employment": {
+     *         "id": "full",
+     *         "name": "Полная занятость"
+     *     },
+     */
     @JsonProperty(value = "employment")
-    private EmploymentDTO employment;
+    private TypeDTO employment;
 
     /** Оклад */
     @JsonProperty(value = "salary")
@@ -136,7 +158,7 @@ public class VacancyDTO {
 
     /** Дата и время публикации вакансии */
     @JsonProperty(value = "published_at")
-    private String publishedAt;
+    private LocalDateTime publishedAt;
 
     /** Короткое представление работодателя. Описание полей смотрите в информации о работодателе. */
     @JsonProperty(value = "employer")
@@ -169,9 +191,13 @@ public class VacancyDTO {
         return description.substring(0, 400) + "...";
     }
 
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = Utils.getLocalDateTime(publishedAt);
+    }
+
     @Override
     public String toString() {
-        return "\uD83D\uDCCC" + name + " ("+employer.getName()+")" + "\n"
+        return "\uD83D\uDCCC " + name + " ("+employer.getName()+")" + "\n"
                 + "\uD83D\uDD58Дата публикации: " + Utils.getFormattingData(publishedAt) + "\n"
                 + "\n"
                 + ((experience != null) ? "\uD83D\uDC69\u200D\uD83C\uDFEBТребуемый опыт: " + experience.getName() + "\n" : "")

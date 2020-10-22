@@ -2,6 +2,9 @@ package ru.hh.radar.service.telegram;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import ru.hh.radar.dto.ResumeDTO;
+
+import java.util.List;
 
 public interface InlineKeyboardService {
 
@@ -18,4 +21,6 @@ public interface InlineKeyboardService {
     InlineKeyboardMarkup getItSpecializationMenu(String lang);
 
     InlineKeyboardMarkup getSpecializationMenu(String lang);
+
+    InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList);
 }

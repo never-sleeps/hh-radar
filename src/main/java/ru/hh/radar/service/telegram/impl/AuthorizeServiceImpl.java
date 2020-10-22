@@ -26,7 +26,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
     @Override
     public SendMessage showAuthorizeButton(Update update) throws TelegramApiException {
-        String lang = userService.getLocaleForAnswerToUser(update);
+        String lang = userService.getLanguageCode(update);
         String link = hhOauthService.getUserAuthorizeURI().toString();
 
         InlineKeyboardButton linkButton = tgmElementService.createUrlButton("Подтвердить авторизацию", link);

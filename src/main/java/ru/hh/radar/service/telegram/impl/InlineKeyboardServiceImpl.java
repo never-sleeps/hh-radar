@@ -1,11 +1,13 @@
 package ru.hh.radar.service.telegram.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.service.telegram.InlineKeyboardService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
@@ -21,6 +23,9 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
     private final TelegramElementService tgmElementService;
     private final TelegramLocaleElementService tgmLocaleElementService;
     private final MessageService msg;
+
+    @Value("${headhunter.timeBetweenPublishing.hours}")
+    private int timeBetweenPublishingInHours;
 
     @Override
     public ReplyKeyboardMarkup getMainSearchMenu(String lang) {
@@ -218,6 +223,22 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                         tgmLocaleElementService.createAutoCallbackButton("search.other", lang)
                 )
         );
+        return tgmElementService.createInlineKeyboardMarkup(rowsInline);
+    }
+
+    @Override
+    public InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList) {
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        for (ResumeDTO resume : resumeList) {
+            String status = (resume.isPublished())
+                    ? (resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours) ? "⏰" : "✅") : "❌";
+            InlineKeyboardButton button = tgmElementService.createCallbackButton(
+                    status + " " + resume.toShortString(),
+                    "/publish " + resume.getId()
+            );
+            rowsInline.add(tgmElementService.createInlineKeyboardRow(button));
+        }
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
     }
 }

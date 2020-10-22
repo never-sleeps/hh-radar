@@ -6,12 +6,12 @@ import lombok.Data;
 /**
  * Оклад
  *
- *     "salary": {
- *         "to": null,
- *         "from": 30000,
- *         "currency": "RUR",
- *         "gross": true
- *     },
+ *  "salary": {
+ *      "to": null,
+ *      "from": 30000,
+ *      "currency": "RUR",
+ *      "gross": true
+ *  }
  */
 @Data
 public class SalaryDTO {

@@ -18,7 +18,8 @@ import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
 import ru.hh.radar.telegram.service.TelegramService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 @Service

@@ -1,9 +1,13 @@
 package ru.hh.radar.service.hh;
 
-import ru.hh.radar.model.SearchParameters;
-import ru.hh.radar.dto.VacanciesSearchResultsDTO;
+import ru.hh.radar.dto.VacanciesResultsDTO;
 import ru.hh.radar.dto.VacancyDTO;
+import ru.hh.radar.model.SearchParameters;
 
+/**
+ * Сервис для работы с вакансиями
+ * https://github.com/hhru/api/blob/master/docs/vacancies.md
+ */
 public interface HhVacancyService {
 
     /**
@@ -19,5 +23,5 @@ public interface HhVacancyService {
      * @param searchParameters набор параметров поиска
      * @return список вакансий
      */
-    VacanciesSearchResultsDTO getVacancies(SearchParameters searchParameters);
+    VacanciesResultsDTO getVacancies(SearchParameters searchParameters);
 }

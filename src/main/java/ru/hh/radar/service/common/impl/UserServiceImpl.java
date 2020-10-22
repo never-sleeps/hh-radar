@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getLocaleForAnswerToUser(Update update) throws TelegramApiException {
+    public String getLanguageCode(Update update) throws TelegramApiException {
         return telegramService.getFrom(update).getLanguageCode();
     }
 }

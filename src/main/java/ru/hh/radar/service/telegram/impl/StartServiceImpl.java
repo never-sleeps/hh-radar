@@ -10,9 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.HhUserDTO;
 import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhUserService;
 import ru.hh.radar.service.telegram.StartService;
-import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
@@ -25,8 +25,8 @@ import java.util.List;
 public class StartServiceImpl implements StartService {
 
     private final UserService userService;
-    private final TelegramElementService telegramElementService;
-    private final TelegramMessageService telegramMessageService;
+    private final TelegramElementService tgmElementService;
+    private final TelegramMessageService tgmMessageService;
     private final MessageService messageService;
 
     private final HhUserService hhUserService;
@@ -34,21 +34,26 @@ public class StartServiceImpl implements StartService {
     @Override
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(update);
-        String lang = userService.getLocaleForAnswerToUser(update);
+        String lang = userService.getLanguageCode(update);
 
         String text = messageService.getMessage("welcome", lang);
         if (user.isAuthorized()) {
             HhUserDTO hhUserDTO = hhUserService.getHhUserInfo(user);
             text = hhUserDTO.toString().concat(" ").concat(text);
         }
-        return telegramMessageService.createMenuMessage(user.getChatId(), text, getStartMenu(lang));
+        return tgmMessageService.createMenuMessage(user.getChatId(), text, getStartMenu(lang, user.isAuthorized()));
     }
 
-    private ReplyKeyboardMarkup getStartMenu(String lang) {
-        List<KeyboardRow> list = telegramElementService.createKeyboardRow(
-                telegramElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
-                telegramElementService.createKeyboardRow(messageService.getMessage("authorize.user", lang))
+    private ReplyKeyboardMarkup getStartMenu(String lang, boolean isAuthorized) {
+
+        List<KeyboardRow> list = tgmElementService.createKeyboardRow(
+                tgmElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
+                tgmElementService.createKeyboardRow(
+                        ((isAuthorized) ? "✅ " : "") + messageService.getMessage("authorize.user", lang)
+                ),
+                tgmElementService.createKeyboardRow(messageService.getMessage("resume.all", lang)),
+                tgmElementService.createKeyboardRow(messageService.getMessage("resume.publish", lang))
         );
-        return telegramElementService.createReplyKeyboardMarkup(list);
+        return tgmElementService.createReplyKeyboardMarkup(list);
     }
 }
