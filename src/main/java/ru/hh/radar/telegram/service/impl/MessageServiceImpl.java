@@ -7,6 +7,9 @@ import ru.hh.radar.telegram.service.MessageService;
 
 import java.util.Locale;
 
+/*
+А вот этот сервис здесь как не в своей тарелке, он же не "телеграмм")
+ */
 @Service
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {

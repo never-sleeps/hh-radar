@@ -8,6 +8,9 @@ import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramLocaleElementService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 
+/*
+
+ */
 @Service
 @RequiredArgsConstructor
 public class TelegramLocaleElementServiceImp implements TelegramLocaleElementService {

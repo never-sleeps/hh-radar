@@ -30,12 +30,22 @@ public class SearchServiceImpl implements SearchService {
     private final MessageService msg;
     private final UserService userService;
 
+    /*
+    Здесь я либо не заметил, либо мы не учитываем случай если будет несколько пользователей, и начнут друг-другу параметры поиска перезаписывать :)
+Это как раз один из кандидатов что можно хранить в базе - параметры поиска нужно привязывать к конкретному пользователю, и наш бот будет помнить последний поиск пользователя.
+     */
     private static SearchParameters searchParameters = new SearchParameters();
 
+    /*
+    Функционал меню так и просится вынести его в какой-нибудь MenuService, он очень простой - получили запрос и дали какой-то ответ, ну и это не Search
+    Поидее этот функционал это вообще работа контроллера и можно смело все перенести в него,
+    но тут вам решать :) Облегчить работу контроллера отдельным сервисом тоже можно
+    Кроме того разгрузим сервис, сейчас у него в обязанностях и UI показывать, и вакансии искать
+     */
     @Override
     public SendMessage showSearchMenu(Update update) throws TelegramApiException {
         String lang = userService.getLocaleForAnswerToUser(update);
-        return tgmMessageService.createMenuMessage(
+        return tgmMessageService.createMenuMessage(//
                 userService.findUser(update).getChatId(),
                 "️✏️",
                 inlineKeyboardService.getMainSearchMenu(lang)
@@ -46,6 +56,10 @@ public class SearchServiceImpl implements SearchService {
     public SendMessage showExperienceMenu(Update update) throws TelegramApiException {
         String lang = userService.getLocaleForAnswerToUser(update);
         return tgmMessageService.createButtonMessage(
+                /*
+                У нас получается что мы сохраняем пользователя в бд, записываем его chatId, и потом каждый раз тянем его из базы, чтобы узнать этот самый chatId, хотя он приходит нам каждый раз в update.getMessage().getChatId()
+В данном случае бот вообще ведет себя как stateless, т.е. в принципе какая разница кто и из какого чата запросил меню, мы просто отвечаем туда откуда получили запрос, как в рест сервисе
+                 */
                 userService.findUser(update).getChatId(),
                 inlineKeyboardService.getExperienceMenu(lang)
         );
@@ -107,6 +121,12 @@ public class SearchServiceImpl implements SearchService {
             return showSearchParameters(update);
         }
     }
+
+    /*
+Собственно функционал поиска оставляем здесь, но убираем приведение к SendMessage.
+Т.е. отдельно нашли список вакансий, потом в контроллере/отдельном сервисе, обернули это в формат телеграмма,
+чтобы у одного сервиса была одна обязанность. Так гораздо проще жить и тестировать
+     */
 
     @Override
     public SendMessage showSearchParameters(Update update) throws TelegramApiException {
