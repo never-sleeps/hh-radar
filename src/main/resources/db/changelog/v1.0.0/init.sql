@@ -10,7 +10,6 @@ create table CLIENT_ACCESS_TOKENS (
 
 CREATE TABLE USERS (
   id BIGSERIAL,
-  chat_id NUMERIC NOT NULL,
   username VARCHAR(255) NOT NULL,
   authorization_code VARCHAR(255),
   token_id bigint references CLIENT_ACCESS_TOKENS (id),

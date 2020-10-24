@@ -27,7 +27,7 @@ public interface TelegramElementService {
      */
     InlineKeyboardButton createCallbackButton(String text, String callbackData);
 
-    InlineKeyboardButton createCallbackUrlButton(String text, String url, String callbackData);
+    InlineKeyboardButton createAutoCallbackButton(String command, String lang);
 
     /**
      *

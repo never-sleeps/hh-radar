@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TelegramElementServiceImpl implements TelegramElementService {
+
+    private final MessageService msg;
 
     @Override
     public InlineKeyboardButton createUrlButton(String text, String url) {
@@ -31,11 +34,10 @@ public class TelegramElementServiceImpl implements TelegramElementService {
     }
 
     @Override
-    public InlineKeyboardButton createCallbackUrlButton(String text, String url, String callbackData) {
-        return new InlineKeyboardButton()
-                .setText(text)
-                .setUrl(url)
-                .setCallbackData(callbackData);
+    public InlineKeyboardButton createAutoCallbackButton(String command, String lang) {
+        return createCallbackButton(
+                msg.getMessage(command, lang), "/" + command
+        );
     }
 
     @Override

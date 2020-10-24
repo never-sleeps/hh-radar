@@ -3,11 +3,9 @@ package ru.hh.radar.service.telegram.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.service.common.UserService;
+import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.hh.HhOauthService;
 import ru.hh.radar.service.telegram.AuthorizeService;
 import ru.hh.radar.telegram.service.TelegramElementService;
@@ -22,11 +20,9 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     private final TelegramElementService tgmElementService;
 
     private final HhOauthService hhOauthService;
-    private final UserService userService;
 
     @Override
-    public SendMessage showAuthorizeButton(Update update) throws TelegramApiException {
-        String lang = userService.getLanguageCode(update);
+    public SendMessage showAuthorizeButton(User user, String lang) {
         String link = hhOauthService.getUserAuthorizeURI().toString();
 
         InlineKeyboardButton linkButton = tgmElementService.createUrlButton("Подтвердить авторизацию", link);
@@ -37,7 +33,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
         );
 
         return tgmMessageService.createButtonMessage(
-                userService.findUser(update).getChatId(),
                 inlineKeyboardMarkup
         );
     }
