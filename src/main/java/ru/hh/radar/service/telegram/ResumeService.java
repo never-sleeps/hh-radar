@@ -1,15 +1,14 @@
 package ru.hh.radar.service.telegram;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.model.entity.User;
 
 import java.util.List;
 
 public interface ResumeService {
-    List<SendMessage> showAllResume(Update update) throws TelegramApiException;
+    List<SendMessage> showAllResume(User user, String lang);
 
-    SendMessage showPublishResumeMenu(Update update) throws TelegramApiException;
+    SendMessage showPublishResumeMenu(User user, String lang);
 
-    SendMessage publishResume(Update update) throws TelegramApiException;
+    SendMessage publishResume(User user, String resumeId, String lang);
 }

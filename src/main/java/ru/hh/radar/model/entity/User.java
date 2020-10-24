@@ -18,9 +18,6 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "chat_id")
-    private Long chatId;
-
     @Column(name = "username", unique = true)
     private String username;
 

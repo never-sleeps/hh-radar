@@ -5,10 +5,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.hh.radar.telegram.service.TelegramService;
+import ru.hh.radar.telegram.service.IncomingUpdateService;
 
 @Service
-public class TelegramServiceImpl implements TelegramService {
+public class IncomingUpdateServiceImpl implements IncomingUpdateService {
     @Override
     public Message getMessage(Update update) throws TelegramApiException {
         if(update.hasMessage())
@@ -35,5 +35,36 @@ public class TelegramServiceImpl implements TelegramService {
             return update.getCallbackQuery().getData().trim();
         }
         throw new TelegramApiException("Error determining command");
+    }
+
+    @Override
+    public Long getChatId(Update update) throws TelegramApiException {
+        return getMessage(update).getChatId();
+    }
+
+    @Override
+    public String getLanguageCode(Update update) throws TelegramApiException {
+        return getFrom(update).getLanguageCode();
+    }
+
+    @Override
+    public String getUserName(Update update) throws TelegramApiException {
+        return getMessage(update).getChat().getUserName();
+    }
+
+    @Override
+    public String getValueFromCallbackQuery(Update update) {
+        String callbackQueryData = update.getCallbackQuery().getData();
+        return callbackQueryData.substring(callbackQueryData.lastIndexOf(".") + 1);
+    }
+
+    @Override
+    public String getLongValueFromCallbackQuery(Update update) {
+        String callbackQueryData = update.getCallbackQuery().getData();
+        int indexOfPostfix = callbackQueryData.lastIndexOf(".");
+        String indexOfPoint = callbackQueryData.substring(0, indexOfPostfix);
+        int indexOfPrefix = indexOfPoint.lastIndexOf(".");
+
+        return callbackQueryData.substring(indexOfPrefix + 1);
     }
 }

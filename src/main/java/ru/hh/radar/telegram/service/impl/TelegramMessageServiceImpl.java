@@ -26,36 +26,32 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     private final MessageService msg;
 
     @Override
-    public SendMessage createMessage(Long chatId, String text) {
+    public SendMessage createMessage(String text) {
         return new SendMessage()
                 .enableMarkdown(true)
-                .setChatId(chatId)
                 .setText(text);
     }
 
-    @Override
-    public SendMessage createButtonMessage(Long chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
+    public SendMessage createButtonMessage(String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
         return new SendMessage()
-                .setChatId(chatId)
                 .setText(text)
                 .setReplyMarkup(inlineKeyboardMarkup);
     }
 
     @Override
-    public SendMessage createButtonMessage(Long chatId, InlineKeyboardMarkup inlineKeyboardMarkup) {
-        return createButtonMessage(chatId, "️✏️", inlineKeyboardMarkup);
+    public SendMessage createButtonMessage(InlineKeyboardMarkup inlineKeyboardMarkup) {
+        return createButtonMessage("️✏️", inlineKeyboardMarkup);
     }
 
     @Override
-    public SendMessage createMenuMessage(Long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
+    public SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
         return new SendMessage()
-                .setChatId(chatId)
                 .setText(text)
                 .setReplyMarkup(replyKeyboardMarkup);
     }
 
     @Override
-    public List<SendMessage> createVacancyMessages(Long chatId, String linkText, List<VacancyDTO> vacancies) {
+    public List<SendMessage> createVacancyMessages(String linkText, List<VacancyDTO> vacancies) {
         List<SendMessage> vacancyMessages = new ArrayList<>();
         for (VacancyDTO vacancy: vacancies) {
             InlineKeyboardButton linkButton = tgmElementService.createUrlButton(linkText, vacancy.getAlternateUrl());
@@ -65,14 +61,14 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                     )
             );
             vacancyMessages.add(
-                    createButtonMessage(chatId, vacancy.toString(), inlineKeyboardMarkup)
+                    createButtonMessage(vacancy.toString(), inlineKeyboardMarkup)
             );
         }
         return vacancyMessages;
     }
 
     @Override
-    public List<SendMessage> createResumeMessages(Long chatId, String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList) {
+    public List<SendMessage> createResumeMessages(String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList) {
         List<SendMessage> resumeMessages = new ArrayList<>();
         String browserText = msg.getMessage("browser.open", lang);
         String publishText = msg.getMessage("resume.publish", lang);
@@ -95,7 +91,7 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                                     : tgmElementService.createInlineKeyboardRow(browserButton)
                     )
             );
-            resumeMessages.add(createButtonMessage(chatId, "\uD83D\uDCDD " + resume.toString(), buttonsRow));
+            resumeMessages.add(createButtonMessage("\uD83D\uDCDD " + resume.toString(), buttonsRow));
         }
 
         return resumeMessages;

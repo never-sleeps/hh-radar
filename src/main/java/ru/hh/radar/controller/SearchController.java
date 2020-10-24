@@ -8,6 +8,9 @@ import ru.hh.radar.model.SearchParameters.SearchParam;
 import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
+import ru.hh.radar.telegram.service.IncomingUpdateService;
+import ru.hh.radar.telegram.service.InlineKeyboardService;
+import ru.hh.radar.telegram.service.TelegramMessageService;
 
 import java.util.List;
 
@@ -16,15 +19,25 @@ import java.util.List;
 public class SearchController {
 
     private final SearchService searchService;
+    private final IncomingUpdateService incomingUpdateService;
+    private final TelegramMessageService tgmMessageService;
+    private final InlineKeyboardService inlineKeyboardService;
 
     @BotRequestMapping("search.start")
     public SendMessage startSearch(Update update) throws TelegramApiException {
-        return searchService.showSearchMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService.createMenuMessage(
+                "️✏️",
+                inlineKeyboardService.getMainSearchMenu(lang)
+        ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("search.experience")
     public SendMessage showExperienceMenu(Update update) throws TelegramApiException {
-        return searchService.showExperienceMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService
+                .createButtonMessage(inlineKeyboardService.getExperienceMenu(lang))
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
@@ -32,12 +45,18 @@ public class SearchController {
             "/search.experience.between3And6", "/search.experience.moreThan6"
     })
     public SendMessage setExperienceMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.EXPERIENCE, update, true);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.EXPERIENCE, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("search.employment")
     public SendMessage showEmploymentMenu(Update update) throws TelegramApiException {
-        return searchService.showEmploymentMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService
+                .createButtonMessage(inlineKeyboardService.getEmploymentMenu(lang))
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
@@ -45,13 +64,19 @@ public class SearchController {
             "/search.employment.volunteer", "/search.employment.probation"
     })
     public SendMessage setEmploymentMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.EMPLOYMENT, update, true);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.EMPLOYMENT, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
 
     @BotRequestMapping("search.schedule")
     public SendMessage showScheduleMenu(Update update) throws TelegramApiException {
-        return searchService.showScheduleMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService
+                .createButtonMessage(inlineKeyboardService.getScheduleMenu(lang))
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
@@ -59,24 +84,36 @@ public class SearchController {
             "/search.schedule.remote", "/search.schedule.flyInFlyOut"
     })
     public SendMessage setScheduleMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.SCHEDULE, update, true);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.SCHEDULE, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("search.area")
     public SendMessage showAreaMenu(Update update) throws TelegramApiException {
-        return searchService.showAreaMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService
+                .createButtonMessage(inlineKeyboardService.getAreaMenu(lang))
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
             "/search.area.1", "/search.area.113", "/search.area.1438", "/search.area.88", "/search.area.1202"
     })
     public SendMessage setAreaMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.AREA, update, true);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.AREA, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("search.specialization")
     public SendMessage showSpecializationMenu(Update update) throws TelegramApiException {
-        return searchService.showSpecializationMenu(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService
+                .createButtonMessage(inlineKeyboardService.getSpecializationMenu(lang))
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
@@ -89,7 +126,10 @@ public class SearchController {
             "/search.specialization.25", "/search.specialization.27", "/search.specialization.29"
     })
     public SendMessage setSpecializationMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, update, true);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping(value = {
@@ -100,16 +140,30 @@ public class SearchController {
             "/search.specialization.1.420", "/search.specialization.1.474", "/search.specialization.1.475"
     })
     public SendMessage setItSpecializationMenu(Update update) throws TelegramApiException {
-        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, update, false);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        String value = incomingUpdateService.getLongValueFromCallbackQuery(update);
+        return searchService.setSearchParameters(SearchParam.SPECIALIZATION, lang, value)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("/search.other")
     public SendMessage show(Update update) throws TelegramApiException {
-        return searchService.showSearchParameters(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return searchService.showSearchParameters(lang)
+                .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("search.run")
     public List<SendMessage> runSearch(Update update) throws TelegramApiException {
-        return searchService.runSearch(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        List<SendMessage> messages = searchService.runSearch(lang);
+        messages.forEach(sendMessage -> {
+            try {
+                sendMessage.setChatId(incomingUpdateService.getChatId(update));
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        });
+        return messages;
     }
 }

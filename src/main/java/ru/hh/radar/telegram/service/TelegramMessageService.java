@@ -15,15 +15,15 @@ import java.util.Map;
  */
 public interface TelegramMessageService {
 
-    SendMessage createMessage(Long chatId, String text);
+    SendMessage createMessage(String text);
 
-    SendMessage createButtonMessage(Long chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup);
+    SendMessage createButtonMessage(String text, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    SendMessage createButtonMessage(Long chatId, InlineKeyboardMarkup inlineKeyboardMarkup);
+    SendMessage createButtonMessage(InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    SendMessage createMenuMessage(Long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup);
+    SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup);
 
-    List<SendMessage> createVacancyMessages(Long chatId, String linkText, List<VacancyDTO> vacancies);
+    List<SendMessage> createVacancyMessages(String linkText, List<VacancyDTO> vacancies);
 
-    List<SendMessage> createResumeMessages(Long chatId, String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList);
+    List<SendMessage> createResumeMessages(String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList);
 }
