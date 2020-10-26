@@ -48,7 +48,7 @@ public class StartController {
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
-    @BotRequestMapping("cancel")
+    @BotRequestMapping("mainmenu")
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(
                 incomingUpdateService.getUserName(update)

@@ -39,7 +39,8 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 ),
                 tgmElementService.createKeyboardRow(
                         msg.getMessage("search.run", lang),
-                        msg.getMessage("cancel", lang)
+                        msg.getMessage("search.clean", lang),
+                        msg.getMessage("mainmenu", lang)
                 )
         );
         return tgmElementService.createReplyKeyboardMarkup(list);
@@ -58,8 +59,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.schedule.remote", lang),
-                        tgmElementService.createAutoCallbackButton("search.schedule.flyInFlyOut", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.schedule.flyInFlyOut", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
@@ -72,10 +72,14 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.area.1", lang),
                         tgmElementService.createAutoCallbackButton("search.area.113", lang),
-                        tgmElementService.createAutoCallbackButton("search.area.1438", lang),
+                        tgmElementService.createAutoCallbackButton("search.area.1438", lang)
+                )
+        );
+        rowsInline.add(
+                tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.area.88", lang),
                         tgmElementService.createAutoCallbackButton("search.area.1202", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.area.other", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
@@ -94,8 +98,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.employment.volunteer", lang),
-                        tgmElementService.createAutoCallbackButton("search.employment.probation", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.employment.probation", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
@@ -109,8 +112,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                         tgmElementService.createAutoCallbackButton("search.experience.noExperience" , lang),
                         tgmElementService.createAutoCallbackButton("search.experience.between1And3", lang),
                         tgmElementService.createAutoCallbackButton("search.experience.between3And6", lang),
-                        tgmElementService.createAutoCallbackButton("search.experience.moreThan6", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.experience.moreThan6", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
@@ -123,21 +125,25 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.1.3", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.9", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.25", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.82", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.25", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.82", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.110", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.113", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.117", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.137", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.113", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.172", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.117", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.137", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.172", lang)
+                )
+        );
+        rowsInline.add(
+                tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.1.211", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.221", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.270", lang)
@@ -146,7 +152,6 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.1.273", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.296", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.327", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.400", lang)
                 )
@@ -155,8 +160,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.1.420", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.1.474", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.1.475", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.1.475", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
@@ -169,21 +173,25 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.1", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.2", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.3", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.4", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.3", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
+                        tgmElementService.createAutoCallbackButton("search.specialization.4", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.5", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.6", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.7", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.8", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.6", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("search.specialization.9", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.7", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.8", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.9", lang)
+                )
+        );
+        rowsInline.add(
+                tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.10", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.11", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.12", lang)
@@ -193,21 +201,25 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.13", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.14", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.15", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.16", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.15", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
+                        tgmElementService.createAutoCallbackButton("search.specialization.16", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.17", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.18", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.19", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.20", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.18", lang)
                 )
         );
         rowsInline.add(
                 tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("search.specialization.21", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.19", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.20", lang),
+                        tgmElementService.createAutoCallbackButton("search.specialization.21", lang)
+                )
+        );
+        rowsInline.add(
+                tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.22", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.23", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.24", lang)
@@ -217,8 +229,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createInlineKeyboardRow(
                         tgmElementService.createAutoCallbackButton("search.specialization.25", lang),
                         tgmElementService.createAutoCallbackButton("search.specialization.27", lang),
-                        tgmElementService.createAutoCallbackButton("search.specialization.29", lang),
-                        tgmElementService.createAutoCallbackButton("search.other", lang)
+                        tgmElementService.createAutoCallbackButton("search.specialization.29", lang)
                 )
         );
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
