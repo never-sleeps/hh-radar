@@ -51,7 +51,10 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     }
 
     @Override
-    public List<SendMessage> createVacancyMessages(String linkText, List<VacancyDTO> vacancies) {
+    public List<SendMessage> createVacancyMessages(
+            String linkText,
+            List<VacancyDTO> vacancies,
+            Long chatId) {
         List<SendMessage> vacancyMessages = new ArrayList<>();
         for (VacancyDTO vacancy: vacancies) {
             InlineKeyboardButton linkButton = tgmElementService.createUrlButton(linkText, vacancy.getAlternateUrl());
@@ -61,14 +64,18 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                     )
             );
             vacancyMessages.add(
-                    createButtonMessage(vacancy.toString(), inlineKeyboardMarkup)
+                    createButtonMessage(vacancy.toString(), inlineKeyboardMarkup).setChatId(chatId)
             );
         }
         return vacancyMessages;
     }
 
     @Override
-    public List<SendMessage> createResumeMessages(String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList) {
+    public List<SendMessage> createResumeMessages(
+            String lang,
+            Map<ResumeDTO, ResumeStatusDTO> resumeList,
+            Long chatId
+    ) {
         List<SendMessage> resumeMessages = new ArrayList<>();
         String browserText = msg.getMessage("browser.open", lang);
         String publishText = msg.getMessage("resume.publish", lang);
@@ -91,7 +98,9 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                                     : tgmElementService.createInlineKeyboardRow(browserButton)
                     )
             );
-            resumeMessages.add(createButtonMessage("\uD83D\uDCDD " + resume.toString(), buttonsRow));
+            resumeMessages.add(
+                    createButtonMessage("\uD83D\uDCDD " + resume.toString(), buttonsRow).setChatId(chatId)
+            );
         }
 
         return resumeMessages;

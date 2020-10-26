@@ -9,7 +9,6 @@ import ru.hh.radar.model.entity.SearchParameters;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.common.SearchParametersService;
 import ru.hh.radar.service.common.UserService;
-import ru.hh.radar.service.telegram.SearchService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
