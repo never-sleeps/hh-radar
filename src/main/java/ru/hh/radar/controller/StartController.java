@@ -4,27 +4,35 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.dto.HhUserDTO;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhOauthService;
-import ru.hh.radar.service.telegram.AuthorizeService;
-import ru.hh.radar.service.telegram.StartService;
+import ru.hh.radar.service.hh.HhUserService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
-import ru.hh.radar.telegram.service.IncomingUpdateService;
+import ru.hh.radar.telegram.service.*;
 
+import java.util.List;
+
+@SuppressWarnings("unchecked")
 @Slf4j
 @BotController
 @RequiredArgsConstructor
 public class StartController {
 
-    private final StartService startService;
-    private final AuthorizeService authorizeService;
-    private final HhOauthService hhOauthService;
-
-    private final UserService userService;
+    private final TelegramMessageService tgmMessageService;
+    private final TelegramElementService tgmElementService;
+    private final KeyboardService keyboardService;
     private final IncomingUpdateService incomingUpdateService;
+    private final MessageService messageService;
+
+    private final HhUserService hhUserService;
+    private final UserService userService;
+    private final HhOauthService hhOauthService;
 
     @BotRequestMapping("/start")
     public SendMessage start(Update update) throws TelegramApiException {
@@ -34,27 +42,44 @@ public class StartController {
         User user = hhOauthService.authorizeUser(userName, command);
         String lang = incomingUpdateService.getLanguageCode(update);
 
-        return startService.showStartMenu(user, lang)
+        return getStartMenu(user, lang)
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("authorize.user")
     public SendMessage authorizeUser(Update update) throws TelegramApiException {
-        User user = userService.findUser(
-                incomingUpdateService.getUserName(update)
-        );
         String lang = incomingUpdateService.getLanguageCode(update);
-        return authorizeService.showAuthorizeButton(user, lang)
+        return getAuthorizeButton(lang)
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
     @BotRequestMapping("mainmenu")
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
-        User user = userService.findUser(
-                incomingUpdateService.getUserName(update)
-        );
+        User user = userService.findUser(incomingUpdateService.getUserName(update));
         String lang = incomingUpdateService.getLanguageCode(update);
-        return startService.showStartMenu(user, lang)
+        return getStartMenu(user, lang)
                 .setChatId(incomingUpdateService.getChatId(update));
+    }
+
+    private SendMessage getStartMenu(User user, String lang) {
+        String text = messageService.getMessage("welcome", lang);
+        if (user.isAuthorized()) {
+            HhUserDTO hhUserDTO = hhUserService.getHhUserInfo(user);
+            text = hhUserDTO.toString().concat(" ").concat(text);
+        }
+        ReplyKeyboardMarkup startMenu = keyboardService.getStartMenu(lang, user.isAuthorized());
+        return tgmMessageService.createMenuMessage(text, startMenu);
+    }
+
+    private SendMessage getAuthorizeButton(String lang) {
+        String link = hhOauthService.getUserAuthorizeURI().toString();
+        InlineKeyboardButton linkButton = tgmElementService.createUrlButton("Подтвердить авторизацию", link);
+        List<InlineKeyboardButton> row = tgmElementService.createInlineKeyboardRow(linkButton);
+
+        return tgmMessageService.createButtonMessage(
+                tgmElementService.createInlineKeyboardMarkup(
+                        tgmElementService.createInlineKeyboardRows(row)
+                )
+        );
     }
 }

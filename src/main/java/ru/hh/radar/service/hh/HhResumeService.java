@@ -5,6 +5,8 @@ import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.dto.ResumesResultsDTO;
 import ru.hh.radar.model.entity.User;
 
+import java.util.Map;
+
 /**
  * Сервис для работы с Резюме соискателя
  * https://github.com/hhru/api/blob/master/docs/resumes.md
@@ -18,6 +20,8 @@ public interface HhResumeService {
      * @return объект со списком резюме
      */
     ResumesResultsDTO getAllResume(User user);
+
+    Map<ResumeDTO, ResumeStatusDTO> getAllResumeInfo(User user);
 
     /**
      * Просмотр резюме

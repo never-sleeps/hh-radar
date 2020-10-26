@@ -20,6 +20,8 @@ import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.hh.HhResumeService;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +43,15 @@ public class HhResumeServiceImpl implements HhResumeService {
         ResumesResultsDTO results = response.getBody();
         log.info(String.format("%s: %s resumes received", user.getUsername(), results.getFound()));
         return results;
+    }
+
+    @Override
+    public Map<ResumeDTO, ResumeStatusDTO> getAllResumeInfo(User user) {
+        Map<ResumeDTO, ResumeStatusDTO> resumeMap = new HashMap<>();
+        for (ResumeDTO resume: getAllResume(user).getItems()) {
+            resumeMap.put(resume, getStatusResume(resume.getId(), user));
+        }
+        return resumeMap;
     }
 
     @Override
