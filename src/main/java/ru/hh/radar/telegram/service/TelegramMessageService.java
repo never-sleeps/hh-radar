@@ -23,7 +23,7 @@ public interface TelegramMessageService {
 
     SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup);
 
-    List<SendMessage> createVacancyMessages(String linkText, List<VacancyDTO> vacancies, Long chatId);
+    List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, Long chatId, String lang);
 
     List<SendMessage> createResumeMessages(String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList, Long chatId);
 }

@@ -83,6 +83,9 @@ public class HhVacancyServiceImpl implements HhVacancyService {
         map.put(SearchParametersType.EMPLOYMENT, parameters.getEmployment());
         map.put(SearchParametersType.SCHEDULE, parameters.getSchedule());
         map.put(SearchParametersType.ORDER_BY, parameters.getOrderBy());
+        map.put(SearchParametersType.PAGE, parameters.getPage().toString());
+        map.put(SearchParametersType.PER_PAGE, parameters.getPerPage().toString());
+        map.put(SearchParametersType.ORDER, parameters.getOrder());
         return map;
     }
 }

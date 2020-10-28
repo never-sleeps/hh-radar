@@ -39,4 +39,21 @@ public class SearchParameters {
 
     @Column(name = "order_by")
     private String orderBy = "publication_time";
+
+    @Column(name = "page")
+    private Long page = 1L;
+
+    @Column(name = "per_page")
+    private Long perPage = 3L;
+
+    @Column(name = "paging_order")
+    private String order = "desc";
+
+    public void incrementPage() {
+        this.page++;
+    }
+
+    public void resetPage() {
+        this.page = 1L;
+    }
 }

@@ -3,13 +3,16 @@ package ru.hh.radar.service.common.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.model.entity.SearchParameters;
+import ru.hh.radar.repository.SearchParametersRepository;
 import ru.hh.radar.service.common.SearchParametersService;
 import ru.hh.radar.telegram.service.MessageService;
 
 @RequiredArgsConstructor
 @Service
 public class SearchParametersServiceImpl implements SearchParametersService {
+
     private final MessageService messageService;
+    private final SearchParametersRepository repository;
 
     @Override
     public String toString(SearchParameters searchParameters, String lang) {
@@ -27,5 +30,17 @@ public class SearchParametersServiceImpl implements SearchParametersService {
         return (value != null)
                 ? String.format("%s: %s", messageService.getMessage(name, lang), value) + "\n"
                 : "";
+    }
+
+    @Override
+    public SearchParameters incrementSearchPage(SearchParameters parameters) {
+        parameters.incrementPage();
+        return repository.save(parameters);
+    }
+
+    @Override
+    public SearchParameters resetSearchPage(SearchParameters parameters) {
+        parameters.resetPage();
+        return repository.save(parameters);
     }
 }

@@ -203,11 +203,12 @@ public class VacancyDTO {
                 + ((experience != null) ? "\uD83D\uDC69\u200D\uD83C\uDFEBТребуемый опыт: " + experience.getName() + "\n" : "")
                 + ((schedule != null) ? "⏰ " + schedule.getName() + "\n" : "")
                 + ((employment != null) ? "\uD83D\uDDD3" + employment.getName() + "\n"  : "")
-                + "\n"
                 + ((salary != null && salary.toString() != null) ? "\uD83D\uDCB0" + salary.toString() + "\n": "")
-                + ((address != null) ? "\uD83D\uDCCDАдрес: " + address.toString() + "\n\n" : "")
+                + ((address != null) ? "\uD83D\uDCCDАдрес: " + address.toString() + "\n" : "")
+                + "\n"
                 + ((snippet != null) ? snippet.toString() + "\n" : "")
                 + ((getDescription() != null) ? "✍️Описание вакансии: " + Utils.htmlToText(getDescription()) + "\n" : "")
+                + getAlternateUrl()
                 ;
     }
 }

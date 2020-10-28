@@ -28,14 +28,16 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     @Override
     public SendMessage createMessage(String text) {
         return new SendMessage()
-                .enableMarkdown(true)
-                .setText(text);
+                .enableMarkdown(false)
+                .setText(text)
+                .disableWebPagePreview();
     }
 
     public SendMessage createButtonMessage(String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
         return new SendMessage()
                 .setText(text)
-                .setReplyMarkup(inlineKeyboardMarkup);
+                .setReplyMarkup(inlineKeyboardMarkup)
+                .disableWebPagePreview();
     }
 
     @Override
@@ -47,26 +49,27 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     public SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
         return new SendMessage()
                 .setText(text)
-                .setReplyMarkup(replyKeyboardMarkup);
+                .setReplyMarkup(replyKeyboardMarkup)
+                .disableWebPagePreview();
     }
 
     @Override
-    public List<SendMessage> createVacancyMessages(
-            String linkText,
-            List<VacancyDTO> vacancies,
-            Long chatId) {
+    public List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, Long chatId, String lang) {
         List<SendMessage> vacancyMessages = new ArrayList<>();
         for (VacancyDTO vacancy: vacancies) {
-            InlineKeyboardButton linkButton = tgmElementService.createUrlButton(linkText, vacancy.getAlternateUrl());
-            InlineKeyboardMarkup inlineKeyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
-                    tgmElementService.createInlineKeyboardRows(
-                            tgmElementService.createInlineKeyboardRow(linkButton)
-                    )
-            );
             vacancyMessages.add(
-                    createButtonMessage(vacancy.toString(), inlineKeyboardMarkup).setChatId(chatId)
+                    createMessage(vacancy.toString()).setChatId(chatId)
             );
         }
+        InlineKeyboardButton linkButton = tgmElementService
+                .createCallbackButton(msg.getMessage("search.next", lang), "/nextsearchpage");
+        InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
+                tgmElementService.createInlineKeyboardRows(
+                        tgmElementService.createInlineKeyboardRow(linkButton)
+                )
+        );
+        vacancyMessages.add(createButtonMessage(keyboardMarkup).setChatId(chatId));
+
         return vacancyMessages;
     }
 
