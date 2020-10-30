@@ -128,7 +128,7 @@ public class SearchParametersController {
 
     private SendMessage showItSpecializationMenu(Update update) throws TelegramApiException {
         return tgmMessageService
-                .createButtonMessage(inlineKeyboardService.getItSpecializationMenu(getLang(update)))
+                .createButtonMessage(inlineKeyboardService.getItSpecializationMenu(0, getLang(update)))
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 

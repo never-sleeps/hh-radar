@@ -18,9 +18,9 @@ public interface InlineKeyboardService {
 
     InlineKeyboardMarkup getExperienceMenu(String lang);
 
-    InlineKeyboardMarkup getItSpecializationMenu(String lang);
+    InlineKeyboardMarkup getItSpecializationMenu(int page, String lang);
 
-    InlineKeyboardMarkup getSpecializationMenu(String lang);
+    InlineKeyboardMarkup getSpecializationMenu(int page, String lang);
 
     InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList);
 }

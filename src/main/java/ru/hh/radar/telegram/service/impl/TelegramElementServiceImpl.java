@@ -2,6 +2,7 @@ package ru.hh.radar.telegram.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -37,6 +38,13 @@ public class TelegramElementServiceImpl implements TelegramElementService {
     public InlineKeyboardButton createAutoCallbackButton(String command, String lang) {
         return createCallbackButton(
                 msg.getMessage(command, lang), "/" + command
+        );
+    }
+
+    @Override
+    public InlineKeyboardButton createAutoCallbackButton(String command, String postfix, String lang) {
+        return createCallbackButton(
+                msg.getMessage(command, lang), "/" + command + " " + postfix
         );
     }
 
@@ -85,5 +93,12 @@ public class TelegramElementServiceImpl implements TelegramElementService {
         replyKeyboardMarkup.setKeyboard(keyboard);
 
         return replyKeyboardMarkup;
+    }
+
+
+    public EditMessageReplyMarkup editMessageReplyMarkup(Integer messageId, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        return new EditMessageReplyMarkup()
+                .setMessageId(messageId)
+                .setReplyMarkup(inlineKeyboardMarkup);
     }
 }

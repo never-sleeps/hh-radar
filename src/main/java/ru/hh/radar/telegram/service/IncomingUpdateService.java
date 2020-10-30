@@ -14,6 +14,8 @@ public interface IncomingUpdateService {
 
     Long getChatId(Update update) throws TelegramApiException;
 
+    Integer getMessageId(Update update) throws TelegramApiException;
+
     String getLanguageCode(Update update) throws TelegramApiException;
 
     String getUserName(Update update) throws TelegramApiException;

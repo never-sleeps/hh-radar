@@ -2,12 +2,15 @@ package ru.hh.radar.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.service.Utils;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
 import ru.hh.radar.telegram.service.InlineKeyboardService;
+import ru.hh.radar.telegram.service.TelegramElementService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
 
 @BotController
@@ -16,6 +19,7 @@ public class SearchKeyboardController {
 
     private final IncomingUpdateService incomingUpdateService;
     private final TelegramMessageService tgmMessageService;
+    private final TelegramElementService elementService;
     private final InlineKeyboardService inlineKeyboardService;
 
     @BotRequestMapping("search.start")
@@ -63,7 +67,29 @@ public class SearchKeyboardController {
     public SendMessage showSpecializationMenu(Update update) throws TelegramApiException {
         String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService
-                .createButtonMessage(inlineKeyboardService.getSpecializationMenu(lang))
+                .createButtonMessage(inlineKeyboardService.getSpecializationMenu(0, lang))
                 .setChatId(incomingUpdateService.getChatId(update));
+    }
+
+    @BotRequestMapping(value = {"/search.specialization.next", "/search.specialization.back"})
+    public EditMessageReplyMarkup showBackSpecializationMenu(Update update) throws TelegramApiException {
+        String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
+        String lang = incomingUpdateService.getLanguageCode(update);
+
+        return elementService.editMessageReplyMarkup(
+                incomingUpdateService.getMessageId(update),
+                inlineKeyboardService.getSpecializationMenu(Integer.decode(value), lang)
+        ).setChatId(incomingUpdateService.getChatId(update));
+    }
+
+    @BotRequestMapping(value = {"/search.specialization.1.next", "/search.specialization.1.back"})
+    public EditMessageReplyMarkup showNextItSpecializationMenu(Update update) throws TelegramApiException {
+        String value = Utils.getCommandValue(incomingUpdateService.getCommand(update));
+        String lang = incomingUpdateService.getLanguageCode(update);
+
+        return elementService.editMessageReplyMarkup(
+                incomingUpdateService.getMessageId(update),
+                inlineKeyboardService.getItSpecializationMenu(Integer.decode(value), lang)
+        ).setChatId(incomingUpdateService.getChatId(update));
     }
 }
