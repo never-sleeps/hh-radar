@@ -30,8 +30,6 @@ public interface TelegramElementService {
 
     InlineKeyboardButton createAutoCallbackButton(String command, String lang);
 
-    InlineKeyboardButton createAutoCallbackButton(String command, String postfix, String lang);
-
     /**
      *
      * @param rowsInline - Массив строк, каждая из которых является массивом объектов InlineKeyboardButton.

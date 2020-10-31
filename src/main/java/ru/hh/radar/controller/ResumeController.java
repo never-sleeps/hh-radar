@@ -1,5 +1,7 @@
 package ru.hh.radar.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,7 @@ import java.util.Map;
 
 @Slf4j
 @BotController
+@Api("Сервис работы с резюме пользователя")
 @RequiredArgsConstructor
 public class ResumeController {
 
@@ -39,7 +42,8 @@ public class ResumeController {
     @Value("${headhunter.timeBetweenPublishing.hours}")
     private int timeBetweenPublishingInHours;
 
-    @BotRequestMapping("resume.all")
+    @ApiOperation("Отображение списка всех резюме пользователя")
+    @BotRequestMapping(value = "resume.all", isLocale = true)
     public List<SendMessage> showAllResume(Update update) throws TelegramApiException {
         String lang = incomingUpdateService.getLanguageCode(update);
         User user = userService.findUser(incomingUpdateService.getUserName(update));
@@ -55,7 +59,8 @@ public class ResumeController {
 
     }
 
-    @BotRequestMapping("resume.publish")
+    @ApiOperation("Отображение краткого списка всех резюме пользователя")
+    @BotRequestMapping(value = "resume.publish", isLocale = true)
     public SendMessage showPublishResumeMenu(Update update) throws TelegramApiException {
         String lang = incomingUpdateService.getLanguageCode(update);
         User user = userService.findUser(incomingUpdateService.getUserName(update));
@@ -72,6 +77,7 @@ public class ResumeController {
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 
+    @ApiOperation("Публикация резюме пользователя")
     @BotRequestMapping("/publish")
     public SendMessage publishResume(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));

@@ -1,5 +1,7 @@
 package ru.hh.radar.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,6 +19,7 @@ import ru.hh.radar.telegram.service.TelegramMessageService;
 import java.util.List;
 
 @BotController
+@Api("Сервис поиска вакансий")
 @RequiredArgsConstructor
 public class SearchController {
 
@@ -27,7 +30,8 @@ public class SearchController {
     private final SearchParametersService searchParametersService;
     private final HhVacancyService hhVacancyService;
 
-    @BotRequestMapping("search.run")
+    @ApiOperation("Поиск вакансий. Отображение результатов по 3 вакансии в блоке")
+    @BotRequestMapping(value = "search.run", isLocale = true)
     public List<SendMessage> runSearch(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         searchParametersService.resetSearchPage(user.getSearchParameters());
@@ -41,6 +45,7 @@ public class SearchController {
         );
     }
 
+    @ApiOperation("Отображение следующего блока вакансий")
     @BotRequestMapping("/nextsearchpage")
     public List<SendMessage> showNextSearchPage(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));

@@ -20,7 +20,7 @@ public class SnippetDTO {
 
     @Override
     public String toString() {
-        return ((requirement != null) ? "⚠️Требования: " + requirement + "\n" : "")
-                + ((responsibility != null) ? "❕Обязанности:" + responsibility : "");
+        return ((requirement != null) ? "️Требования: " + requirement + "\n" : "")
+                + ((responsibility != null) ? "Обязанности:" + responsibility : "");
     }
 }

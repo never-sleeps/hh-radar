@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BotRequestMapping {
     String[] value() default {""};
+    boolean isLocale() default false;
     BotRequestMethod method() default BotRequestMethod.MESSAGE;
 }

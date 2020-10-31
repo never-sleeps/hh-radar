@@ -37,14 +37,7 @@ public class TelegramElementServiceImpl implements TelegramElementService {
     @Override
     public InlineKeyboardButton createAutoCallbackButton(String command, String lang) {
         return createCallbackButton(
-                msg.getMessage(command, lang), "/" + command
-        );
-    }
-
-    @Override
-    public InlineKeyboardButton createAutoCallbackButton(String command, String postfix, String lang) {
-        return createCallbackButton(
-                msg.getMessage(command, lang), "/" + command + " " + postfix
+                msg.getMessage(command.substring(1), lang), command
         );
     }
 
@@ -95,7 +88,7 @@ public class TelegramElementServiceImpl implements TelegramElementService {
         return replyKeyboardMarkup;
     }
 
-
+    @Override
     public EditMessageReplyMarkup editMessageReplyMarkup(Integer messageId, InlineKeyboardMarkup inlineKeyboardMarkup) {
         return new EditMessageReplyMarkup()
                 .setMessageId(messageId)

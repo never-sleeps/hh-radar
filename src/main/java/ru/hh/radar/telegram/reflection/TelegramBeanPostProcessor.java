@@ -59,14 +59,14 @@ public class TelegramBeanPostProcessor implements BeanPostProcessor, Ordered {
 
         BotApiMethodController controller = createApiMethodController(botRequestMapping, bean, method);
         for (String mapping: botRequestMapping.value()) {
-            if (mapping.startsWith("/")) {
-                String command = botController.value() + mapping;
-                container.addBotController(command, controller);
-            } else {
+            if (botRequestMapping.isLocale()) {
                 for (String locale: localeConfig.getLocales()) {
                     String command = messageService.getMessage(mapping, locale);
                     container.addBotController(command, controller);
                 }
+            } else {
+                String command = botController.value() + mapping;
+                container.addBotController(command, controller);
             }
         }
     }
