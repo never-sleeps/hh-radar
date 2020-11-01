@@ -76,7 +76,7 @@ public class SearchKeyboardController {
     public SendMessage showAreaMenu(Update update) throws TelegramApiException {
         List<TypeDTO> areas = hhAreaService.getRussiaAreas();;
         InlineKeyboardMarkup inlineKeyboard =
-                inlineKeyboardService.getPagingMenu(0, areas, "/set.search.area");
+                inlineKeyboardService.getPagingMenu(0, areas, "/search.area");
 
         return tgmMessageService
                 .createButtonMessage(inlineKeyboard)
@@ -89,7 +89,7 @@ public class SearchKeyboardController {
         String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
         List<TypeDTO> areas = hhAreaService.getRussiaAreas();
         InlineKeyboardMarkup inlineKeyboard =
-                inlineKeyboardService.getPagingMenu(Integer.decode(value), areas, "/set.search.area");
+                inlineKeyboardService.getPagingMenu(Integer.decode(value), areas, "/search.area");
 
         return elementService.editMessageReplyMarkup(
                 incomingUpdateService.getMessageId(update),
@@ -102,7 +102,7 @@ public class SearchKeyboardController {
     public SendMessage showSpecializationsMenu(Update update) throws TelegramApiException {
         List<TypeDTO> specializations = hhSpecializationsService.getSpecializations();
         InlineKeyboardMarkup inlineKeyboard =
-                inlineKeyboardService.getPagingMenu(0, specializations, "/set.search.specialization");
+                inlineKeyboardService.getPagingMenu(0, specializations, "/search.specialization");
         return tgmMessageService
                 .createButtonMessage(inlineKeyboard)
                 .setChatId(incomingUpdateService.getChatId(update));
@@ -114,7 +114,7 @@ public class SearchKeyboardController {
         String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
         List<TypeDTO> specializations = hhSpecializationsService.getSpecializations();
         InlineKeyboardMarkup inlineKeyboard =
-                inlineKeyboardService.getPagingMenu(Integer.decode(value), specializations, "/set.search.specialization");
+                inlineKeyboardService.getPagingMenu(Integer.decode(value), specializations, "/search.specialization");
 
         return elementService.editMessageReplyMarkup(
                 incomingUpdateService.getMessageId(update),

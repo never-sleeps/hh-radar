@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.hh.radar.dto.ResumeDTO;
-import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
@@ -15,7 +14,6 @@ import ru.hh.radar.telegram.service.TelegramMessageService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("unchecked")
 @Service
@@ -61,8 +59,10 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                     createMessage(vacancy.toString()).setChatId(chatId)
             );
         }
-        InlineKeyboardButton linkButton = tgmElementService
-                .createCallbackButton(msg.getMessage("search.next", lang), "/nextsearchpage");
+        InlineKeyboardButton linkButton = tgmElementService.createCallbackButton(
+                msg.getMessage("search.next", lang),
+                "/next.search.page"
+        );
         InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
                 tgmElementService.createInlineKeyboardRows(
                         tgmElementService.createInlineKeyboardRow(linkButton)
@@ -74,38 +74,22 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     }
 
     @Override
-    public List<SendMessage> createResumeMessages(
-            String lang,
-            Map<ResumeDTO, ResumeStatusDTO> resumeList,
-            Long chatId
-    ) {
+    public List<SendMessage> createResumeMessages(List<ResumeDTO> resumeList, Long chatId, String lang) {
         List<SendMessage> resumeMessages = new ArrayList<>();
-        String browserText = msg.getMessage("browser.open", lang);
-        String publishText = msg.getMessage("resume.publish", lang);
-
-        for(Map.Entry<ResumeDTO, ResumeStatusDTO> resumeInfo : resumeList.entrySet()){
-            ResumeDTO resume = resumeInfo.getKey();
-            ResumeStatusDTO status = resumeInfo.getValue();
-
-            InlineKeyboardButton browserButton = tgmElementService.createUrlButton(
-                    browserText, resume.getAlternateUrl()
+        for (ResumeDTO resume: resumeList) {
+            InlineKeyboardButton button = tgmElementService.createCallbackButton(
+                    msg.getMessage("search.similar.run", lang),
+                    "/search.similar.run" + " " + resume.getId()
             );
-            InlineKeyboardButton publishButton = tgmElementService.createCallbackButton(
-                    publishText,  String.format("/publish %s", resume.getId())
-            );
-
-            InlineKeyboardMarkup buttonsRow = tgmElementService.createInlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
                     tgmElementService.createInlineKeyboardRows(
-                            (status.getCanPublishOrUpdate())
-                                    ? tgmElementService.createInlineKeyboardRow(publishButton, browserButton)
-                                    : tgmElementService.createInlineKeyboardRow(browserButton)
+                            tgmElementService.createInlineKeyboardRow(button)
                     )
             );
             resumeMessages.add(
-                    createButtonMessage("\uD83D\uDCDD " + resume.toString(), buttonsRow).setChatId(chatId)
+                    createButtonMessage("\uD83D\uDCDD " + resume.toString(), keyboardMarkup).setChatId(chatId)
             );
         }
-
         return resumeMessages;
     }
 }

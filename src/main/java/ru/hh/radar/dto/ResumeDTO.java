@@ -160,7 +160,8 @@ public class ResumeDTO {
                 + "Желаемая зарплата: " + ((salary != null) ? salary.getAmount() + " " + salary.getCurrency().toLowerCase() : "не указано") + "\n"
                 + "Статус: " + ((status != null) ? status.getName() + "" : "") + "\n"
                 + "Видимость резюме: " + ((access != null) && (access.getType() != null) ? access.getType().getName() : "") + "\n"
-                + "Обновлено: " + ((updatedAt != null) ? Utils.getFormattingData(updatedAt) : "")
+                + "Обновлено: " + ((updatedAt != null) ? Utils.getFormattingData(updatedAt) + "\n" : "")
+                + getAlternateUrl()
                 ;
     }
 

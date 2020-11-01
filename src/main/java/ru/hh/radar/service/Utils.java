@@ -2,8 +2,6 @@ package ru.hh.radar.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
-import org.springframework.http.HttpHeaders;
-import ru.hh.radar.model.entity.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -87,11 +85,5 @@ public class Utils {
      */
     public static String decode(String encodedString) {
         return new String(Base64.getDecoder().decode(encodedString));
-    }
-
-    public static HttpHeaders getAuthorizationHttpHeader(User user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + decode(user.getClientAccessToken().getAccessToken()));
-        return headers;
     }
 }

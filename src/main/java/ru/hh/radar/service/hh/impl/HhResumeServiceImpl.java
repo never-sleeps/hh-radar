@@ -16,11 +16,12 @@ import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.dto.ResumesResultsDTO;
 import ru.hh.radar.model.entity.User;
-import ru.hh.radar.service.Utils;
+import ru.hh.radar.service.WebRequestUtils;
 import ru.hh.radar.service.hh.HhResumeService;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -34,21 +35,21 @@ public class HhResumeServiceImpl implements HhResumeService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public ResumesResultsDTO getAllResume(User user) {
+    public List<ResumeDTO> getAllResume(User user) {
         URI uri = UriComponentsBuilder.fromHttpUrl(url).path("/resumes/mine").build().toUri();
-        HttpHeaders headers = Utils.getAuthorizationHttpHeader(user);
+        HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);
 
         ResponseEntity<ResumesResultsDTO> response = restTemplate.exchange(uri, HttpMethod.GET, entity, ResumesResultsDTO.class);
         ResumesResultsDTO results = response.getBody();
         log.info(String.format("%s: %s resumes received", user.getUsername(), results.getFound()));
-        return results;
+        return results.getItems();
     }
 
     @Override
     public Map<ResumeDTO, ResumeStatusDTO> getAllResumeInfo(User user) {
         Map<ResumeDTO, ResumeStatusDTO> resumeMap = new HashMap<>();
-        for (ResumeDTO resume: getAllResume(user).getItems()) {
+        for (ResumeDTO resume: getAllResume(user)) {
             resumeMap.put(resume, getStatusResume(resume.getId(), user));
         }
         return resumeMap;
@@ -60,14 +61,13 @@ public class HhResumeServiceImpl implements HhResumeService {
                 .path("/resumes/{resume_id}")
                 .buildAndExpand(resumeId)
                 .toUri();
-        HttpHeaders headers = Utils.getAuthorizationHttpHeader(user);
+        HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
 
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);
         ResponseEntity<ResumeDTO> response = restTemplate.exchange(uri, HttpMethod.GET, entity, ResumeDTO.class);
-        ResumeDTO results = response.getBody();
+        ResumeDTO resume = response.getBody();
         log.info(String.format("%s: got resume %s", user.getUsername(), resumeId));
-        return results;
-
+        return resume;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class HhResumeServiceImpl implements HhResumeService {
                 .path("/resumes/{resume_id}/status")
                 .buildAndExpand(resumeId)
                 .toUri();
-        HttpHeaders headers = Utils.getAuthorizationHttpHeader(user);
+        HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
 
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);
         ResponseEntity<ResumeStatusDTO> response = restTemplate.exchange(uri, HttpMethod.GET, entity, ResumeStatusDTO.class);
@@ -90,7 +90,8 @@ public class HhResumeServiceImpl implements HhResumeService {
                 .path("/resumes/{resume_id}/publish")
                 .buildAndExpand(resumeId)
                 .toUri();
-        HttpHeaders headers = Utils.getAuthorizationHttpHeader(user);
+        HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
+
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
         ResponseEntity<ErrorDTO> response = restTemplate.postForEntity(uri, request, ErrorDTO.class);
         boolean is2xxSuccessful = response.getStatusCode().is2xxSuccessful();

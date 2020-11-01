@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.ResumeDTO;
-import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
@@ -23,7 +22,6 @@ import ru.hh.radar.telegram.service.TelegramMessageService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @BotController
@@ -45,35 +43,33 @@ public class ResumeController {
     @ApiOperation("Отображение списка всех резюме пользователя")
     @BotRequestMapping(value = "resume.all", isLocale = true)
     public List<SendMessage> showAllResume(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         User user = userService.findUser(incomingUpdateService.getUserName(update));
 
         if(!user.isAuthorized()) {
             log.warn(String.format("%s: getting the resume list. Cause: user is not authorized", user.getUsername()));
-            return List.of(getSendMessageForUnauthorizedUser(lang)
+            return List.of(getSendMessageForUnauthorizedUser(getLang(update))
                     .setChatId(incomingUpdateService.getChatId(update)));
         }
-        Map<ResumeDTO, ResumeStatusDTO> resumeMap = hhResumeService.getAllResumeInfo(user);
+        List<ResumeDTO> resumeList = hhResumeService.getAllResume(user);
         Long chatId = incomingUpdateService.getChatId(update);
-        return telegramMessageService.createResumeMessages(lang, resumeMap, chatId);
+        return telegramMessageService.createResumeMessages(resumeList, chatId, getLang(update));
 
     }
 
     @ApiOperation("Отображение краткого списка всех резюме пользователя")
     @BotRequestMapping(value = "resume.publish", isLocale = true)
     public SendMessage showPublishResumeMenu(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         User user = userService.findUser(incomingUpdateService.getUserName(update));
 
         if(!user.isAuthorized()) {
             log.warn(String.format("%s: error getting the resume list. Cause: user is not authorized", user.getUsername()));
-            return getSendMessageForUnauthorizedUser(lang)
+            return getSendMessageForUnauthorizedUser(getLang(update))
                     .setChatId(incomingUpdateService.getChatId(update));
         }
-        List<ResumeDTO> items = hhResumeService.getAllResume(user).getItems();
+        List<ResumeDTO> items = hhResumeService.getAllResume(user);
         return telegramMessageService.createButtonMessage(
-                msg.getMessage("message.publish.context", lang),
-                inlineKeyboardService.getResumeMenu(lang, items)
+                msg.getMessage("message.publish.context", getLang(update)),
+                inlineKeyboardService.getResumeMenu(getLang(update), items)
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 
@@ -82,31 +78,46 @@ public class ResumeController {
     public SendMessage publishResume(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         String resumeId = Utils.getCommandValue(incomingUpdateService.getCommand(update));
-        String lang = incomingUpdateService.getLanguageCode(update);
         ResumeDTO resume = hhResumeService.getResume(resumeId, user);
 
         if(!resume.isPublished()) {
-            return telegramMessageService.createMessage(msg.getMessage("resume.publish.warn1", lang))
+            return getSendMessageForNotPublishedResume(getLang(update))
                     .setChatId(incomingUpdateService.getChatId(update));
         }
         if(!resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours)) {
-            LocalDateTime newDate = resume.getUpdatedAt().plusHours(timeBetweenPublishingInHours);
-            return telegramMessageService.createMessage(
-                    msg.getMessage("resume.publish.warn2", lang) + " " + Utils.getFormattingData(newDate)
-            ).setChatId(incomingUpdateService.getChatId(update));
+            return getSendMessageForRecentlyUpdatedResume(resume, getLang(update))
+                    .setChatId(incomingUpdateService.getChatId(update));
         }
 
-        boolean isPublished = hhResumeService.publishResume(resumeId, user);
-        if(isPublished) {
-            return telegramMessageService.createMessage(
-                    msg.getMessage("resume.publish.ok", lang) + ": " + resume.getTitle()
-            ).setChatId(incomingUpdateService.getChatId(update));
+        boolean isSuccessfullyPublished = hhResumeService.publishResume(resumeId, user);
+        if(isSuccessfullyPublished) {
+            return getSendMessageForSuccessfullyUpdatedResume(resume, getLang(update))
+                    .setChatId(incomingUpdateService.getChatId(update));
         }
-        return telegramMessageService.createMessage(msg.getMessage("message.error", lang));
+        return telegramMessageService.createMessage(msg.getMessage("message.error", getLang(update)));
     }
-
 
     private SendMessage getSendMessageForUnauthorizedUser(String lang) {
         return telegramMessageService.createMessage(msg.getMessage("message.not.authorized", lang));
+    }
+
+    private SendMessage getSendMessageForRecentlyUpdatedResume(ResumeDTO resume, String lang) {
+        LocalDateTime newDate = resume.getUpdatedAt().plusHours(timeBetweenPublishingInHours);
+        String messageText = msg.getMessage("resume.publish.warn2", lang) + " " + Utils.getFormattingData(newDate);
+        return telegramMessageService.createMessage(messageText);
+    }
+
+    private SendMessage getSendMessageForNotPublishedResume(String lang) {
+        return telegramMessageService
+                .createMessage(msg.getMessage("resume.publish.warn1", lang));
+    }
+
+    private SendMessage getSendMessageForSuccessfullyUpdatedResume(ResumeDTO resume, String lang) {
+        String messageText = msg.getMessage("resume.publish.ok", lang) + ": " + resume.getTitle();
+        return telegramMessageService.createMessage(messageText);
+    }
+
+    private String getLang(Update update) throws TelegramApiException {
+        return incomingUpdateService.getLanguageCode(update);
     }
 }

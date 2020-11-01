@@ -69,7 +69,7 @@ public class SearchParametersController {
     }
 
     @ApiOperation("Сохранение параметра поиска вакансий 'Регион'")
-    @BotRequestMapping("/set.search.area")
+    @BotRequestMapping("/search.area")
     public SendMessage setAreaMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         String value = Utils.getCommandValue(incomingUpdateService.getCommand(update));
@@ -80,7 +80,7 @@ public class SearchParametersController {
     }
 
     @ApiOperation("Сохранение параметра поиска вакансий 'Профобласть'")
-    @BotRequestMapping("/set.search.specialization")
+    @BotRequestMapping("/search.specialization")
     public SendMessage setSpecializationMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         String value = Utils.getCommandValue(incomingUpdateService.getCommand(update));

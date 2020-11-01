@@ -2,9 +2,9 @@ package ru.hh.radar.service.hh;
 
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.dto.ResumeStatusDTO;
-import ru.hh.radar.dto.ResumesResultsDTO;
 import ru.hh.radar.model.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public interface HhResumeService {
      * @param user пользователь
      * @return объект со списком резюме
      */
-    ResumesResultsDTO getAllResume(User user);
+    List<ResumeDTO> getAllResume(User user);
 
     Map<ResumeDTO, ResumeStatusDTO> getAllResumeInfo(User user);
 
