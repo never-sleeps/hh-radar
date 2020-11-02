@@ -91,6 +91,18 @@ public class SearchParametersController {
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
+    @ApiOperation("Сохранение параметра поиска вакансий 'Должность'")
+    @BotRequestMapping("/search_position")
+    public SendMessage setPositionValue(Update update) throws TelegramApiException {
+        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        String value = Utils.getCommandValue(incomingUpdateService.getCommand(update));
+        SearchParameters parameters = saveSearchParameters(SearchParametersType.TEXT, user, value);
+
+        return new SendMessage()
+                .setText(searchParametersService.toString(parameters, getLang(update)))
+                .setChatId(incomingUpdateService.getChatId(update));
+    }
+
     @ApiOperation("Очистка сохранённых параметра поиска вакансий")
     @BotRequestMapping(value = "search.clean", isLocale = true)
     public SendMessage cleanSearchParameters(Update update) throws TelegramApiException {

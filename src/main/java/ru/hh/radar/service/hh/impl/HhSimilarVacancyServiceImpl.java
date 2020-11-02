@@ -37,10 +37,10 @@ public class HhSimilarVacancyServiceImpl implements HhSimilarVacancyService {
         SearchParameters parameters = enrichSearchParameters(user.getSearchParameters(), resume);
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .path("/resumes/{resumeId}/similar_vacancies");
-        URI uri = WebRequestUtils.applySearchParameters(
-                uriComponentsBuilder, WebRequestUtils.toShortParametersMap(parameters)
-        ).encode(StandardCharsets.UTF_8)
-                .buildAndExpand(resume.getId()).toUri();
+        URI uri = WebRequestUtils.applySearchParameters(uriComponentsBuilder, WebRequestUtils.toShortParametersMap(parameters))
+                .encode(StandardCharsets.UTF_8)
+                .buildAndExpand(resume.getId())
+                .toUri();
 
         HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);

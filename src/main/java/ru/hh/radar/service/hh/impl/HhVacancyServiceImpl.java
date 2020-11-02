@@ -18,6 +18,7 @@ import ru.hh.radar.service.WebRequestUtils;
 import ru.hh.radar.service.hh.HhVacancyService;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
@@ -48,9 +49,10 @@ public class HhVacancyServiceImpl implements HhVacancyService {
     public List<VacancyDTO> getVacancies(SearchParameters parameters) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .path("/vacancies");
-        URI uri = WebRequestUtils.applySearchParameters(
-                uriComponentsBuilder, WebRequestUtils.toParametersMap(parameters)
-        ).build().toUri();
+        URI uri = WebRequestUtils.applySearchParameters(uriComponentsBuilder, WebRequestUtils.toParametersMap(parameters))
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
         log.info("search vacancies URI: " + uri);
 
         RequestEntity<?> request = new RequestEntity<>(HttpMethod.GET, uri);

@@ -14,10 +14,7 @@ import ru.hh.radar.service.hh.HhAreaService;
 import ru.hh.radar.service.hh.HhSpecializationsService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
-import ru.hh.radar.telegram.service.IncomingUpdateService;
-import ru.hh.radar.telegram.service.InlineKeyboardService;
-import ru.hh.radar.telegram.service.TelegramElementService;
-import ru.hh.radar.telegram.service.TelegramMessageService;
+import ru.hh.radar.telegram.service.*;
 
 import java.util.List;
 
@@ -33,6 +30,8 @@ public class SearchKeyboardController {
 
     private final HhSpecializationsService hhSpecializationsService;
     private final HhAreaService hhAreaService;
+
+    private final MessageService msg;
 
     @ApiOperation("Отображение меню поиска вакансий")
     @BotRequestMapping(value = "search.start", isLocale = true)
@@ -119,6 +118,15 @@ public class SearchKeyboardController {
         return elementService.editMessageReplyMarkup(
                 incomingUpdateService.getMessageId(update),
                 inlineKeyboard
+        ).setChatId(incomingUpdateService.getChatId(update));
+    }
+
+    @ApiOperation("Отображение информации о способе задания должности")
+    @BotRequestMapping(value = "search.text", isLocale = true)
+    public SendMessage showPositionText(Update update) throws TelegramApiException {
+        String lang = incomingUpdateService.getLanguageCode(update);
+        return tgmMessageService.createMessage(
+                msg.getMessage("message.search.parameters.position", lang)
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 }
