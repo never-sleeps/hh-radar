@@ -7,7 +7,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,34 +32,26 @@ public class HhSimilarVacancyServiceImpl implements HhSimilarVacancyService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    private void setUtf8encoding() {
-        restTemplate.getMessageConverters()
-                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-    }
-
     @Override
     public List<VacancyDTO> getSimilarVacancies(ResumeDTO resume, User user) {
-        setUtf8encoding();
-
         SearchParameters parameters = enrichSearchParameters(user.getSearchParameters(), resume);
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .path("/resumes/{resumeId}/similar_vacancies");
         URI uri = WebRequestUtils.applySearchParameters(
                 uriComponentsBuilder, WebRequestUtils.toShortParametersMap(parameters)
-        ).buildAndExpand(resume.getId()).toUri();
-
-        log.info("search similar vacancies URI: " + uri);
+        ).encode(StandardCharsets.UTF_8)
+                .buildAndExpand(resume.getId()).toUri();
 
         HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
         HttpEntity<?> entity = new HttpEntity<Object>("parameters", headers);
         ResponseEntity<VacanciesResultsDTO> response = restTemplate.exchange(uri, HttpMethod.GET, entity, VacanciesResultsDTO.class);
 
-        log.info("response url: " + response.getBody().getAlternateUrl());
+        log.info(response.getBody().getFound() + " found similar vacancies for URI " + uri);
         return response.getBody().getItems();
     }
 
     private SearchParameters enrichSearchParameters(SearchParameters parameters, ResumeDTO resume) {
-        parameters.setText(resume.getTitle().replaceAll(" ", "-"));
+        parameters.setText(resume.getTitle());
         parameters.setArea(resume.getArea().getId());
         return parameters;
     }

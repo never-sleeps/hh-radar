@@ -1,5 +1,6 @@
 package ru.hh.radar.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.hh.radar.model.SearchParametersType;
@@ -9,6 +10,7 @@ import ru.hh.radar.model.entity.User;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class WebRequestUtils {
 
     public static HttpHeaders getAuthorizationHttpHeader(User user) {
@@ -34,27 +36,22 @@ public class WebRequestUtils {
 
     public static Map<SearchParametersType, String> toParametersMap(SearchParameters parameters) {
         Map<SearchParametersType, String> map = new HashMap<>();
-        map.put(SearchParametersType.AREA, parameters.getArea());
         map.put(SearchParametersType.SPECIALIZATION, parameters.getSpecialization());
-        map.put(SearchParametersType.TEXT, parameters.getText());
         map.put(SearchParametersType.EXPERIENCE, parameters.getExperience());
         map.put(SearchParametersType.EMPLOYMENT, parameters.getEmployment());
         map.put(SearchParametersType.SCHEDULE, parameters.getSchedule());
-        map.put(SearchParametersType.ORDER_BY, parameters.getOrderBy());
-        map.put(SearchParametersType.PAGE, parameters.getPage().toString());
-        map.put(SearchParametersType.PER_PAGE, parameters.getPerPage().toString());
-        map.put(SearchParametersType.ORDER, parameters.getOrder());
+        map.putAll(toShortParametersMap(parameters));
         return map;
     }
 
     public static Map<SearchParametersType, String> toShortParametersMap(SearchParameters parameters) {
         Map<SearchParametersType, String> map = new HashMap<>();
-        map.put(SearchParametersType.TEXT, parameters.getText());
         map.put(SearchParametersType.AREA, parameters.getArea());
         map.put(SearchParametersType.ORDER_BY, parameters.getOrderBy());
         map.put(SearchParametersType.PAGE, parameters.getPage().toString());
         map.put(SearchParametersType.PER_PAGE, parameters.getPerPage().toString());
         map.put(SearchParametersType.ORDER, parameters.getOrder());
+        map.put(SearchParametersType.TEXT, parameters.getText());
         return map;
     }
 }
