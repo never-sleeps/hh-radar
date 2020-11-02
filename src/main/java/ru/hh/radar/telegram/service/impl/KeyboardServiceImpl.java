@@ -24,8 +24,10 @@ public class KeyboardServiceImpl implements KeyboardService {
                 tgmElementService.createKeyboardRow(
                         ((isAuthorized) ? "✅ " : "") + messageService.getMessage("authorize.user", lang)
                 ),
-                tgmElementService.createKeyboardRow(messageService.getMessage("resume.all", lang)),
-                tgmElementService.createKeyboardRow(messageService.getMessage("resume.publish", lang))
+                tgmElementService.createKeyboardRow(
+                        messageService.getMessage("resume.all", lang),
+                        messageService.getMessage("resume.publish", lang)
+                )
         );
         return tgmElementService.createReplyKeyboardMarkup(list);
     }

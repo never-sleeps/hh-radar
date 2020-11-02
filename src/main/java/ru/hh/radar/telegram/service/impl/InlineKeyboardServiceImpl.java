@@ -44,7 +44,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                 tgmElementService.createKeyboardRow(
                         msg.getMessage("search.run", lang),
                         msg.getMessage("search.clean", lang),
-                        msg.getMessage("main.menu", lang)
+                        msg.getMessage("to.main.menu", lang)
                 )
         );
         return tgmElementService.createReplyKeyboardMarkup(list);
@@ -113,7 +113,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
     }
 
     @Override
-    public InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList) {
+    public InlineKeyboardMarkup getPublishResumeMenu(String lang, List<ResumeDTO> resumeList) {
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
         for (ResumeDTO resume : resumeList) {

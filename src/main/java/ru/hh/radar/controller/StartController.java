@@ -59,7 +59,7 @@ public class StartController {
     }
 
     @ApiOperation("Отображение главного меню бота")
-    @BotRequestMapping(value = "main.menu", isLocale = true)
+    @BotRequestMapping(value = "to.main.menu", isLocale = true)
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         String lang = incomingUpdateService.getLanguageCode(update);
@@ -78,11 +78,14 @@ public class StartController {
     }
 
     private SendMessage getAuthorizeButton(String lang) {
+        String messageText = messageService.getMessage("message.authorize.approve", lang);
+        String buttonText = messageService.getMessage("authorize.user.approve", lang);
         String link = hhOauthService.getUserAuthorizeURI().toString();
-        InlineKeyboardButton linkButton = tgmElementService.createUrlButton("Подтвердить авторизацию", link);
-        List<InlineKeyboardButton> row = tgmElementService.createInlineKeyboardRow(linkButton);
 
+        InlineKeyboardButton linkButton = tgmElementService.createUrlButton(buttonText, link);
+        List<InlineKeyboardButton> row = tgmElementService.createInlineKeyboardRow(linkButton);
         return tgmMessageService.createButtonMessage(
+                messageText,
                 tgmElementService.createInlineKeyboardMarkup(
                         tgmElementService.createInlineKeyboardRows(row)
                 )

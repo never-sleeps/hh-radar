@@ -19,5 +19,6 @@ public interface InlineKeyboardService {
 
     InlineKeyboardMarkup getPagingMenu(int page, List<TypeDTO> item, String command);
 
-    InlineKeyboardMarkup getResumeMenu(String lang, List<ResumeDTO> resumeList);
+    InlineKeyboardMarkup getPublishResumeMenu(String lang, List<ResumeDTO> resumeList);
+
 }
