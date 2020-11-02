@@ -52,7 +52,9 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     }
 
     @Override
-    public List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, Long chatId, String lang) {
+    public List<SendMessage> createVacancyMessages(
+            List<VacancyDTO> vacancies, String nextCommand, Long chatId, String lang
+    ) {
         List<SendMessage> vacancyMessages = new ArrayList<>();
         for (VacancyDTO vacancy: vacancies) {
             vacancyMessages.add(
@@ -60,8 +62,7 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
             );
         }
         InlineKeyboardButton linkButton = tgmElementService.createCallbackButton(
-                msg.getMessage("search.next", lang),
-                "/next.search.page"
+                msg.getMessage("search.next", lang), nextCommand
         );
         InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
                 tgmElementService.createInlineKeyboardRows(

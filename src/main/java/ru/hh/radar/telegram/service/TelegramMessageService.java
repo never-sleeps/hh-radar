@@ -21,7 +21,7 @@ public interface TelegramMessageService {
 
     SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup);
 
-    List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, Long chatId, String lang);
+    List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, String nextCommand, Long chatId, String lang);
 
     List<SendMessage> createResumeMessages(List<ResumeDTO> resumeList, Long chatId, String lang);
 }

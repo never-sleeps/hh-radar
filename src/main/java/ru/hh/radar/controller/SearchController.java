@@ -41,55 +41,52 @@ public class SearchController {
     public List<SendMessage> runSearchVacancies(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         searchParametersService.resetSearchPage(user.getSearchParameters());
-
-        Long chatId = incomingUpdateService.getChatId(update);
-        String lang = incomingUpdateService.getLanguageCode(update);
-        return getVacansiesMessages(
-                userService.findUser(incomingUpdateService.getUserName(update)),
-                chatId,
-                lang
-        );
+        return executeSearch(update);
     }
 
     @ApiOperation("Отображение следующего блока вакансий")
     @BotRequestMapping("/next.search.page")
-    public List<SendMessage> showNextSearchPage(Update update) throws TelegramApiException {
+    public List<SendMessage> runSearchVacanciesNext(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         searchParametersService.incrementSearchPage(user.getSearchParameters());
-
-        Long chatId = incomingUpdateService.getChatId(update);
-        String lang = incomingUpdateService.getLanguageCode(update);
-        return getVacansiesMessages(
-                userService.findUser(incomingUpdateService.getUserName(update)),
-                chatId,
-                lang
-        );
+        return executeSearch(update);
     }
 
     @ApiOperation("Поиск по вакансиям, похожим на резюме. Отображение результатов по 3 вакансии в блоке")
     @BotRequestMapping(value = "/search.similar.run")
     public List<SendMessage> runSearchSimilarVacancies(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
-        String resumeId = Utils.getCommandValue(incomingUpdateService.getCommand(update));
         searchParametersService.resetSearchPage(user.getSearchParameters());
+        return executeSimilarSearch(update);
+    }
 
+    @ApiOperation("Поиск по вакансиям, похожим на резюме. Отображение результатов по 3 вакансии в блоке")
+    @BotRequestMapping(value = "/next.search.similar.run")
+    public List<SendMessage> runSearchSimilarVacanciesNext(Update update) throws TelegramApiException {
+        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        searchParametersService.incrementSearchPage(user.getSearchParameters());
+        return executeSimilarSearch(update);
+    }
+
+    private List<SendMessage> executeSimilarSearch(Update update) throws TelegramApiException {
+        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        String resumeId = Utils.getCommandValue(incomingUpdateService.getCommand(update));
         Long chatId = incomingUpdateService.getChatId(update);
         String lang = incomingUpdateService.getLanguageCode(update);
-        return geSimilarVacansiesMessages(
-                userService.findUser(incomingUpdateService.getUserName(update)),
-                hhResumeService.getResume(resumeId, user),
-                chatId,
-                lang
-        );
-    }
+        ResumeDTO resume = hhResumeService.getResume(resumeId, user);
 
-    private List<SendMessage> getVacansiesMessages(User user, Long chatId, String lang) {
-        List<VacancyDTO> vacancies = hhVacancyService.getVacancies(user.getSearchParameters());
-        return tgmMessageService.createVacancyMessages(vacancies, chatId, lang);
-    }
-
-    private List<SendMessage> geSimilarVacansiesMessages(User user, ResumeDTO resume, Long chatId, String lang) {
         List<VacancyDTO> vacancies = hhSimilarVacancyService.getSimilarVacancies(resume, user);
-        return tgmMessageService.createVacancyMessages(vacancies, chatId, lang);
+        String nextPageCommand = "/next.search.similar.run" + " " + resume.getId();
+        return tgmMessageService.createVacancyMessages(vacancies, nextPageCommand, chatId, lang);
+    }
+
+    private List<SendMessage> executeSearch(Update update) throws TelegramApiException {
+        Long chatId = incomingUpdateService.getChatId(update);
+        String lang = incomingUpdateService.getLanguageCode(update);
+        User user = userService.findUser(incomingUpdateService.getUserName(update));
+
+        List<VacancyDTO> vacancies = hhVacancyService.getVacancies(user.getSearchParameters());
+        String nextPageCommand = "/next.search.page";
+        return tgmMessageService.createVacancyMessages(vacancies, nextPageCommand, chatId, lang);
     }
 }
