@@ -36,38 +36,40 @@ public class SearchKeyboardController {
     @ApiOperation("Отображение меню поиска вакансий")
     @BotRequestMapping(value = "search.start", isLocale = true)
     public SendMessage startSearch(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService.createMenuMessage(
-                "️✏️",
-                inlineKeyboardService.getMainSearchMenu(lang)
+                msg.getMessage("message.search.main.mеnu", getLang(update)),
+                inlineKeyboardService.getMainSearchMenu(getLang(update))
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Отображение меню 'Опыт работы'")
     @BotRequestMapping(value = "search.experience", isLocale = true)
     public SendMessage showExperienceMenu(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService
-                .createButtonMessage(inlineKeyboardService.getExperienceMenu(lang))
-                .setChatId(incomingUpdateService.getChatId(update));
+                .createButtonMessage(
+                        msg.getMessage("message.search.experience", getLang(update)),
+                        inlineKeyboardService.getExperienceMenu(getLang(update))
+                ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Отображение меню 'Тип занятости'")
     @BotRequestMapping(value = "search.employment", isLocale = true)
     public SendMessage showEmploymentMenu(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService
-                .createButtonMessage(inlineKeyboardService.getEmploymentMenu(lang))
-                .setChatId(incomingUpdateService.getChatId(update));
+                .createButtonMessage(
+                        msg.getMessage("message.search.employment",getLang(update)),
+                        inlineKeyboardService.getEmploymentMenu(getLang(update))
+                ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Отображение меню 'График работы'")
     @BotRequestMapping(value = "search.schedule", isLocale = true)
     public SendMessage showScheduleMenu(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService
-                .createButtonMessage(inlineKeyboardService.getScheduleMenu(lang))
-                .setChatId(incomingUpdateService.getChatId(update));
+                .createButtonMessage(
+                        msg.getMessage("message.search.schedule",getLang(update)),
+                        inlineKeyboardService.getScheduleMenu(getLang(update))
+                ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Отображение меню 'Регион'")
@@ -78,8 +80,10 @@ public class SearchKeyboardController {
                 inlineKeyboardService.getPagingMenu(0, areas, "/search.area");
 
         return tgmMessageService
-                .createButtonMessage(inlineKeyboard)
-                .setChatId(incomingUpdateService.getChatId(update));
+                .createButtonMessage(
+                        msg.getMessage("message.search.area",getLang(update)),
+                        inlineKeyboard
+                ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Управление меню 'Регион': вперёд, назад")
@@ -103,8 +107,10 @@ public class SearchKeyboardController {
         InlineKeyboardMarkup inlineKeyboard =
                 inlineKeyboardService.getPagingMenu(0, specializations, "/search.specialization");
         return tgmMessageService
-                .createButtonMessage(inlineKeyboard)
-                .setChatId(incomingUpdateService.getChatId(update));
+                .createButtonMessage(
+                        msg.getMessage("message.search.specialization",getLang(update)),
+                        inlineKeyboard
+                ).setChatId(incomingUpdateService.getChatId(update));
     }
 
     @ApiOperation("Управление меню 'Профобласть': вперёд, назад")
@@ -124,9 +130,12 @@ public class SearchKeyboardController {
     @ApiOperation("Отображение информации о способе задания должности")
     @BotRequestMapping(value = "search.text", isLocale = true)
     public SendMessage showPositionText(Update update) throws TelegramApiException {
-        String lang = incomingUpdateService.getLanguageCode(update);
         return tgmMessageService.createMessage(
-                msg.getMessage("message.search.parameters.position", lang)
+                msg.getMessage("message.search.parameters.position", getLang(update))
         ).setChatId(incomingUpdateService.getChatId(update));
+    }
+
+    private String getLang(Update update) throws TelegramApiException {
+        return incomingUpdateService.getLanguageCode(update);
     }
 }

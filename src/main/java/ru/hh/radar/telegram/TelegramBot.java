@@ -43,7 +43,10 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
         } catch (TelegramApiException e) {
             log.error(e.getMessage() + "\n" + e.getCause());
+            System.out.println(update.getMessage().getChat());
+            System.out.println(update.getMessage().getText());
             e.printStackTrace();
+
         }
     }
 }

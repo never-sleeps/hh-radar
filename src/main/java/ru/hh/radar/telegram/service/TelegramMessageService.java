@@ -23,5 +23,5 @@ public interface TelegramMessageService {
 
     List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, String nextCommand, Long chatId, String lang);
 
-    List<SendMessage> createResumeMessages(List<ResumeDTO> resumeList, Long chatId, String lang);
+    List<SendMessage> createResumeInfoMessages(List<ResumeDTO> resumeList, Long chatId, String lang);
 }

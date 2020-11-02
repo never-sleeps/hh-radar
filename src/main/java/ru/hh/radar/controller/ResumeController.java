@@ -52,7 +52,7 @@ public class ResumeController {
         }
         List<ResumeDTO> resumeList = hhResumeService.getAllResume(user);
         Long chatId = incomingUpdateService.getChatId(update);
-        return telegramMessageService.createResumeMessages(resumeList, chatId, getLang(update));
+        return telegramMessageService.createResumeInfoMessages(resumeList, chatId, getLang(update));
 
     }
 
@@ -69,7 +69,7 @@ public class ResumeController {
         List<ResumeDTO> items = hhResumeService.getAllResume(user);
         return telegramMessageService.createButtonMessage(
                 msg.getMessage("message.publish.context", getLang(update)),
-                inlineKeyboardService.getResumeMenu(getLang(update), items)
+                inlineKeyboardService.getPublishResumeMenu(getLang(update), items)
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 

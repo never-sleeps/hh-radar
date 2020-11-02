@@ -75,7 +75,7 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     }
 
     @Override
-    public List<SendMessage> createResumeMessages(List<ResumeDTO> resumeList, Long chatId, String lang) {
+    public List<SendMessage> createResumeInfoMessages(List<ResumeDTO> resumeList, Long chatId, String lang) {
         List<SendMessage> resumeMessages = new ArrayList<>();
         for (ResumeDTO resume: resumeList) {
             InlineKeyboardButton button = tgmElementService.createCallbackButton(
