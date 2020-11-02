@@ -4,11 +4,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import ru.hh.radar.dto.ResumeDTO;
-import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.dto.VacancyDTO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -23,7 +21,7 @@ public interface TelegramMessageService {
 
     SendMessage createMenuMessage(String text, ReplyKeyboardMarkup replyKeyboardMarkup);
 
-    List<SendMessage> createVacancyMessages(String linkText, List<VacancyDTO> vacancies, Long chatId);
+    List<SendMessage> createVacancyMessages(List<VacancyDTO> vacancies, String nextCommand, Long chatId, String lang);
 
-    List<SendMessage> createResumeMessages(String lang, Map<ResumeDTO, ResumeStatusDTO> resumeList, Long chatId);
+    List<SendMessage> createResumeMessages(List<ResumeDTO> resumeList, Long chatId, String lang);
 }

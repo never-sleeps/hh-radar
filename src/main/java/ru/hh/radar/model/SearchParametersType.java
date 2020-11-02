@@ -7,5 +7,8 @@ public enum SearchParametersType {
     SCHEDULE,
     AREA,
     SPECIALIZATION,
-    ORDER_BY
+    ORDER_BY,
+    PER_PAGE,
+    PAGE,
+    ORDER
 }

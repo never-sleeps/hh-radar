@@ -43,6 +43,11 @@ public class IncomingUpdateServiceImpl implements IncomingUpdateService {
     }
 
     @Override
+    public Integer getMessageId(Update update) throws TelegramApiException {
+        return getMessage(update).getMessageId();
+    }
+
+    @Override
     public String getLanguageCode(Update update) throws TelegramApiException {
         return getFrom(update).getLanguageCode();
     }

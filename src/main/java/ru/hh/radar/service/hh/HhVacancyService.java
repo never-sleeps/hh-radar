@@ -1,8 +1,9 @@
 package ru.hh.radar.service.hh;
 
-import ru.hh.radar.dto.VacanciesResultsDTO;
 import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.model.entity.SearchParameters;
+
+import java.util.List;
 
 /**
  * Сервис для работы с вакансиями
@@ -23,5 +24,5 @@ public interface HhVacancyService {
      * @param parameters параметры поиска пользователя
      * @return список вакансий
      */
-    VacanciesResultsDTO getVacancies(SearchParameters parameters);
+    List<VacancyDTO> getVacancies(SearchParameters parameters);
 }

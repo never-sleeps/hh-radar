@@ -17,6 +17,9 @@ create table SEARCH_PARAMETERS (
    employment VARCHAR(20),
    schedule VARCHAR(20),
    order_by VARCHAR(20),
+   page NUMERIC,
+   per_page NUMERIC,
+   paging_order VARCHAR(10),
 
    PRIMARY KEY (id)
 );

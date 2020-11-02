@@ -1,5 +1,7 @@
 package ru.hh.radar.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,6 +24,7 @@ import java.util.List;
 @Slf4j
 @BotController
 @RequiredArgsConstructor
+@Api("Сервис запуска телеграм-бота и работы со стартовым меню")
 public class StartController {
 
     private final TelegramMessageService tgmMessageService;
@@ -34,6 +37,7 @@ public class StartController {
     private final UserService userService;
     private final HhOauthService hhOauthService;
 
+    @ApiOperation("Старт телеграм-бота")
     @BotRequestMapping("/start")
     public SendMessage start(Update update) throws TelegramApiException {
         String userName = incomingUpdateService.getMessage(update).getFrom().getUserName();
@@ -46,14 +50,16 @@ public class StartController {
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
-    @BotRequestMapping("authorize.user")
+    @ApiOperation("Авторизация пользователя на hh.ru")
+    @BotRequestMapping(value = "authorize.user", isLocale = true)
     public SendMessage authorizeUser(Update update) throws TelegramApiException {
         String lang = incomingUpdateService.getLanguageCode(update);
         return getAuthorizeButton(lang)
                 .setChatId(incomingUpdateService.getChatId(update));
     }
 
-    @BotRequestMapping("mainmenu")
+    @ApiOperation("Отображение главного меню бота")
+    @BotRequestMapping(value = "main.menu", isLocale = true)
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
         String lang = incomingUpdateService.getLanguageCode(update);

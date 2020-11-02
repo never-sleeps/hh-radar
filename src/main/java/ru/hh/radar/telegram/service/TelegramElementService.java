@@ -1,5 +1,6 @@
 package ru.hh.radar.telegram.service;
 
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -51,4 +52,12 @@ public interface TelegramElementService {
      * @return ReplyKeyboardMarkup - этот объект представляет клавиатуру с опциями ответа
      */
     ReplyKeyboardMarkup createReplyKeyboardMarkup(List<KeyboardRow> keyboard);
+
+    /**
+     * Редактирование только разметки ответа в сообщениях.
+     * @param messageId id сообщения
+     * @param inlineKeyboardMarkup новая разметка в сообщении
+     * @return измененное сообщение
+     */
+    EditMessageReplyMarkup editMessageReplyMarkup(Integer messageId, InlineKeyboardMarkup inlineKeyboardMarkup);
 }

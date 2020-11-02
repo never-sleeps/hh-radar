@@ -30,7 +30,7 @@ public class User {
     @JoinColumn(name = "token_id")
     private ClientAccessToken clientAccessToken;
 
-//    @ToString.Exclude
+    @ToString.Exclude
     @OneToOne(targetEntity = SearchParameters.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "search_id")
     private SearchParameters searchParameters;

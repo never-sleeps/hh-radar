@@ -19,6 +19,8 @@
 		<jsoup.version>1.13.1</jsoup.version>
 		<scribejava.apis.version>2.3.0</scribejava.apis.version>
 		<caffeine.version>2.8.5</caffeine.version>
+		<swagger.version>1.5.22</swagger.version>
+		<oauth2.version>1.0.2</oauth2.version>
 	</properties>
 
 	<dependencies>
@@ -65,17 +67,22 @@
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.oltu.oauth2/org.apache.oltu.oauth2.client -->
+
+		<!-- oauth2 -->
 		<dependency>
 			<groupId>org.apache.oltu.oauth2</groupId>
 			<artifactId>org.apache.oltu.oauth2.client</artifactId>
-			<version>1.0.2</version>
+			<version>${oauth2.version}</version>
 		</dependency>
 
+		<!-- swagger -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
 
-
-
-
+		<!-- cache -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
@@ -85,8 +92,6 @@
 			<artifactId>caffeine</artifactId>
 			<version>${caffeine.version}</version>
 		</dependency>
-
-
 
 		<!-- telegram -->
 		<dependency>
