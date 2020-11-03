@@ -4,6 +4,8 @@ package ru.hh.radar.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +20,9 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "created_time", nullable = false)
+    private LocalDateTime cratedTime;
+
     @Column(name = "username", unique = true)
     private String username;
 
@@ -25,7 +30,7 @@ public class User {
     @Column(name = "authorization_code")
     private String authorizationCode;
 
-//    @ToString.Exclude
+    @ToString.Exclude
     @OneToOne(targetEntity = ClientAccessToken.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "token_id")
     private ClientAccessToken clientAccessToken;

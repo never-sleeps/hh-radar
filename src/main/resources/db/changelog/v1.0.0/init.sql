@@ -26,6 +26,7 @@ create table SEARCH_PARAMETERS (
 
 CREATE TABLE USERS (
   id BIGSERIAL,
+  created_time TIMESTAMP,
   username VARCHAR(255) NOT NULL,
   authorization_code VARCHAR(255),
   token_id bigint references CLIENT_ACCESS_TOKENS (id),
@@ -33,3 +34,15 @@ CREATE TABLE USERS (
 
   PRIMARY KEY (id)
 );
+
+CREATE TABLE AUTO_PUBLISHING_VACANCIES (
+    id BIGSERIAL,
+    vacancy VARCHAR(255) NOT NULL,
+    created_time TIMESTAMP,
+    last_updated_time TIMESTAMP,
+    publish_count NUMERIC,
+    archive BOOLEAN,
+
+    PRIMARY KEY (id)
+);
+

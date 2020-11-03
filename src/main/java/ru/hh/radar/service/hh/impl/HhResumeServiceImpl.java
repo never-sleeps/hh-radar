@@ -2,6 +2,7 @@ package ru.hh.radar.service.hh.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.client.hh.HhResumeClient;
 import ru.hh.radar.dto.ResumeDTO;
@@ -51,11 +52,20 @@ public class HhResumeServiceImpl implements HhResumeService {
         return results;
     }
 
+    @Override
     public boolean publishResume(String resumeId, User user) {
         boolean is2xxSuccessful = hhResumeClient.publishResume(resumeId, user);
         if(is2xxSuccessful) {
             log.info(String.format("%s: published resume %s", user.getUsername(), resumeId));
         }
         return is2xxSuccessful;
+    }
+
+//    @Async
+    @Scheduled(fixedDelay = 4 * 60 * 60 * 1000)
+    public void scheduleFixedRateTaskAsync() {
+        System.out.println(
+                "Fixed rate task async - " + System.currentTimeMillis() / 1000);
+//        Thread.sleep(2000);
     }
 }
