@@ -9,12 +9,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.model.SearchParametersType;
 import ru.hh.radar.model.entity.SearchParameters;
 import ru.hh.radar.model.entity.User;
-import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.SearchParametersService;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
+import ru.hh.radar.utils.Utils;
 
 @BotController
 @Api("Сервис сохранения параметров поиска вакансий")

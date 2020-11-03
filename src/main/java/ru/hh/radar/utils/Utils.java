@@ -1,4 +1,4 @@
-package ru.hh.radar.service;
+package ru.hh.radar.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;

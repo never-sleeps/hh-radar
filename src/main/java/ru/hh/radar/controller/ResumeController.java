@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.model.entity.User;
-import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhResumeService;
 import ru.hh.radar.telegram.annotations.BotController;
@@ -19,6 +18,7 @@ import ru.hh.radar.telegram.service.IncomingUpdateService;
 import ru.hh.radar.telegram.service.InlineKeyboardService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
+import ru.hh.radar.utils.Utils;
 
 import java.time.LocalDateTime;
 import java.util.List;

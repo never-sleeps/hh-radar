@@ -1,6 +1,5 @@
 package ru.hh.radar.service.hh;
 
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.model.entity.User;
 
 import java.net.URI;
@@ -24,23 +23,6 @@ public interface HhOauthService {
      * @param userName - userName пользователя
      * @param command - полный текст команды
      * @return пользователь
-     * @throws TelegramApiException
      */
-    User authorizeUser(String userName, String command) throws TelegramApiException;
-
-
-//
-//    /**
-//     * Обновление пары access и refresh токенов
-//     * https://github.com/hhru/api/blob/master/docs/authorization_for_user.md#refresh_token
-//     * @param user пользователь
-//     */
-//    void refreshToken(User user);
-//
-//    /**
-//     * Проверка access-токена
-//     * https://github.com/hhru/api/blob/master/docs/authorization.md#check-access_token
-//     * @param user пользователь
-//     */
-//    boolean accessTokenIsValid(User user);
+    User authorizeUser(String userName, String command);
 }

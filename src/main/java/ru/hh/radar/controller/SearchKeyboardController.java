@@ -9,12 +9,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.TypeDTO;
-import ru.hh.radar.service.Utils;
-import ru.hh.radar.service.hh.HhAreaService;
-import ru.hh.radar.service.hh.HhSpecializationsService;
+import ru.hh.radar.service.hh.HhDictionaryService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.telegram.service.*;
+import ru.hh.radar.utils.Utils;
 
 import java.util.List;
 
@@ -28,8 +27,7 @@ public class SearchKeyboardController {
     private final TelegramElementService elementService;
     private final InlineKeyboardService inlineKeyboardService;
 
-    private final HhSpecializationsService hhSpecializationsService;
-    private final HhAreaService hhAreaService;
+    private final HhDictionaryService hhDictionaryService;
 
     private final MessageService msg;
 
@@ -75,7 +73,7 @@ public class SearchKeyboardController {
     @ApiOperation("Отображение меню 'Регион'")
     @BotRequestMapping(value = "search.area", isLocale = true)
     public SendMessage showAreaMenu(Update update) throws TelegramApiException {
-        List<TypeDTO> areas = hhAreaService.getRussiaAreas();;
+        List<TypeDTO> areas = hhDictionaryService.getRussiaAreas();;
         InlineKeyboardMarkup inlineKeyboard =
                 inlineKeyboardService.getPagingMenu(0, areas, "/search.area");
 
@@ -90,7 +88,7 @@ public class SearchKeyboardController {
     @BotRequestMapping(value = {"/search.area.next", "/search.area.back"})
     public EditMessageReplyMarkup showNextBackAreaMenu(Update update) throws TelegramApiException {
         String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
-        List<TypeDTO> areas = hhAreaService.getRussiaAreas();
+        List<TypeDTO> areas = hhDictionaryService.getRussiaAreas();
         InlineKeyboardMarkup inlineKeyboard =
                 inlineKeyboardService.getPagingMenu(Integer.decode(value), areas, "/search.area");
 
@@ -103,7 +101,7 @@ public class SearchKeyboardController {
     @ApiOperation("Отображение меню 'Профобласть'")
     @BotRequestMapping(value = "search.specialization", isLocale = true)
     public SendMessage showSpecializationsMenu(Update update) throws TelegramApiException {
-        List<TypeDTO> specializations = hhSpecializationsService.getSpecializations();
+        List<TypeDTO> specializations = hhDictionaryService.getSpecializations();
         InlineKeyboardMarkup inlineKeyboard =
                 inlineKeyboardService.getPagingMenu(0, specializations, "/search.specialization");
         return tgmMessageService
@@ -117,7 +115,7 @@ public class SearchKeyboardController {
     @BotRequestMapping(value = {"/search.specialization.next", "/search.specialization.back"})
     public EditMessageReplyMarkup showNextBackSpecializationMenu(Update update) throws TelegramApiException {
         String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
-        List<TypeDTO> specializations = hhSpecializationsService.getSpecializations();
+        List<TypeDTO> specializations = hhDictionaryService.getSpecializations();
         InlineKeyboardMarkup inlineKeyboard =
                 inlineKeyboardService.getPagingMenu(Integer.decode(value), specializations, "/search.specialization");
 
