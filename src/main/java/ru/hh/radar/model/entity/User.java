@@ -25,7 +25,7 @@ public class User {
     @Column(name = "authorization_code")
     private String authorizationCode;
 
-    @ToString.Exclude
+//    @ToString.Exclude
     @OneToOne(targetEntity = ClientAccessToken.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "token_id")
     private ClientAccessToken clientAccessToken;

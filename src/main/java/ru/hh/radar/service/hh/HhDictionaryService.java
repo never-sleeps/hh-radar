@@ -4,6 +4,9 @@ import ru.hh.radar.dto.TypeDTO;
 
 import java.util.List;
 
-public interface HhSpecializationsService {
+public interface HhDictionaryService {
+
+    List<TypeDTO> getRussiaAreas();
+
     List<TypeDTO> getSpecializations();
 }

@@ -9,16 +9,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.dto.VacancyDTO;
 import ru.hh.radar.model.entity.User;
-import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.SearchParametersService;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhResumeService;
-import ru.hh.radar.service.hh.HhSimilarVacancyService;
 import ru.hh.radar.service.hh.HhVacancyService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
 import ru.hh.radar.telegram.service.TelegramMessageService;
+import ru.hh.radar.utils.Utils;
 
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class SearchController {
     private final SearchParametersService searchParametersService;
     private final HhVacancyService hhVacancyService;
     private final HhResumeService hhResumeService;
-    private final HhSimilarVacancyService hhSimilarVacancyService;
 
     @ApiOperation("Поиск по вакансиям. Отображение результатов по 3 вакансии в блоке")
     @BotRequestMapping(value = "search.run", isLocale = true)
@@ -75,7 +73,7 @@ public class SearchController {
         String lang = incomingUpdateService.getLanguageCode(update);
         ResumeDTO resume = hhResumeService.getResume(resumeId, user);
 
-        List<VacancyDTO> vacancies = hhSimilarVacancyService.getSimilarVacancies(resume, user);
+        List<VacancyDTO> vacancies = hhVacancyService.getSimilarVacancies(resume, user);
         String nextPageCommand = "/next.search.similar.run" + " " + resume.getId();
         return tgmMessageService.createVacancyMessages(vacancies, nextPageCommand, chatId, lang);
     }

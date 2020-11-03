@@ -3,7 +3,7 @@ package ru.hh.radar.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import ru.hh.radar.model.entity.ClientAccessToken;
-import ru.hh.radar.service.Utils;
+import ru.hh.radar.utils.Utils;
 
 @Data
 public class AccessTokenDTO {

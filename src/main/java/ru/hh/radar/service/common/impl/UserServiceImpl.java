@@ -7,8 +7,8 @@ import ru.hh.radar.model.SearchParametersType;
 import ru.hh.radar.model.entity.SearchParameters;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.repository.UserRepository;
-import ru.hh.radar.service.Utils;
 import ru.hh.radar.service.common.UserService;
+import ru.hh.radar.utils.Utils;
 
 @Slf4j
 @Service
