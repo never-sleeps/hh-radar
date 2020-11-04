@@ -25,7 +25,6 @@ public class LocaleConfig {
         return list;
     }
 
-
     @Bean
     MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

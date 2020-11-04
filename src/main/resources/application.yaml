@@ -3,6 +3,24 @@ application:
         ru_RU: Русский
         en_US: English
 
+info:
+    app:
+        name: HhRadar
+        description: 🤖 Telegram Bot for job search on hh
+        version: 1.0.0
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: always
+    health:
+        defaults:
+            enabled: true
+
 server:
     port: 8081
 
@@ -25,6 +43,8 @@ oauth:
 
 logging:
     pattern:
-        rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd_HH-mm}.%i.gz"
         file:
-            name: "logs/application.log"
+            name: application.log
+    logback:
+        rollingpolicy:
+            file-name-pattern: "${LOG_FILE}.%d{yyyy-MM-dd_HH-mm}.%i.gz"
