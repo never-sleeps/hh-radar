@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "AUTO_PUBLISHING_VACANCIES")
-public class AutoPublishingVacancy {
+public class AutoPublishingResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "vacancy")
-    private String vacancy;
+    @Column(name = "resume")
+    private String resume;
 
     @Column(name = "created_time")
     private LocalDateTime createdTime;
@@ -32,6 +32,12 @@ public class AutoPublishingVacancy {
     @Column(name = "publish_count")
     private Long publishCount = 0L;
 
-    @Column(name = "archive")
-    private boolean archive = false;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+        this.publishCount++;
+    }
 }

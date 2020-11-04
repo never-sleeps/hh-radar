@@ -37,11 +37,11 @@ CREATE TABLE USERS (
 
 CREATE TABLE AUTO_PUBLISHING_VACANCIES (
     id BIGSERIAL,
-    vacancy VARCHAR(255) NOT NULL,
+    resume VARCHAR(255) NOT NULL,
+    user_id bigint references USERS(id) on delete cascade,
     created_time TIMESTAMP,
     last_updated_time TIMESTAMP,
-    publish_count NUMERIC,
-    archive BOOLEAN,
+    publish_count NUMERIC DEFAULT 0,
 
     PRIMARY KEY (id)
 );

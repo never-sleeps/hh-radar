@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.dto.TypeDTO;
+import ru.hh.radar.service.common.AutoPublishingResumeService;
 import ru.hh.radar.telegram.service.InlineKeyboardService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
@@ -22,6 +23,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
 
     private final TelegramElementService tgmElementService;
     private final MessageService msg;
+    private final AutoPublishingResumeService autoPublishingResumeService;
 
     @Value("${headhunter.timeBetweenPublishing.hours}")
     private int timeBetweenPublishingInHours;
@@ -117,13 +119,23 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
         for (ResumeDTO resume : resumeList) {
-            String status = (resume.isPublished())
+            String id = resume.getId();
+
+            String publishText = (resume.isPublished())
                     ? (resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours) ? "⏰" : "✅") : "❌";
-            InlineKeyboardButton button = tgmElementService.createCallbackButton(
-                    status + " " + resume.toShortString(),
-                    "/publish " + resume.getId()
+            InlineKeyboardButton publishButton = tgmElementService
+                    .createCallbackButton(publishText + " " + resume.toShortString(), "/publish " + id);
+
+            String isNotPublishedText = msg.getMessage("resume.publish.auto.notavailable", lang);
+            String autoPublishText = ((autoPublishingResumeService.isAutoPublishingResume(id))
+                    ? msg.getMessage("resume.publish.auto.true", lang)
+                    : msg.getMessage("resume.publish.auto.false", lang));
+            InlineKeyboardButton autoPublishButton = tgmElementService.createCallbackButton(
+                    (resume.isPublished()) ? autoPublishText : isNotPublishedText,
+                    (resume.isPublished()) ? "/auto.publish " + id : "/auto.publish.notavailable"
             );
-            rowsInline.add(tgmElementService.createInlineKeyboardRow(button));
+
+            rowsInline.add(tgmElementService.createInlineKeyboardRow(publishButton, autoPublishButton));
         }
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
     }

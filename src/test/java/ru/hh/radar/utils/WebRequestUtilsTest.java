@@ -5,14 +5,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.hh.radar.model.SearchParametersType;
 import ru.hh.radar.model.entity.ClientAccessToken;
-import ru.hh.radar.model.entity.SearchParameters;
 import ru.hh.radar.model.entity.User;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class WebRequestUtilsTest {
 

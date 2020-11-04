@@ -4,15 +4,15 @@ package ru.hh.radar.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User {
 
     @Id
@@ -39,6 +39,10 @@ public class User {
     @OneToOne(targetEntity = SearchParameters.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "search_id")
     private SearchParameters searchParameters;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AutoPublishingResume> autoPublishingVacancies;
+
 
     public User(String username) {
         this.username = username;

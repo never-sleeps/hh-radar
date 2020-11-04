@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.hh.radar.dto.ErrorDTO;
@@ -74,14 +75,14 @@ public class HhResumeClient {
 
         HttpHeaders headers = WebRequestUtils.getAuthorizationHttpHeader(user);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
-        ResponseEntity<ErrorDTO> response = restTemplate.postForEntity(uri, request, ErrorDTO.class);
 
-        boolean is2xxSuccessful = response.getStatusCode().is2xxSuccessful();
-        if(!is2xxSuccessful) {
+        boolean is2xxSuccessful = false;
+        try {
+            ResponseEntity<ErrorDTO> response = restTemplate.postForEntity(uri, request, ErrorDTO.class);
+            is2xxSuccessful = response.getStatusCode().is2xxSuccessful();
+        } catch (HttpClientErrorException e) {
             log.error(
-                    String.format("%s: error published resume %s. StatusCode: %s. Cause: %s",
-                            user.getUsername(), resumeId, response.getStatusCode(),
-                            (response.getBody() != null) ? response.getBody().toString() : "?")
+                    String.format("%s: error published resume %s. Response: %s", user.getUsername(), resumeId, e.getMessage())
             );
         }
         return is2xxSuccessful;
