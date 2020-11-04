@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.hh.radar</groupId>
 	<artifactId>hh-radar</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>hh-radar</name>
 
 	<properties>
@@ -110,6 +110,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Boot Actuator -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 	</dependencies>
 

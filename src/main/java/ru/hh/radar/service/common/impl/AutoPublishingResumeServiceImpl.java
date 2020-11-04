@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.model.entity.AutoPublishingResume;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.repository.AutoPublishingResumeRepository;
 import ru.hh.radar.service.common.AutoPublishingResumeService;
 
-import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,11 +26,13 @@ public class AutoPublishingResumeServiceImpl implements AutoPublishingResumeServ
     @Value("${headhunter.timeBetweenPublishing.hours}")
     private int timeBetweenPublishingInHours;
 
+    @Transactional(readOnly = true)
     @Override
     public List<AutoPublishingResume> getAvailableForUpdatingResumes() {
         return repository.findAllAvailableByTime(LocalDateTime.now().minusHours(timeBetweenPublishingInHours));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean isAutoPublishingResume(String resumeId) {
         return repository.existsByResume(resumeId);
