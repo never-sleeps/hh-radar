@@ -42,9 +42,10 @@ oauth:
     redirectUri: https://ao74l2kwve.execute-api.us-east-2.amazonaws.com/hhRadarBot
 
 logging:
-    pattern:
-        file:
-            name: application.log
+    file:
+        name: "logs/service.log"
     logback:
         rollingpolicy:
             file-name-pattern: "${LOG_FILE}.%d{yyyy-MM-dd_HH-mm}.%i.gz"
+            max-file-size: 1024B
+            max-history: 3
