@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
