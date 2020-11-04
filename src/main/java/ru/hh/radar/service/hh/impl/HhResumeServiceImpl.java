@@ -2,12 +2,15 @@ package ru.hh.radar.service.hh.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.client.hh.HhResumeClient;
 import ru.hh.radar.dto.ResumeDTO;
 import ru.hh.radar.dto.ResumeStatusDTO;
 import ru.hh.radar.dto.ResumesResultsDTO;
+import ru.hh.radar.model.entity.AutoPublishingResume;
 import ru.hh.radar.model.entity.User;
+import ru.hh.radar.service.common.AutoPublishingResumeService;
 import ru.hh.radar.service.hh.HhResumeService;
 
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Map;
 public class HhResumeServiceImpl implements HhResumeService {
 
     private final HhResumeClient hhResumeClient;
+    private final AutoPublishingResumeService autoPublishingResumeService;
 
     @Override
     public List<ResumeDTO> getAllResume(User user) {
@@ -51,11 +55,30 @@ public class HhResumeServiceImpl implements HhResumeService {
         return results;
     }
 
+    @Override
     public boolean publishResume(String resumeId, User user) {
         boolean is2xxSuccessful = hhResumeClient.publishResume(resumeId, user);
         if(is2xxSuccessful) {
             log.info(String.format("%s: published resume %s", user.getUsername(), resumeId));
         }
         return is2xxSuccessful;
+    }
+
+    @Scheduled(fixedDelay = 1 * 60 * 60 * 1000) // раз в час
+    public void autoPublishResume() {
+        List<AutoPublishingResume> list = autoPublishingResumeService.getAvailableForUpdatingResumes();
+        long successful = 0L; long error = 0L;
+
+        for (AutoPublishingResume autoPublish : list) {
+            boolean isSuccessful = publishResume(autoPublish.getResume(), autoPublish.getUser());
+            if (isSuccessful) {
+                ResumeDTO resume = getResume(autoPublish.getResume(), autoPublish.getUser());
+                autoPublish.setLastUpdatedTime(resume.getUpdatedAt());
+                autoPublishingResumeService.save(autoPublish);
+                successful++;
+            }
+            else error++;
+        }
+        log.info(String.format("Got for auto-publish: %s. successful: %s. error: %s", list.size(), successful, error));
     }
 }
