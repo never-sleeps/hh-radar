@@ -55,14 +55,11 @@ public class SearchParametersController {
     }
 
     @ApiOperation("Сохранение параметра поиска вакансий 'График работы'")
-    @BotRequestMapping(value = {
-            "/search.schedule.fullDay", "/search.schedule.shift", "/search.schedule.flexible",
-            "/search.schedule.remote", "/search.schedule.flyInFlyOut"
-    })
+    @BotRequestMapping("/search.schedule")
     public SendMessage setScheduleMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
-        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
-        SearchParameters parameters = saveSearchParameters(SearchParametersType.SCHEDULE, user, value);
+        String commandValue =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
+        SearchParameters parameters = saveSearchParameters(SearchParametersType.SCHEDULE, user, commandValue);
         return new SendMessage()
                 .setText(searchParametersService.toString(parameters, getLang(update)))
                 .setChatId(incomingUpdateService.getChatId(update));

@@ -29,6 +29,8 @@ public class HhDictionaryServiceImpl implements HhDictionaryService {
                 Comparator<TypeDTO> compareByName = new Comparator<>() {
                     @Override
                     public int compare(TypeDTO o1, TypeDTO o2) {
+                        if(o1.getName().equals("Москва") || o1.getName().equals("Санкт-Петербург")) return -1;
+                        if(o2.getName().equals("Москва") || o2.getName().equals("Санкт-Петербург")) return 1;
                         return o1.getName().compareTo(o2.getName());
                     }
                 };
