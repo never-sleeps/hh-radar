@@ -27,13 +27,10 @@ public class SearchParametersController {
     private final UserService userService;
 
     @ApiOperation("Сохранение параметра поиска вакансий 'Опыт работы'")
-    @BotRequestMapping(value = {
-            "/search.experience.noExperience", "/search.experience.between1And3",
-            "/search.experience.between3And6", "/search.experience.moreThan6"
-    })
+    @BotRequestMapping("/search.experience")
     public SendMessage setExperienceMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
-        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        String value = Utils.getCommandValue(incomingUpdateService.getCommand(update));
         SearchParameters parameters = saveSearchParameters(SearchParametersType.EXPERIENCE, user, value);
         return new SendMessage()
                 .setText(searchParametersService.toString(parameters, getLang(update)))
@@ -41,13 +38,10 @@ public class SearchParametersController {
     }
 
     @ApiOperation("Сохранение параметра поиска вакансий 'Тип занятости'")
-    @BotRequestMapping(value = {
-            "/search.employment.full", "/search.employment.part", "/search.employment.project",
-            "/search.employment.volunteer", "/search.employment.probation"
-    })
+    @BotRequestMapping("/search.employment")
     public SendMessage setEmploymentMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
-        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
         SearchParameters parameters = saveSearchParameters(SearchParametersType.EMPLOYMENT, user, value);
         return new SendMessage()
                 .setText(searchParametersService.toString(parameters, getLang(update)))
@@ -55,13 +49,10 @@ public class SearchParametersController {
     }
 
     @ApiOperation("Сохранение параметра поиска вакансий 'График работы'")
-    @BotRequestMapping(value = {
-            "/search.schedule.fullDay", "/search.schedule.shift", "/search.schedule.flexible",
-            "/search.schedule.remote", "/search.schedule.flyInFlyOut"
-    })
+    @BotRequestMapping("/search.schedule")
     public SendMessage setScheduleMenu(Update update) throws TelegramApiException {
         User user = userService.findUser(incomingUpdateService.getUserName(update));
-        String value =  incomingUpdateService.getValueFromCallbackQuery(update);
+        String value =  Utils.getCommandValue(incomingUpdateService.getCommand(update));
         SearchParameters parameters = saveSearchParameters(SearchParametersType.SCHEDULE, user, value);
         return new SendMessage()
                 .setText(searchParametersService.toString(parameters, getLang(update)))
@@ -119,7 +110,7 @@ public class SearchParametersController {
                 .getSearchParameters();
     }
 
-    private String getLang(Update update) throws TelegramApiException {
+    private String getLang(Update update) {
         return incomingUpdateService.getLanguageCode(update);
     }
 }

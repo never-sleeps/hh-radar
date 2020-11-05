@@ -30,10 +30,6 @@ public class ClientAccessToken {
     @Column(name = "id")
     private Long id;
 
-//    @NotNull
-//    @Column(name = "get_token_time", nullable = false)
-//    private ZonedDateTime time;
-
     @NotNull
     @Column(name = "access_token", nullable = false)
     private String accessToken;

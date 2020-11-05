@@ -147,7 +147,7 @@ public class ResumeDTO {
     }
 
     public boolean isCanBeUpdatedByTimePeriod(int timeBetweenPublishingInHours) {
-        return updatedAt.plusHours(timeBetweenPublishingInHours).isBefore(LocalDateTime.now());
+        return updatedAt.plusHours(timeBetweenPublishingInHours).isBefore(LocalDateTime.now().plusHours(3));
     }
 
     public boolean isPublished() {

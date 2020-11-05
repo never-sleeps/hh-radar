@@ -19,16 +19,20 @@ public class KeyboardServiceImpl implements KeyboardService {
 
     @Override
     public ReplyKeyboardMarkup getStartMenu(String lang, boolean isAuthorized) {
-        List<KeyboardRow> list = tgmElementService.createKeyboardRow(
-                tgmElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
-                tgmElementService.createKeyboardRow(
-                        ((isAuthorized) ? "✅ " : "") + messageService.getMessage("authorize.user", lang)
-                ),
-                tgmElementService.createKeyboardRow(
-                        messageService.getMessage("resume.all", lang),
-                        messageService.getMessage("resume.publish", lang)
-                )
-        );
+        List<KeyboardRow> list;
+        if (!isAuthorized) {
+            list = tgmElementService.createKeyboardRow(
+                    tgmElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
+                    tgmElementService.createKeyboardRow(messageService.getMessage("authorize.user", lang))
+            );
+        } else {
+            list = tgmElementService.createKeyboardRow(
+                    tgmElementService.createKeyboardRow(messageService.getMessage("search.start", lang)),
+                    tgmElementService.createKeyboardRow(messageService.getMessage("resume.all", lang)),
+                    tgmElementService.createKeyboardRow(messageService.getMessage("resume.publish", lang)),
+                    tgmElementService.createKeyboardRow(messageService.getMessage("resume.publish.auto", lang))
+            );
+        }
         return tgmElementService.createReplyKeyboardMarkup(list);
     }
 }

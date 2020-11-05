@@ -11,7 +11,16 @@ import java.util.Locale;
 @Slf4j
 public class Utils {
     public static String htmlToText(String html) {
-        return Jsoup.parse(html).text();
+        String text = Jsoup.parse(html).text();
+        return deleteExtraSymbols(text);
+    }
+
+    public static String deleteExtraSymbols(String str) {
+        return str.replaceAll("&quot;", "")
+                .replaceAll("&#39;", "'")
+                .replaceAll("<highlighttext>", "")
+                .replaceAll("</highlighttext>", "")
+                ;
     }
 
     /**

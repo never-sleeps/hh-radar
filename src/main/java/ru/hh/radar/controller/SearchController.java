@@ -28,7 +28,6 @@ public class SearchController {
 
     private final IncomingUpdateService incomingUpdateService;
     private final TelegramMessageService tgmMessageService;
-
     private final UserService userService;
     private final SearchParametersService searchParametersService;
     private final HhVacancyService hhVacancyService;

@@ -29,6 +29,10 @@ public class HhDictionaryServiceImpl implements HhDictionaryService {
                 Comparator<TypeDTO> compareByName = new Comparator<>() {
                     @Override
                     public int compare(TypeDTO o1, TypeDTO o2) {
+                        if(o1.getName().equals("Москва")) return -1;
+                        if(o2.getName().equals("Москва")) return 1;
+                        if(o1.getName().equals("Санкт-Петербург") && !o2.getName().equals("Москва")) return -1;
+                        if(o2.getName().equals("Санкт-Петербург") && !o1.getName().equals("Москва")) return 1;
                         return o1.getName().compareTo(o2.getName());
                     }
                 };
@@ -39,6 +43,12 @@ public class HhDictionaryServiceImpl implements HhDictionaryService {
         }
         log.error("Россия not found in country list");
         return List.of();
+    }
+
+    @Cacheable("area")
+    @Override
+    public TypeDTO getAreaById(String areaId) {
+        return hhDictionariesClient.getArea(areaId);
     }
 
     @Cacheable("specializations")

@@ -28,7 +28,6 @@ public class SearchKeyboardController {
     private final InlineKeyboardService inlineKeyboardService;
 
     private final HhDictionaryService hhDictionaryService;
-
     private final MessageService msg;
 
     @ApiOperation("Отображение меню поиска вакансий")
@@ -133,7 +132,7 @@ public class SearchKeyboardController {
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 
-    private String getLang(Update update) throws TelegramApiException {
+    private String getLang(Update update) {
         return incomingUpdateService.getLanguageCode(update);
     }
 }

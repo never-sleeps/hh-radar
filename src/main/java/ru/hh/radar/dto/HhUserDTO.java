@@ -46,11 +46,6 @@ public class HhUserDTO {
 
     @Override
     public String toString() {
-        if(firstName == null && middleName == null && lastName == null) {
-            return "";
-        }
-        return ((firstName != null) ? firstName + " " : "")
-                + ((middleName != null) ? middleName + " " : "")
-                + ((lastName != null) ? lastName : "");
+        return (firstName != null) ? firstName : "";
     }
 }

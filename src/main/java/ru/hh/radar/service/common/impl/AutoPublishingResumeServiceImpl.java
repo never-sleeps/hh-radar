@@ -11,7 +11,6 @@ import ru.hh.radar.model.entity.User;
 import ru.hh.radar.repository.AutoPublishingResumeRepository;
 import ru.hh.radar.service.common.AutoPublishingResumeService;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class AutoPublishingResumeServiceImpl implements AutoPublishingResumeServ
     @Transactional(readOnly = true)
     @Override
     public List<AutoPublishingResume> getAvailableForUpdatingResumes() {
-        return repository.findAllAvailableByTime(LocalDateTime.now().minusHours(timeBetweenPublishingInHours));
+        return repository.findAllAvailableByTime(LocalDateTime.now().plusHours(3).minusHours(timeBetweenPublishingInHours));
     }
 
     @Transactional(readOnly = true)

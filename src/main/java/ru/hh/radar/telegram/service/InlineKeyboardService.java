@@ -21,4 +21,5 @@ public interface InlineKeyboardService {
 
     InlineKeyboardMarkup getPublishResumeMenu(String lang, List<ResumeDTO> resumeList);
 
+    InlineKeyboardMarkup getAutoPublishResumeMenu(String lang, List<ResumeDTO> resumeList);
 }
