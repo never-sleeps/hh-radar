@@ -1,9 +1,6 @@
 package ru.hh.radar.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,6 +29,7 @@ public class AutoPublishingResume {
     @Column(name = "publish_count")
     private Long publishCount = 0L;
 
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;

@@ -40,6 +40,7 @@ public class User {
     @JoinColumn(name = "search_id")
     private SearchParameters searchParameters;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AutoPublishingResume> autoPublishingVacancies;
 
