@@ -11,6 +11,7 @@ import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.utils.Utils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -83,5 +84,15 @@ public class UserServiceImpl implements UserService {
     public User cleanSearchParameters(User user) {
         user.setSearchParameters(new SearchParameters());
         return save(user);
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

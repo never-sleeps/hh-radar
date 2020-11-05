@@ -64,7 +64,7 @@ public class HhResumeServiceImpl implements HhResumeService {
         return is2xxSuccessful;
     }
 
-    @Scheduled(fixedDelay = 30 * 60 * 1000) // раз в 30 минут
+    @Scheduled(initialDelay = 10 * 60 * 1000, fixedDelay = 30 * 60 * 1000) // раз в 30 минут, первый запуск через 10 минут
     public void autoPublishResume() {
         List<AutoPublishingResume> list = autoPublishingResumeService.getAvailableForUpdatingResumes();
         long successful = 0L; long error = 0L;

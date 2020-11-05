@@ -63,4 +63,9 @@ public class AutoPublishingResumeServiceImpl implements AutoPublishingResumeServ
         log.info("Auto-publishing resume saved: " + saved);
         return repository.save(autoPublishingResume);
     }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }
