@@ -170,5 +170,9 @@ public class ResumeDTO {
                 + ((updatedAt != null) ? Utils.getFormattingData(updatedAt) : "")
                 ;
     }
+
+    public ResumeDTO(String id) {
+        this.id = id;
+    }
 }
 
