@@ -27,7 +27,7 @@ public class PingService {
     private String url;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Scheduled(fixedDelay = 1 * 60 * 60 * 1000) // раз в час
+    @Scheduled(fixedDelay = 10 * 60 * 1000) // раз в 10 минут
     public void pingMe() {
         try {
             URI uri = UriComponentsBuilder.fromHttpUrl(url)
