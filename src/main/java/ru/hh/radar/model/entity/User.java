@@ -21,7 +21,7 @@ public class User {
     private Long id;
 
     @Column(name = "created_time", nullable = false)
-    private LocalDateTime cratedTime;
+    private LocalDateTime createdTime;
 
     @Column(name = "username", unique = true)
     private String username;

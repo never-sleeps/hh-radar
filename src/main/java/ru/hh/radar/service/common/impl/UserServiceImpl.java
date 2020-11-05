@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(userName);
         if (user == null) {
             user = User.builder()
-                    .cratedTime(LocalDateTime.now())
+                    .createdTime(LocalDateTime.now())
                     .username(userName)
                     .searchParameters(new SearchParameters())
                     .build();

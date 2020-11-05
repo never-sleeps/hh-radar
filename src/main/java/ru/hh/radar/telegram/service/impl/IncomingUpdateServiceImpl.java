@@ -1,5 +1,6 @@
 package ru.hh.radar.telegram.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -7,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
 
+@Slf4j
 @Service
 public class IncomingUpdateServiceImpl implements IncomingUpdateService {
     @Override
@@ -48,8 +50,13 @@ public class IncomingUpdateServiceImpl implements IncomingUpdateService {
     }
 
     @Override
-    public String getLanguageCode(Update update) throws TelegramApiException {
-        return getFrom(update).getLanguageCode();
+    public String getLanguageCode(Update update) {
+        try {
+            return getFrom(update).getLanguageCode();
+        } catch (Exception e) {
+            log.error("LanguageCode not found. Will be used default 'ru'");
+            return "ru";
+        }
     }
 
     @Override
