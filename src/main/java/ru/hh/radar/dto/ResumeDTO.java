@@ -2,7 +2,9 @@ package ru.hh.radar.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.hh.radar.utils.Utils;
 
 import java.time.LocalDateTime;
@@ -51,6 +53,8 @@ import java.time.LocalDateTime;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResumeDTO {
 
     /** Идентификатор резюме */
