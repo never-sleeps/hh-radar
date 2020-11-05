@@ -56,4 +56,14 @@ public class SearchParameters {
     public void resetPage() {
         this.page = 1L;
     }
+
+    public boolean isEmpty() {
+        return area == null &&
+                specialization == null &&
+                text == null &&
+                experience == null &&
+                employment == null &&
+                schedule == null
+                ;
+    }
 }

@@ -14,7 +14,10 @@ import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhResumeService;
 import ru.hh.radar.telegram.annotations.BotController;
 import ru.hh.radar.telegram.annotations.BotRequestMapping;
-import ru.hh.radar.telegram.service.*;
+import ru.hh.radar.telegram.service.IncomingUpdateService;
+import ru.hh.radar.telegram.service.InlineKeyboardService;
+import ru.hh.radar.telegram.service.MessageService;
+import ru.hh.radar.telegram.service.TelegramMessageService;
 import ru.hh.radar.utils.Utils;
 
 import java.time.LocalDateTime;
@@ -30,7 +33,6 @@ public class ResumeController {
     private final TelegramMessageService telegramMessageService;
     private final InlineKeyboardService inlineKeyboardService;
     private final MessageService msg;
-
     private final UserService userService;
     private final HhResumeService hhResumeService;
 

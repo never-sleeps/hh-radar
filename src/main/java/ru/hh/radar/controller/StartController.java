@@ -32,7 +32,6 @@ public class StartController {
     private final KeyboardService keyboardService;
     private final IncomingUpdateService incomingUpdateService;
     private final MessageService messageService;
-
     private final HhUserService hhUserService;
     private final UserService userService;
     private final HhOauthService hhOauthService;

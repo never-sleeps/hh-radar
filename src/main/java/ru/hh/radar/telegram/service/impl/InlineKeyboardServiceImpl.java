@@ -58,51 +58,29 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
 
     @Override
     public InlineKeyboardMarkup getScheduleMenu(String lang) {
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<Dictionary> dictionaries = dictionaryService.getDictionaryValuesByType(SearchParametersType.SCHEDULE);
+        return getSearchParametersMenu(SearchParametersType.SCHEDULE, "/search.schedule");
+    }
 
-        String commandKey = "/search.schedule";
+    @Override
+    public InlineKeyboardMarkup getEmploymentMenu(String lang) {
+        return getSearchParametersMenu(SearchParametersType.EMPLOYMENT, "/search.employment");
+    }
+
+    private InlineKeyboardMarkup getSearchParametersMenu(SearchParametersType type, String commandKey) {
+        List<Dictionary> dictionaries = dictionaryService.getDictionaryValuesByType(type);
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         for (Dictionary dictionary : dictionaries) {
-            rowsInline.add(
-                    tgmElementService.createInlineKeyboardRow(
-                            tgmElementService.createCallbackButton(dictionary.getTitle(), commandKey + " " + dictionary.getParam())
-                    )
+            InlineKeyboardButton button = tgmElementService.createCallbackButton(
+                    dictionary.getTitle(), commandKey + " " + dictionary.getParam()
             );
+            rowsInline.add(tgmElementService.createInlineKeyboardRow(button));
         }
         return tgmElementService.createInlineKeyboardMarkup(rowsInline);
     }
 
     @Override
-    public InlineKeyboardMarkup getEmploymentMenu(String lang) {
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        rowsInline.add(
-                tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("/search.employment.full", lang),
-                        tgmElementService.createAutoCallbackButton("/search.employment.part", lang),
-                        tgmElementService.createAutoCallbackButton("/search.employment.project", lang)
-                )
-        );
-        rowsInline.add(
-                tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("/search.employment.volunteer", lang),
-                        tgmElementService.createAutoCallbackButton("/search.employment.probation", lang)
-                )
-        );
-        return tgmElementService.createInlineKeyboardMarkup(rowsInline);
-    }
-
-    @Override
     public InlineKeyboardMarkup getExperienceMenu(String lang) {
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        rowsInline.add(
-                tgmElementService.createInlineKeyboardRow(
-                        tgmElementService.createAutoCallbackButton("/search.experience.noExperience" , lang),
-                        tgmElementService.createAutoCallbackButton("/search.experience.between1And3", lang),
-                        tgmElementService.createAutoCallbackButton("/search.experience.between3And6", lang),
-                        tgmElementService.createAutoCallbackButton("/search.experience.moreThan6", lang)
-                )
-        );
-        return tgmElementService.createInlineKeyboardMarkup(rowsInline);
+        return getSearchParametersMenu(SearchParametersType.EXPERIENCE, "/search.experience");
     }
 
     @Override

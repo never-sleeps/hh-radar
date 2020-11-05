@@ -39,6 +39,17 @@ public class HhDictionariesClient {
         return (countries != null) ? countries : List.of();
     }
 
+    public TypeDTO getArea(String areaId) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .path("/areas/{id}")
+                .buildAndExpand(areaId)
+                .toUri();
+
+        RequestEntity<?> request = new RequestEntity<>(HttpMethod.GET, uri);
+        ResponseEntity<TypeDTO> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
     public List<TypeDTO> getSpecializations() {
         URI uri = UriComponentsBuilder.fromHttpUrl(url)
                 .path("/specializations/")

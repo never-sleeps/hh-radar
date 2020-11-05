@@ -31,7 +31,6 @@ public class AutoPublishResumeController {
     private final TelegramElementService telegramElementService;
     private final InlineKeyboardService inlineKeyboardService;
     private final MessageService msg;
-
     private final UserService userService;
     private final AutoPublishingResumeService autoPublishingResumeService;
     private final HhResumeService hhResumeService;

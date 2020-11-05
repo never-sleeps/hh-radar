@@ -8,7 +8,6 @@ import ru.hh.radar.telegram.service.KeyboardService;
 import ru.hh.radar.telegram.service.MessageService;
 import ru.hh.radar.telegram.service.TelegramElementService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
