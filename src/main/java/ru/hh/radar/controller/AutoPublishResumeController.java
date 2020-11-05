@@ -57,7 +57,7 @@ public class AutoPublishResumeController {
         List<ResumeDTO> items = hhResumeService.getAllResume(user);
         return telegramElementService.editMessageReplyMarkup(
                 incomingUpdateService.getMessageId(update),
-                inlineKeyboardService.getPublishResumeMenu(getLang(update), items)
+                inlineKeyboardService.getAutoPublishResumeMenu(getLang(update), items)
         ).setChatId(incomingUpdateService.getChatId(update));
     }
 

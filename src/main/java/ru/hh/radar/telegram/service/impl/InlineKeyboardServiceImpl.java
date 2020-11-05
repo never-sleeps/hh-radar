@@ -101,7 +101,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
             String id = resume.getId();
 
             String publishText = (resume.isPublished())
-                    ? (resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours) ? "⏰" : "✅") : "❌";
+                    ? (resume.isCanBeUpdatedByTimePeriod(timeBetweenPublishingInHours) ? "⏰" : "✅") : "\uD83D\uDEAB";
             InlineKeyboardButton publishButton = tgmElementService
                     .createCallbackButton(publishText + " " + resume.toShortString(), "/publish " + id);
 
@@ -123,7 +123,7 @@ public class InlineKeyboardServiceImpl implements InlineKeyboardService {
                         : msg.getMessage("resume.publish.auto.false", lang)
             );
             InlineKeyboardButton autoPublishButton = tgmElementService.createCallbackButton(
-                    autoPublishLabel + resume.toShortString(),
+                    autoPublishLabel + " " + resume.toShortString(),
                     (resume.isPublished()) ? "/auto.publish " + id : "/auto.publish.notavailable"
             );
 
