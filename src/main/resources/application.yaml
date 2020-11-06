@@ -27,7 +27,7 @@ server:
 telegram:
     bot:
         name: hhRadarBot
-        token: 1359139787:AAFeVic5hsxhW7vuXAw0b4-jTBy4ER3gCZs
+        token: ${TELEGRAM_BOT_TOKEN}
 
 headhunter:
     api:
@@ -37,9 +37,9 @@ headhunter:
         hours: 4
 
 oauth:
-    clientId: KUJ48JTLOCJ579MFOSI4I8LES5IL53UI75F7BSBDAUP49A0TFMHB4MPU568DU8A4
-    clientSecret: JLKO7ALHN49KUFKELJ554UHM7VTM2DCMT9KUP863IFNO0CJDIS2PCQ1D18EHU8GR
-    redirectUri: https://ao74l2kwve.execute-api.us-east-2.amazonaws.com/hhRadarBot
+    clientId: ${OAUTH_CLIENTID}
+    clientSecret: ${OAUTH_CLIENT_SECRET}
+    redirectUri: ${OAUTH_REDIRECT_URI}
 
 logging:
     file:
