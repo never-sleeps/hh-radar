@@ -15,7 +15,7 @@ public class AutoPublishingResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "resume")
     private String resume;
@@ -27,7 +27,7 @@ public class AutoPublishingResume {
     private LocalDateTime lastUpdatedTime;
 
     @Column(name = "publish_count")
-    private Long publishCount = 0L;
+    private long publishCount = 0L;
 
     @ToString.Exclude
     @ManyToOne(fetch=FetchType.EAGER)

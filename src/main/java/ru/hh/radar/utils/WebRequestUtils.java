@@ -48,8 +48,8 @@ public class WebRequestUtils {
         Map<SearchParametersType, String> map = new HashMap<>();
         map.put(SearchParametersType.AREA, parameters.getArea());
         map.put(SearchParametersType.ORDER_BY, parameters.getOrderBy());
-        map.put(SearchParametersType.PAGE, parameters.getPage().toString());
-        map.put(SearchParametersType.PER_PAGE, parameters.getPerPage().toString());
+        map.put(SearchParametersType.PAGE, String.valueOf(parameters.getPage()));
+        map.put(SearchParametersType.PER_PAGE, String.valueOf(parameters.getPerPage()));
         map.put(SearchParametersType.ORDER, parameters.getOrder());
         map.put(SearchParametersType.TEXT, parameters.getText());
         return map;

@@ -17,7 +17,7 @@ public class SearchParameters {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "area")
     private String area;
@@ -41,10 +41,10 @@ public class SearchParameters {
     private String orderBy = "publication_time";
 
     @Column(name = "page")
-    private Long page = 1L;
+    private long page = 1L;
 
     @Column(name = "per_page")
-    private Long perPage = 3L;
+    private long perPage = 3L;
 
     @Column(name = "paging_order")
     private String order = "desc";

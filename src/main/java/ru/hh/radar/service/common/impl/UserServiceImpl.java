@@ -99,6 +99,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserIsAdmin(User user) {
-        return user.getUserId().toString().equals(botAdminId);
+        return String.valueOf(user.getUserId()).equals(botAdminId);
     }
 }

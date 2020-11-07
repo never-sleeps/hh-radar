@@ -26,7 +26,7 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     @Override
     public SendMessage createMessage(String text) {
         return new SendMessage()
-                .enableMarkdown(true)
+                .enableMarkdown(false)
                 .setText(text)
                 .disableWebPagePreview();
     }
