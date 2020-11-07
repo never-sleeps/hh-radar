@@ -18,7 +18,7 @@ public interface UserService {
 
     User cleanSearchParameters(User user);
 
-    long count();
-
     List<User> findAll();
+
+    boolean checkUserIsAdmin(User user);
 }

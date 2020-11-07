@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.stereotype.Component;
+import ru.hh.radar.model.entity.AutoPublishingResume;
 import ru.hh.radar.model.entity.User;
-import ru.hh.radar.service.common.AutoPublishingResumeService;
-import ru.hh.radar.service.common.UserService;
+import ru.hh.radar.repository.AutoPublishingResumeRepository;
+import ru.hh.radar.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,24 +20,39 @@ import java.util.List;
 @Endpoint(id = "application-statistics")
 public class AppStatisticsEndpoint {
 
-    private final UserService userService;
-    private final AutoPublishingResumeService autoPublishingResumeService;
+    private final UserRepository userRepository;
+    private final AutoPublishingResumeRepository autoPublishingResumeRepository;
 
     @ReadOperation
     public AppStatistics getAppUsersCount() {
-        List<String> userNames = new ArrayList<>();
+        return AppStatistics.builder()
+                .usersCount(userRepository.count())
+                .authorizedUsersCount(getAuthorizedUsersCount())
+                .autoPublishingResumeCount(autoPublishingResumeRepository.count())
+                .autoPublishingResumeInfo(getAutoPublishingResumes())
+                .build();
+    }
+
+    private long getAuthorizedUsersCount() {
         long authorizedUsersCount = 0L;
-        for (User user: userService.findAll()) {
-            userNames.add(user.getUsername());
+        for (User user: userRepository.findAll()) {
             if(user.isAuthorized()) authorizedUsersCount++;
         }
-        return AppStatistics.builder()
-                .usersCount(userService.count())
-                .authorizedUsersCount(authorizedUsersCount)
-                .autoPublishingResumeCount(autoPublishingResumeService.count())
-                .users(userNames)
-                .build()
-                ;
+        return authorizedUsersCount;
+    }
+
+    private List<AutoPublishingResumeInfo> getAutoPublishingResumes() {
+        List<AutoPublishingResumeInfo> resumes = new ArrayList<>();
+        for (AutoPublishingResume resume: autoPublishingResumeRepository.findAll()) {
+            resumes.add(
+                    AutoPublishingResumeInfo.builder()
+                            .user(resume.getUser().getUserId())
+                            .resume(resume.getResume())
+                            .publishingCount(resume.getPublishCount())
+                            .build()
+            );
+        }
+        return resumes;
     }
 
     @Data
@@ -51,7 +67,20 @@ public class AppStatisticsEndpoint {
         @JsonProperty("Количество резюме с включенным автообновлением")
         private long autoPublishingResumeCount;
 
-        @JsonProperty("Пользователи")
-        private List<String> users;
+        @JsonProperty("Резюме с включенным автообновлением")
+        private List<AutoPublishingResumeInfo> autoPublishingResumeInfo;
+    }
+
+    @Data
+    @Builder
+    public static class AutoPublishingResumeInfo {
+        @JsonProperty("Пользователь")
+        private Long user;
+
+        @JsonProperty("Резюме")
+        private String resume;
+
+        @JsonProperty("Число автоматических обновлений")
+        private long publishingCount;
     }
 }

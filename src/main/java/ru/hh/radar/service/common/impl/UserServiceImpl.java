@@ -2,6 +2,7 @@ package ru.hh.radar.service.common.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.model.SearchParametersType;
 import ru.hh.radar.model.TelegramUserInfo;
@@ -20,6 +21,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Value("${telegram.bot.admin}")
+    private String botAdminId;
 
     @Override
     public User save(TelegramUserInfo userInfo, String command) {
@@ -89,12 +93,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long count() {
-        return userRepository.count();
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public boolean checkUserIsAdmin(User user) {
+        return user.getUserId().toString().equals(botAdminId);
     }
 }

@@ -204,7 +204,7 @@ public class VacancyDTO {
                 + ((employment != null) ? employment.getName() + "\n"  : "")
                 + ((salary != null && salary.toString() != null) ? salary.toString() + "\n": "")
                 + ((address != null) ? "Адрес: " + address.toString() + "\n" : "")
-                + ((snippet != null) ? snippet.toString() + "\n" : "")
+                + ((snippet != null) ? Utils.htmlToText(snippet.toString()) + "\n" : "")
                 + ((getDescription() != null) ? "Описание вакансии: " + Utils.htmlToText(getDescription()) + "\n" : "")
                 + getAlternateUrl()
                 ;

@@ -7,7 +7,7 @@ info:
     app:
         name: HhRadar
         description: 🤖 Telegram Bot for job search on hh
-        version: 1.0.1
+        version: 1.0.2
 
 management:
     endpoints:
@@ -28,6 +28,9 @@ telegram:
     bot:
         name: hhRadarBot
         token: ${TELEGRAM_BOT_TOKEN}
+        admin: 272244344
+        stop:
+            message: ${MANUAL_STOP_MESSAGE}
 
 headhunter:
     api:

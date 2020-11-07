@@ -17,6 +17,4 @@ public interface AutoPublishingResumeService {
     List<AutoPublishingResume> getAvailableForUpdatingResumes();
 
     AutoPublishingResume save(AutoPublishingResume autoPublishingResume);
-
-    long count();
 }
