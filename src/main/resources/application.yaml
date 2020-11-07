@@ -7,7 +7,7 @@ info:
     app:
         name: HhRadar
         description: 🤖 Telegram Bot for job search on hh
-        version: 1.0.0
+        version: 1.0.1
 
 management:
     endpoints:

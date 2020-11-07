@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.model.TelegramUserInfo;
 
 public interface IncomingUpdateService {
     Message getMessage(Update update) throws TelegramApiException;
@@ -18,9 +19,7 @@ public interface IncomingUpdateService {
 
     String getLanguageCode(Update update);
 
-    String getUserName(Update update) throws TelegramApiException;
+    Long getUserId(Update update) throws TelegramApiException;
 
-    String getValueFromCallbackQuery(Update update);
-
-    String getLongValueFromCallbackQuery(Update update);
+    TelegramUserInfo getTelegramUserInfo(Update update) throws TelegramApiException;
 }

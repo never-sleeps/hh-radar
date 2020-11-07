@@ -42,7 +42,7 @@ public class ResumeController {
     @ApiOperation("Отображение списка всех резюме пользователя")
     @BotRequestMapping(value = "resume.all", isLocale = true)
     public List<SendMessage> showAllResume(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
 
         if(!user.isAuthorized()) {
             log.warn(String.format("%s: getting the resume list. Cause: user is not authorized", user.getUsername()));
@@ -58,7 +58,7 @@ public class ResumeController {
     @ApiOperation("Отображение краткого списка всех резюме пользователя")
     @BotRequestMapping(value = "resume.publish", isLocale = true)
     public SendMessage showPublishResumeMenu(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
 
         if(!user.isAuthorized()) {
             log.warn(String.format("%s: error getting the resume list. Cause: user is not authorized", user.getUsername()));
@@ -75,7 +75,7 @@ public class ResumeController {
     @ApiOperation("Публикация резюме пользователя")
     @BotRequestMapping("/publish")
     public SendMessage publishResume(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
         String resumeId = Utils.getCommandValue(incomingUpdateService.getCommand(update));
         ResumeDTO resume = hhResumeService.getResume(resumeId, user);
 

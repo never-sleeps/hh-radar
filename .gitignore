@@ -3,6 +3,7 @@ target/
 .mvn
 !**/src/main/**/target/
 !**/src/test/**/target/
+/logs/
 
 ### STS ###
 .apt_generated
@@ -31,3 +32,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+*-locale.yaml

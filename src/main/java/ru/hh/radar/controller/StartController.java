@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.hh.radar.dto.HhUserDTO;
+import ru.hh.radar.model.TelegramUserInfo;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhOauthService;
@@ -39,10 +40,10 @@ public class StartController {
     @ApiOperation("Старт телеграм-бота")
     @BotRequestMapping("/start")
     public SendMessage start(Update update) throws TelegramApiException {
-        String userName = incomingUpdateService.getMessage(update).getFrom().getUserName();
+        TelegramUserInfo userInfo = incomingUpdateService.getTelegramUserInfo(update);
         String command = incomingUpdateService.getCommand(update);
 
-        User user = hhOauthService.authorizeUser(userName, command);
+        User user = hhOauthService.authorizeUser(userInfo, command);
         String lang = incomingUpdateService.getLanguageCode(update);
 
         return getStartMenu(user, lang)
@@ -60,7 +61,7 @@ public class StartController {
     @ApiOperation("Отображение главного меню бота")
     @BotRequestMapping(value = "to.main.menu", isLocale = true)
     public SendMessage showStartMenu(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
         String lang = incomingUpdateService.getLanguageCode(update);
         return getStartMenu(user, lang)
                 .setChatId(incomingUpdateService.getChatId(update));

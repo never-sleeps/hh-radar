@@ -18,8 +18,6 @@ public class Utils {
     public static String deleteExtraSymbols(String str) {
         return str.replaceAll("&quot;", "")
                 .replaceAll("&#39;", "'")
-                .replaceAll("<highlighttext>", "")
-                .replaceAll("</highlighttext>", "")
                 ;
     }
 

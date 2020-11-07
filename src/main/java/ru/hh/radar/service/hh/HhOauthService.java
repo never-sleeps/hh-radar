@@ -1,5 +1,6 @@
 package ru.hh.radar.service.hh;
 
+import ru.hh.radar.model.TelegramUserInfo;
 import ru.hh.radar.model.entity.User;
 
 import java.net.URI;
@@ -20,9 +21,9 @@ public interface HhOauthService {
     /**
      * Авторизация пользователя, получение и сохранение access и refresh токенов для него
      * https://github.com/hhru/api/blob/master/docs/authorization_for_user.md#получение-access-и-refresh-токенов
-     * @param userName - userName пользователя
+     * @param userInfo - данные телеграм пользователя
      * @param command - полный текст команды
      * @return пользователь
      */
-    User authorizeUser(String userName, String command);
+    User authorizeUser(TelegramUserInfo userInfo, String command);
 }

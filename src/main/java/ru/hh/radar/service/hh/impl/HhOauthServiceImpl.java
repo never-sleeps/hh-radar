@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.client.hh.HhOauthClient;
 import ru.hh.radar.dto.AccessTokenDTO;
+import ru.hh.radar.model.TelegramUserInfo;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.service.common.UserService;
 import ru.hh.radar.service.hh.HhOauthService;
@@ -38,8 +39,8 @@ public class HhOauthServiceImpl implements HhOauthService {
     }
 
     @Override
-    public User authorizeUser(String userName, String command) {
-        User user = userService.save(userName, command);
+    public User authorizeUser(TelegramUserInfo userInfo, String command) {
+        User user = userService.save(userInfo, command);
         if(user.getAuthorizationCode() != null) {
             AccessTokenDTO token = hhOauthClient.getAccessTokenForUser(user.getAuthorizationCode());
             user.setClientAccessToken(token.toObject());

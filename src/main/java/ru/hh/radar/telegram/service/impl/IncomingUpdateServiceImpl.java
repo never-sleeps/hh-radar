@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.hh.radar.model.TelegramUserInfo;
 import ru.hh.radar.telegram.service.IncomingUpdateService;
 
 @Slf4j
@@ -60,23 +61,16 @@ public class IncomingUpdateServiceImpl implements IncomingUpdateService {
     }
 
     @Override
-    public String getUserName(Update update) throws TelegramApiException {
-        return getMessage(update).getChat().getUserName();
+    public Long getUserId(Update update) throws TelegramApiException {
+        return getFrom(update).getId().longValue();
     }
 
     @Override
-    public String getValueFromCallbackQuery(Update update) {
-        String callbackQueryData = update.getCallbackQuery().getData();
-        return callbackQueryData.substring(callbackQueryData.lastIndexOf(".") + 1);
-    }
-
-    @Override
-    public String getLongValueFromCallbackQuery(Update update) {
-        String callbackQueryData = update.getCallbackQuery().getData();
-        int indexOfPostfix = callbackQueryData.lastIndexOf(".");
-        String indexOfPoint = callbackQueryData.substring(0, indexOfPostfix);
-        int indexOfPrefix = indexOfPoint.lastIndexOf(".");
-
-        return callbackQueryData.substring(indexOfPrefix + 1);
+    public TelegramUserInfo getTelegramUserInfo(Update update) throws TelegramApiException {
+        User user = getFrom(update);
+        return TelegramUserInfo.builder()
+                .userId(user.getId().longValue())
+                .userName(user.getUserName())
+                .build();
     }
 }

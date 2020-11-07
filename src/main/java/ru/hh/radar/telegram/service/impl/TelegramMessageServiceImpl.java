@@ -26,7 +26,7 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
     @Override
     public SendMessage createMessage(String text) {
         return new SendMessage()
-                .enableMarkdown(false)
+                .enableMarkdown(true)
                 .setText(text)
                 .disableWebPagePreview();
     }
@@ -61,16 +61,17 @@ public class TelegramMessageServiceImpl implements TelegramMessageService {
                     createMessage(vacancy.toString()).setChatId(chatId)
             );
         }
-        InlineKeyboardButton linkButton = tgmElementService.createCallbackButton(
-                msg.getMessage("search.next", lang), nextCommand
-        );
-        InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
-                tgmElementService.createInlineKeyboardRows(
-                        tgmElementService.createInlineKeyboardRow(linkButton)
-                )
-        );
-        vacancyMessages.add(createButtonMessage(keyboardMarkup).setChatId(chatId));
-
+        if (vacancies.size() > 0) {
+            InlineKeyboardButton linkButton = tgmElementService.createCallbackButton(
+                    msg.getMessage("search.next", lang), nextCommand
+            );
+            InlineKeyboardMarkup keyboardMarkup = tgmElementService.createInlineKeyboardMarkup(
+                    tgmElementService.createInlineKeyboardRows(
+                            tgmElementService.createInlineKeyboardRow(linkButton)
+                    )
+            );
+            vacancyMessages.add(createButtonMessage(keyboardMarkup).setChatId(chatId));
+        }
         return vacancyMessages;
     }
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.hh.radar.model.SearchParametersType;
+import ru.hh.radar.model.TelegramUserInfo;
 import ru.hh.radar.model.entity.SearchParameters;
 import ru.hh.radar.model.entity.User;
 import ru.hh.radar.repository.UserRepository;
@@ -21,13 +22,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User save(String userName, String command) {
-        User user = userRepository.findByUsername(userName);
+    public User save(TelegramUserInfo userInfo, String command) {
+        User user = userRepository.findByUserId(userInfo.getUserId());
         if (user == null) {
             user = User.builder()
-                    .createdTime(LocalDateTime.now())
-                    .username(userName)
+                    .userId(userInfo.getUserId())
+                    .username(userInfo.getUserName())
                     .searchParameters(new SearchParameters())
+                    .createdTime(LocalDateTime.now())
                     .build();
         }
         user.setAuthorizationCode(Utils.getCommandValue(command));
@@ -44,10 +46,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUser(String userName) {
-        User user = userRepository.findByUsername(userName);
+    public User findUser(Long userId) {
+        User user = userRepository.findByUserId(userId);
         if (user == null) {
-            log.error("User not found: " + userName);
+            log.error("User not found: " + userId);
         }
         return user;
     }

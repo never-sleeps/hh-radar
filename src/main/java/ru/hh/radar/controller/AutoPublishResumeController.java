@@ -45,7 +45,7 @@ public class AutoPublishResumeController {
     @ApiOperation("Включение/выключение автообновления для резюме")
     @BotRequestMapping("/auto.publish")
     public EditMessageReplyMarkup setAutoPublishingValue(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
         String resumeId = Utils.getCommandValue(incomingUpdateService.getCommand(update));
         ResumeDTO resume = hhResumeService.getResume(resumeId, user);
         if (autoPublishingResumeService.isAutoPublishingResume(resumeId)) {
@@ -64,7 +64,7 @@ public class AutoPublishResumeController {
     @ApiOperation("Отображения меню настройки автообновлений резюме")
     @BotRequestMapping(value = "resume.publish.auto", isLocale = true)
     public SendMessage showAutoPublishResumeMenu(Update update) throws TelegramApiException {
-        User user = userService.findUser(incomingUpdateService.getUserName(update));
+        User user = userService.findUser(incomingUpdateService.getUserId(update));
 
         List<ResumeDTO> items = hhResumeService.getAllResume(user);
         return telegramMessageService.createButtonMessage(

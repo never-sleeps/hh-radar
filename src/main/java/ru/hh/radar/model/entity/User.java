@@ -23,7 +23,10 @@ public class User {
     @Column(name = "created_time", nullable = false)
     private LocalDateTime createdTime;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long userId;
+
+    @Column(name = "username")
     private String username;
 
     @ToString.Exclude

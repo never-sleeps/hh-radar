@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "AUTO_PUBLISHING_VACANCIES")
+@Table(name = "AUTO_PUBLISHING_RESUME")
 public class AutoPublishingResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
