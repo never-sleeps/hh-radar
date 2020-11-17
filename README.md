@@ -2,15 +2,6 @@
 🤖 Telegram Bot for job search on hh: https://t.me/hhRadarBot
 
 
-Для сборки и запуска:
-
-`docker build -t library:latest .`
-
-`docker run -d -p 8080:8080 library:latest`
-
-через docker-compose:
-`docker-compose up`
-
 
 
 
