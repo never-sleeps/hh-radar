@@ -4,7 +4,7 @@
 ![](https://img.shields.io/github/languages/top/never-sleeps/hh-radar)
 ![](https://img.shields.io/github/license/never-sleeps/hh-radar)
 
-![search-demo](search-demo.gif)
+![search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
 
 
 
