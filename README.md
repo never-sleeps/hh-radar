@@ -14,10 +14,10 @@
 ![search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
 
 #### hh auth
-![hh auth]()
+![hh auth](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/auth-demo.gif)
 
 #### search for vacancies similar to resume
-![search for vacancies similar to resume]()
+![search for vacancies similar to resume](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo2.gif)
 
 -------------------------------------------------------------------------------
 #### **[api сайта hh.ru ](https://github.com/hhru/api/blob/master/README.md#headhunter-api)**
