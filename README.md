@@ -6,10 +6,18 @@
 
 #### Demo
 - [job search demo](#job-search-demo)
+- [hh auth](#hh-auth)
+- [search for vacancies similar to resume](#search-for-vacancies-similar-to-resume)
 
 
 #### job search demo
 ![search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
+
+#### hh auth
+![hh auth]()
+
+#### search for vacancies similar to resume
+![search for vacancies similar to resume]()
 
 -------------------------------------------------------------------------------
 #### **[api сайта hh.ru ](https://github.com/hhru/api/blob/master/README.md#headhunter-api)**
