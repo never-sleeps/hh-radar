@@ -13,19 +13,19 @@
 
 -------------------------------------------------------------------------------
 #### Job search demo
-![Search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
+![Search-demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/search-demo.gif)
 
 #### HH auth
-![HH auth demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/auth-demo.gif)
+![HH auth demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/auth-demo.gif)
 
 #### Search for vacancies similar to resume
-![Search for vacancies similar to resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo2.gif)
+![Search for vacancies similar to resume demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/search-demo2.gif)
 
 #### Updating the resume from the bot
-![Updating the resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/resume-updating-demo.gif)
+![Updating the resume demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/resume-updating-demo.gif)
 
 #### Automatic update of resume by bot every 4 hours
-![Automatic update of resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/resume-autoupdating-demo.gif)
+![Automatic update of resume demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/resume-autoupdating-demo.gif)
 
 -------------------------------------------------------------------------------
 #### **[api сайта hh.ru ](https://github.com/hhru/api/blob/master/README.md#headhunter-api)**
