@@ -14,6 +14,7 @@
 -------------------------------------------------------------------------------
 #### Job search demo
 ![Search-demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/search-demo.gif)
+<img src="https://github.com/never-sleeps/hh-radar/blob/master/demo/search-demo.gif" width="250"/>
 
 #### HH auth
 ![HH auth demo](https://github.com/never-sleeps/hh-radar/blob/master/demo/auth-demo.gif)
