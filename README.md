@@ -5,19 +5,27 @@
 ![](https://img.shields.io/github/license/never-sleeps/hh-radar)
 
 #### Demo
-- [job search demo](#job-search-demo)
-- [hh auth](#hh-auth)
-- [search for vacancies similar to resume](#search-for-vacancies-similar-to-resume)
+- [Job search demo](#job-search-demo)
+- [HH auth](#hh-auth)
+- [Search for vacancies similar to resume](#search-for-vacancies-similar-to-resume)
+- [Updating the resume from the bot](#updating-the-resume-from-the-bot)
+- [Automatic update of resume by bot every 4 hours](#Automatic-update-of-resume-by-bot-every-4-hours)
 
+-------------------------------------------------------------------------------
+#### Job search demo
+![Search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
 
-#### job search demo
-![search-demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo.gif)
+#### HH auth
+![HH auth demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/auth-demo.gif)
 
-#### hh auth
-![hh auth](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/auth-demo.gif)
+#### Search for vacancies similar to resume
+![Search for vacancies similar to resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo2.gif)
 
-#### search for vacancies similar to resume
-![search for vacancies similar to resume](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/search-demo2.gif)
+#### Updating the resume from the bot
+![Updating the resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/resume-updating-demo.gif)
+
+#### Automatic update of resume by bot every 4 hours
+![Automatic update of resume demo](https://github.com/never-sleeps/hh-radar/blob/documentations/demo/resume-autoupdating-demo.gif)
 
 -------------------------------------------------------------------------------
 #### **[api сайта hh.ru ](https://github.com/hhru/api/blob/master/README.md#headhunter-api)**
